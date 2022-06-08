@@ -64,17 +64,17 @@ HXLINE(  19)		::blue::BHaxeUtil_obj::haxeData->set(2,(HX_("class ",e8,b8,10,05) 
 HXLINE(  20)		 ::Dynamic parsedAST =  ::haxe::format::JsonParser_obj::__alloc( HX_CTX ,( (::String)(AST) ))->doParse();
 HXLINE(  21)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Variable",5c,ce,be,42) )) {
 HXLINE(  22)			::cpp::VirtualArray _hx_tmp = ::blue::BHaxeUtil_obj::haxeData;
-HXDLIN(  22)			::String _hx_tmp1 = (((HX_("public static var",8c,c4,3c,2e) + HX_(" ",20,00,00,00)) + ::StringTools_obj::replace(::StringTools_obj::replace(::Std_obj::string( ::Dynamic(parsedAST->__Field(HX_("name",4b,72,ff,48),::hx::paccDynamic))),HX_("|",7c,00,00,00),HX_(":",3a,00,00,00)),HX_("\n",0a,00,00,00),HX_("",00,00,00,00))) + HX_(":Any = ",d1,79,36,0f));
+HXDLIN(  22)			::String _hx_tmp1 = (((HX_("public static var",8c,c4,3c,2e) + HX_(" ",20,00,00,00)) + ::StringTools_obj::replace(::StringTools_obj::replace(::Std_obj::string( ::Dynamic(parsedAST->__Field(HX_("name",4b,72,ff,48),::hx::paccDynamic))),HX_("|",7c,00,00,00),HX_(":",3a,00,00,00)),HX_("\n",0a,00,00,00),HX_("",00,00,00,00))) + HX_(":Dynamic = ",1e,a8,17,9b));
 HXDLIN(  22)			_hx_tmp->push(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(( (::String)((_hx_tmp1 + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic))) ),HX_("/",2f,00,00,00),HX_(".",2e,00,00,00)),HX_("div",51,3d,4c,00),HX_("/",2f,00,00,00)),HX_("mult",f0,67,65,48),HX_("*",2a,00,00,00)));
             		}
 HXLINE(  29)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Method",01,6b,ef,3d) )) {
 HXLINE(  30)			if (::hx::IsNull(  ::Dynamic(parsedAST->__Field(HX_("args",5d,8d,74,40),::hx::paccDynamic))->__GetItem(0) )) {
-HXLINE(  31)				::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((HX_("public static function ",6d,39,f5,f7) + parsedAST->__Field(HX_("name",4b,72,ff,48),::hx::paccDynamic)) + HX_("():Any {",6e,e1,a1,7f))));
+HXLINE(  31)				::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((HX_("public static function ",6d,39,f5,f7) + parsedAST->__Field(HX_("name",4b,72,ff,48),::hx::paccDynamic)) + HX_("():Dynamic {",41,30,96,3a))));
             			}
             			else {
 HXLINE(  33)				::cpp::VirtualArray _hx_tmp = ::blue::BHaxeUtil_obj::haxeData;
 HXDLIN(  33)				::String _hx_tmp1 = ( (::String)(((HX_("public static function ",6d,39,f5,f7) + parsedAST->__Field(HX_("name",4b,72,ff,48),::hx::paccDynamic)) + HX_("(",28,00,00,00))) );
-HXDLIN(  33)				_hx_tmp->push(((_hx_tmp1 + ( ::Dynamic(parsedAST->__Field(HX_("args",5d,8d,74,40),::hx::paccDynamic))->__GetItem(0)->__Field(HX_("join",ea,33,65,46),::hx::paccDynamic)(HX_(":Dynamic, ",19,ec,0d,51)) + HX_(":Dynamic",65,a2,d4,f8))) + HX_("):Any {\n",b4,f6,4a,38)));
+HXDLIN(  33)				_hx_tmp->push(((_hx_tmp1 + ( ::Dynamic(parsedAST->__Field(HX_("args",5d,8d,74,40),::hx::paccDynamic))->__GetItem(0)->__Field(HX_("join",ea,33,65,46),::hx::paccDynamic)(HX_(":Dynamic, ",19,ec,0d,51)) + HX_(":Dynamic",65,a2,d4,f8))) + HX_("):Dynamic {\n",81,6c,c0,22)));
             			}
             		}
 HXLINE(  36)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("End",bb,bb,34,00) )) {
