@@ -118,7 +118,7 @@ HXLINE(  71)				::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((HX_("new ",c0
             			else {
 HXLINE(  73)				::cpp::VirtualArray _hx_tmp = ::blue::BHaxeUtil_obj::haxeData;
 HXDLIN(  73)				::String _hx_tmp1 = ( (::String)(((HX_("new ",c0,83,02,49) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) + HX_("(",28,00,00,00))) );
-HXDLIN(  73)				_hx_tmp->push(((_hx_tmp1 + ( ::Dynamic(parsedAST->__Field(HX_("args",5d,8d,74,40),::hx::paccDynamic))->__GetItem(0)->__Field(HX_("join",ea,33,65,46),::hx::paccDynamic)(HX_(":Dynamic, ",19,ec,0d,51)) + HX_(":Dynamic",65,a2,d4,f8))) + HX_(");",f2,23,00,00)));
+HXDLIN(  73)				_hx_tmp->push(::StringTools_obj::replace(((_hx_tmp1 + ( ::Dynamic(parsedAST->__Field(HX_("args",5d,8d,74,40),::hx::paccDynamic))->__GetItem(0)->__Field(HX_("join",ea,33,65,46),::hx::paccDynamic)(HX_(":Dynamic, ",19,ec,0d,51)) + HX_(":Dynamic",65,a2,d4,f8))) + HX_(");",f2,23,00,00)),HX_("(:Dynamic)",fc,30,dc,cc),HX_("()",01,23,00,00)));
             			}
             		}
 HXLINE(  76)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Constructor",da,c4,f7,7b) )) {

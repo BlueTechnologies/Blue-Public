@@ -656,13 +656,13 @@ HXLINE( 122)									return true;
             					}
 HXLINE( 126)					bool _hx_tmp3;
 HXDLIN( 126)					if ((line.indexOf(HX_("new ",c0,83,02,49),null()) != -1)) {
-HXLINE( 126)						_hx_tmp3 = ::sys::FileSystem_obj::exists(line.split(HX_("new ",c0,83,02,49))->__get(1).split(HX_("(",28,00,00,00))->__get(0));
+HXLINE( 126)						_hx_tmp3 = ::sys::FileSystem_obj::exists((line.split(HX_("new ",c0,83,02,49))->__get(1).split(HX_("(",28,00,00,00))->__get(0) + HX_(".bl",78,3d,23,00)));
             					}
             					else {
 HXLINE( 126)						_hx_tmp3 = false;
             					}
 HXDLIN( 126)					if (_hx_tmp3) {
-HXLINE( 127)						if ((::sys::io::File_obj::getContent(line.split(HX_("new ",c0,83,02,49))->__get(1).split(HX_("(",28,00,00,00))->__get(0)).indexOf(HX_("constructor method()",08,d8,4a,0a),null()) == -1)) {
+HXLINE( 127)						if ((::sys::io::File_obj::getContent((line.split(HX_("new ",c0,83,02,49))->__get(1).split(HX_("(",28,00,00,00))->__get(0) + HX_(".bl",78,3d,23,00))).indexOf(HX_("constructor method()",08,d8,4a,0a),null()) == -1)) {
 HXLINE( 128)							::Sys_obj::println((((HX_("Error: Source File: ",b9,e3,33,52) + line.split(HX_("new ",c0,83,02,49))->__get(1).split(HX_("(",28,00,00,00))->__get(0)) + HX_(" has no constructor method at line ",7f,66,51,a3)) + i));
 HXLINE( 129)							return true;
             						}
