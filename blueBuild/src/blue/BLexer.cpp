@@ -292,10 +292,10 @@ HXLINE( 168)												args->push(::Array_obj< ::String >::__new(1)->init(0,::b
             									}
             								}
 HXLINE( 171)								if (::hx::IsNotNull( args )) {
-HXLINE( 172)									currentToken = ::blue::BToken_obj::New(::blue::BLexer_obj::current.split(HX_("new ",c0,83,02,49))->__get(1).split(HX_("",00,00,00,00)),args);
+HXLINE( 172)									currentToken = ::blue::BToken_obj::New(::blue::BLexer_obj::current.split(HX_("new ",c0,83,02,49))->__get(1).split(HX_("(",28,00,00,00))->__get(0),args);
             								}
             								else {
-HXLINE( 174)									::Array< ::String > _hx_tmp = ::blue::BLexer_obj::current.split(HX_("new ",c0,83,02,49))->__get(1).split(HX_("",00,00,00,00));
+HXLINE( 174)									::String _hx_tmp = ::blue::BLexer_obj::current.split(HX_("new ",c0,83,02,49))->__get(1).split(HX_("(",28,00,00,00))->__get(0);
             								}
 HXLINE( 176)								::blue::BLexer_obj::tokensToParse->push(currentToken);
 HXLINE( 159)								goto _hx_goto_3;
