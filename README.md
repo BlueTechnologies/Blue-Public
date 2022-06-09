@@ -1,4 +1,4 @@
-![Untitled](https://user-images.githubusercontent.com/90519370/172729154-3dafe4b1-f713-4580-a7b0-a6a3499dd33e.png)
+![BLogo](https://user-images.githubusercontent.com/90519370/172873820-f01d13f3-6bd1-4d24-b79b-1c548f024ae9.png)
 
 # The Blue Programming Language, A powerful, V E R Y Easy to use language, that compiles to haxe's cpp target.
 A compiled, dynamically typed, object oriented programming language. 
