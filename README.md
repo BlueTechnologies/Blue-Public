@@ -35,7 +35,7 @@ Compiling the blue compiler is pretty simple; Read "Installing dependencies" ste
 
 # A taste of blue's syntax
 ```
-*** Dynamically Typed Variables***
+*** Dynamically Typed Variables ***
 a = 1
 b = [2, 3]
 
