@@ -34,12 +34,12 @@ That's it! When absolutely all of these steps are complete, go into the folder c
 Compiling the blue compiler is pretty simple; Read "Installing dependencies" steps 2 - 3, and then, open a command line terminal inside the source code's folder, then, type "haxe -cp src --main blue.Blue --cpp bin", and execute the command. This should build the blue compiler if all the required dependencies are installed.
 
 # A taste of blue's syntax
-
+```
 *** Dynamically Typed Variables***
 a = 1
 b = [2, 3]
-```
-*```** Main function, where the code starts executing ***
+
+*** Main function, where the code starts executing ***
 main method()
 getNumber(1)
 end
