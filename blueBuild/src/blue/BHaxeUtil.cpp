@@ -26,7 +26,7 @@
 #endif
 
 HX_LOCAL_STACK_FRAME(_hx_pos_7651d1f60270261f_18_toHaxe,"blue.BHaxeUtil","toHaxe",0x7b6839d9,"blue.BHaxeUtil.toHaxe","blue/BHaxeUtil.hx",18,0x4a304729)
-HX_LOCAL_STACK_FRAME(_hx_pos_7651d1f60270261f_100_buildHaxeFile,"blue.BHaxeUtil","buildHaxeFile",0x98861778,"blue.BHaxeUtil.buildHaxeFile","blue/BHaxeUtil.hx",100,0x4a304729)
+HX_LOCAL_STACK_FRAME(_hx_pos_7651d1f60270261f_102_buildHaxeFile,"blue.BHaxeUtil","buildHaxeFile",0x98861778,"blue.BHaxeUtil.buildHaxeFile","blue/BHaxeUtil.hx",102,0x4a304729)
 HX_LOCAL_STACK_FRAME(_hx_pos_7651d1f60270261f_12_boot,"blue.BHaxeUtil","boot",0xd335c8ca,"blue.BHaxeUtil.boot","blue/BHaxeUtil.hx",12,0x4a304729)
 static const ::String _hx_array_data_fa1062d6_4[] = {
 	HX_("package export.hxsrc;",87,95,b1,6f),HX_("using StringTools;",ed,61,db,f1),HX_("class",38,78,58,48),HX_("{",7b,00,00,00),
@@ -121,7 +121,7 @@ HXLINE(  71)				::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((HX_("new ",c0
             			else {
 HXLINE(  73)				::Array< ::String > _hx_tmp = ::blue::BHaxeUtil_obj::haxeData;
 HXDLIN(  73)				::String _hx_tmp1 = ( (::String)(((HX_("new ",c0,83,02,49) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) + HX_("(",28,00,00,00))) );
-HXDLIN(  73)				_hx_tmp->push(::StringTools_obj::replace(((_hx_tmp1 + ( ::Dynamic(parsedAST->__Field(HX_("args",5d,8d,74,40),::hx::paccDynamic))->__GetItem(0)->__Field(HX_("join",ea,33,65,46),::hx::paccDynamic)(HX_(":Dynamic, ",19,ec,0d,51)) + HX_(":Dynamic",65,a2,d4,f8))) + HX_(");",f2,23,00,00)),HX_("(:Dynamic)",fc,30,dc,cc),HX_("()",01,23,00,00)));
+HXDLIN(  73)				_hx_tmp->push(::StringTools_obj::replace(((_hx_tmp1 +  ::Dynamic(parsedAST->__Field(HX_("args",5d,8d,74,40),::hx::paccDynamic))->__GetItem(0)->__Field(HX_("join",ea,33,65,46),::hx::paccDynamic)(HX_(", ",74,26,00,00))) + HX_(");",f2,23,00,00)),HX_("(:Dynamic)",fc,30,dc,cc),HX_("()",01,23,00,00)));
             			}
             		}
 HXLINE(  76)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Constructor",da,c4,f7,7b) )) {
@@ -136,37 +136,39 @@ HXDLIN(  80)				_hx_tmp->push(((HX_("public function new(",19,94,61,61) + ( ::Dy
 HXLINE(  83)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Else",d9,10,ee,2d) )) {
 HXLINE(  84)			::blue::BHaxeUtil_obj::haxeData->push(HX_("else {",54,61,a2,dd));
             		}
-HXLINE(  86)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Property",75,04,ea,85) )) {
-HXLINE(  87)			::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic((((HX_("",00,00,00,00) + parsedAST->__Field(HX_("a",61,00,00,00),::hx::paccDynamic)) + HX_(".",2e,00,00,00)) + parsedAST->__Field(HX_("b",62,00,00,00),::hx::paccDynamic))));
+HXLINE(  86)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("FunctionCall",f6,a7,c7,f0) )) {
+HXLINE(  87)			if ((( (::String)(parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) ).indexOf(HX_("new ",c0,83,02,49),null()) == -1)) {
+HXLINE(  88)				::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((HX_("",00,00,00,00) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) + HX_(");",f2,23,00,00))));
+            			}
+            			else {
+HXLINE(  91)				::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((HX_("",00,00,00,00) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) + HX_("));",5b,40,1f,00))));
+            			}
             		}
-HXLINE(  89)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("FunctionCall",f6,a7,c7,f0) )) {
-HXLINE(  90)			::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((HX_("",00,00,00,00) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) + HX_(");",f2,23,00,00))));
-            		}
-HXLINE(  93)		{
-HXLINE(  93)			int _g = 0;
-HXDLIN(  93)			int _g1 = ::blue::BHaxeUtil_obj::haxeData->length;
-HXDLIN(  93)			while((_g < _g1)){
-HXLINE(  93)				_g = (_g + 1);
-HXDLIN(  93)				int i = (_g - 1);
-HXLINE(  94)				bool _hx_tmp;
-HXDLIN(  94)				bool _hx_tmp1;
-HXDLIN(  94)				if ((::blue::BHaxeUtil_obj::haxeData->__get(i).indexOf(HX_("[",5b,00,00,00),null()) != -1)) {
-HXLINE(  94)					_hx_tmp1 = (::blue::BHaxeUtil_obj::haxeData->__get(i).indexOf(HX_("]",5d,00,00,00),null()) != -1);
+HXLINE(  95)		{
+HXLINE(  95)			int _g = 0;
+HXDLIN(  95)			int _g1 = ::blue::BHaxeUtil_obj::haxeData->length;
+HXDLIN(  95)			while((_g < _g1)){
+HXLINE(  95)				_g = (_g + 1);
+HXDLIN(  95)				int i = (_g - 1);
+HXLINE(  96)				bool _hx_tmp;
+HXDLIN(  96)				bool _hx_tmp1;
+HXDLIN(  96)				if ((::blue::BHaxeUtil_obj::haxeData->__get(i).indexOf(HX_("[",5b,00,00,00),null()) != -1)) {
+HXLINE(  96)					_hx_tmp1 = (::blue::BHaxeUtil_obj::haxeData->__get(i).indexOf(HX_("]",5d,00,00,00),null()) != -1);
             				}
             				else {
-HXLINE(  94)					_hx_tmp1 = false;
+HXLINE(  96)					_hx_tmp1 = false;
             				}
-HXDLIN(  94)				if (_hx_tmp1) {
-HXLINE(  94)					_hx_tmp = (::blue::BHaxeUtil_obj::haxeData->__get(i).indexOf(HX_(",",2c,00,00,00),null()) == -1);
+HXDLIN(  96)				if (_hx_tmp1) {
+HXLINE(  96)					_hx_tmp = (::blue::BHaxeUtil_obj::haxeData->__get(i).indexOf(HX_(",",2c,00,00,00),null()) == -1);
             				}
             				else {
-HXLINE(  94)					_hx_tmp = false;
+HXLINE(  96)					_hx_tmp = false;
             				}
-HXDLIN(  94)				if (_hx_tmp) {
-HXLINE(  95)					::Array< ::String > _hx_tmp = ::blue::BHaxeUtil_obj::haxeData;
-HXDLIN(  95)					::String _hx_tmp1 = ::blue::BHaxeUtil_obj::haxeData->__get(i);
-HXDLIN(  95)					::String _hx_tmp2 = ::blue::BHaxeUtil_obj::haxeData->__get(i).split(HX_("[",5b,00,00,00))->__get(1).split(HX_("]",5d,00,00,00))->__get(0);
-HXDLIN(  95)					_hx_tmp[i] = ::StringTools_obj::replace(_hx_tmp1,_hx_tmp2,::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::blue::BHaxeUtil_obj::haxeData->__get(i).split(HX_("[",5b,00,00,00))->__get(1).split(HX_("]",5d,00,00,00))->__get(0),HX_("1",31,00,00,00),HX_("0",30,00,00,00)),HX_("2",32,00,00,00),HX_("1",31,00,00,00)),HX_("3",33,00,00,00),HX_("2",32,00,00,00)),HX_("4",34,00,00,00),HX_("3",33,00,00,00)),HX_("5",35,00,00,00),HX_("4",34,00,00,00)),HX_("6",36,00,00,00),HX_("5",35,00,00,00)),HX_("7",37,00,00,00),HX_("6",36,00,00,00)),HX_("8",38,00,00,00),HX_("7",37,00,00,00)),HX_("9",39,00,00,00),HX_("8",38,00,00,00)));
+HXDLIN(  96)				if (_hx_tmp) {
+HXLINE(  97)					::Array< ::String > _hx_tmp = ::blue::BHaxeUtil_obj::haxeData;
+HXDLIN(  97)					::String _hx_tmp1 = ::blue::BHaxeUtil_obj::haxeData->__get(i);
+HXDLIN(  97)					::String _hx_tmp2 = ::blue::BHaxeUtil_obj::haxeData->__get(i).split(HX_("[",5b,00,00,00))->__get(1).split(HX_("]",5d,00,00,00))->__get(0);
+HXDLIN(  97)					_hx_tmp[i] = ::StringTools_obj::replace(_hx_tmp1,_hx_tmp2,::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::blue::BHaxeUtil_obj::haxeData->__get(i).split(HX_("[",5b,00,00,00))->__get(1).split(HX_("]",5d,00,00,00))->__get(0),HX_("1",31,00,00,00),HX_("0",30,00,00,00)),HX_("2",32,00,00,00),HX_("1",31,00,00,00)),HX_("3",33,00,00,00),HX_("2",32,00,00,00)),HX_("4",34,00,00,00),HX_("3",33,00,00,00)),HX_("5",35,00,00,00),HX_("4",34,00,00,00)),HX_("6",36,00,00,00),HX_("5",35,00,00,00)),HX_("7",37,00,00,00),HX_("6",36,00,00,00)),HX_("8",38,00,00,00),HX_("7",37,00,00,00)),HX_("9",39,00,00,00),HX_("8",38,00,00,00)));
             				}
             			}
             		}
@@ -176,14 +178,14 @@ HXDLIN(  95)					_hx_tmp[i] = ::StringTools_obj::replace(_hx_tmp1,_hx_tmp2,::Str
 STATIC_HX_DEFINE_DYNAMIC_FUNC1(BHaxeUtil_obj,toHaxe,(void))
 
 void BHaxeUtil_obj::buildHaxeFile(){
-            	HX_STACKFRAME(&_hx_pos_7651d1f60270261f_100_buildHaxeFile)
-HXLINE( 101)		if (!(::sys::FileSystem_obj::exists(HX_("export",74,91,7d,c4)))) {
-HXLINE( 102)			::sys::FileSystem_obj::createDirectory(HX_("export",74,91,7d,c4));
-HXLINE( 103)			::sys::FileSystem_obj::createDirectory(HX_("export/hxsrc",b9,ab,55,3c));
+            	HX_STACKFRAME(&_hx_pos_7651d1f60270261f_102_buildHaxeFile)
+HXLINE( 103)		if (!(::sys::FileSystem_obj::exists(HX_("export",74,91,7d,c4)))) {
+HXLINE( 104)			::sys::FileSystem_obj::createDirectory(HX_("export",74,91,7d,c4));
+HXLINE( 105)			::sys::FileSystem_obj::createDirectory(HX_("export/hxsrc",b9,ab,55,3c));
             		}
-HXLINE( 105)		::sys::io::File_obj::write((HX_("export/hxsrc/",56,96,a0,8e) + ::StringTools_obj::replace(::blue::BHaxeUtil_obj::fileName,HX_(".bl",78,3d,23,00),HX_(".hx",be,42,23,00))),false);
-HXLINE( 106)		::String _hx_tmp = (HX_("export/hxsrc/",56,96,a0,8e) + ::StringTools_obj::replace(::blue::BHaxeUtil_obj::fileName,HX_(".bl",78,3d,23,00),HX_(".hx",be,42,23,00)));
-HXDLIN( 106)		::sys::io::File_obj::saveContent(_hx_tmp,(::blue::BHaxeUtil_obj::haxeData->join(HX_("\n",0a,00,00,00)) + HX_("\n}",33,09,00,00)));
+HXLINE( 107)		::sys::io::File_obj::write((HX_("export/hxsrc/",56,96,a0,8e) + ::StringTools_obj::replace(::blue::BHaxeUtil_obj::fileName,HX_(".bl",78,3d,23,00),HX_(".hx",be,42,23,00))),false);
+HXLINE( 108)		::String _hx_tmp = (HX_("export/hxsrc/",56,96,a0,8e) + ::StringTools_obj::replace(::blue::BHaxeUtil_obj::fileName,HX_(".bl",78,3d,23,00),HX_(".hx",be,42,23,00)));
+HXDLIN( 108)		::sys::io::File_obj::saveContent(_hx_tmp,(::StringTools_obj::replace(::blue::BHaxeUtil_obj::haxeData->join(HX_("\n",0a,00,00,00)),HX_("/",2f,00,00,00),HX_(".",2e,00,00,00)) + HX_("\n}",33,09,00,00)));
             	}
 
 

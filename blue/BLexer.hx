@@ -195,16 +195,9 @@ class BLexer {
 							tokensToParse.push(currentToken);
 
 						case '(':
-							if (!current.contains('method') && !current.contains('print') && !current.contains('/') && !current.contains('new')) {
-								currentToken = BToken.FunctionC(current.split(')')[0].replace(' ', ''));
+							if (!current.contains('method') && !current.contains('print')) {
+								currentToken = BToken.FunctionC(current.split(')')[0]);
 								tokensToParse.push(currentToken);
-							}
-
-						case '/':
-							if (!current.split('/')[0].replace(' ', '').contains('"') && !current.split('/')[0].replace(' ', '').contains('"')) {
-							currentToken = BToken.Property(current.split('/')[0].replace(' ', ''),
-								current.split('/')[1].replace(' ', '').split('/')[0].replace(' ', '').replace("\r", ";"));
-							tokensToParse.push(currentToken);
 							}
 					}
 				}

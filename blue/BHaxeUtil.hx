@@ -70,7 +70,7 @@ class BHaxeUtil {
 			if (parsedAST.args[0] == null) {
 				haxeData.push('new ${parsedAST.value}();');
 			} else {
-				haxeData.push(('new ${parsedAST.value}(${parsedAST.args[0].join(":Dynamic, ") + ":Dynamic"});').replace("(:Dynamic)", "()"));
+				haxeData.push(('new ${parsedAST.value}(${parsedAST.args[0].join(", ")});').replace("(:Dynamic)", "()"));
 			}
 		}
 		if (parsedAST.label == "Constructor") {
@@ -83,11 +83,13 @@ class BHaxeUtil {
 		if (parsedAST.label == "Else") {
 			haxeData.push('else {');
 		}
-		if (parsedAST.label == "Property") {
-			haxeData.push('${parsedAST.a}.${parsedAST.b}');
-		}
 		if (parsedAST.label == "FunctionCall") {
+			if (!parsedAST.value.contains("new ")) {
 			haxeData.push('${parsedAST.value});');
+			}
+			else {
+				haxeData.push('${parsedAST.value}));');
+			}
 		}
 
 		for (i in 0...haxeData.length) {
@@ -103,6 +105,6 @@ class BHaxeUtil {
 			FileSystem.createDirectory("export/hxsrc");
 		}
 		sys.io.File.write('export/hxsrc/${fileName.replace(".bl", ".hx")}', false);
-		sys.io.File.saveContent('export/hxsrc/${fileName.replace(".bl", ".hx")}', haxeData.join('\n') + "\n}");
+		sys.io.File.saveContent('export/hxsrc/${fileName.replace(".bl", ".hx")}', haxeData.join('\n').replace("/", ".") + "\n}");
 	}
 }
