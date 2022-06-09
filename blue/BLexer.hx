@@ -62,24 +62,23 @@ class BLexer {
 					switch (completeSyntax[i]) {
 						case 'method':
 							if (!current.contains('main method()')) {
-							var args = [];
-							for (i in 0...current.split('method ')[1].split('(')[1].split(')').length) {
-								if (current.split('method ')[1].split('(')[1].split(')')[i] != null
-									&& current.split('method ')[1].split('(')[1].split(')')[i].contains(',')) {
-									args.push(current.split('method ')[1].split('(')[1].split(')')[i].split(','));
-								}
-								else if (current.split('method ')[1].split('(')[1].split(')')[i] != null
-									&& !current.split('method ')[1].split('(')[1].split(')')[i].contains(',')) {
+								var args = [];
+								for (i in 0...current.split('method ')[1].split('(')[1].split(')').length) {
+									if (current.split('method ')[1].split('(')[1].split(')')[i] != null
+										&& current.split('method ')[1].split('(')[1].split(')')[i].contains(',')) {
+										args.push(current.split('method ')[1].split('(')[1].split(')')[i].split(','));
+									} else if (current.split('method ')[1].split('(')[1].split(')')[i] != null
+										&& !current.split('method ')[1].split('(')[1].split(')')[i].contains(',')) {
 										args.push([current.split('method ')[1].split('(')[1].split(')')[0]]);
 									}
+								}
+								if (args != null) {
+									currentToken = BToken.Method(contentToEnum.split('method ')[1].split('(')[0], args);
+								} else {
+									currentToken = BToken.Method(contentToEnum.split('method ')[1].split('(')[0], null);
+								}
+								tokensToParse.push(currentToken);
 							}
-							if (args != null) {
-								currentToken = BToken.Method(contentToEnum.split('method ')[1].split('(')[0], args);
-							} else {
-								currentToken = BToken.Method(contentToEnum.split('method ')[1].split('(')[0], null);
-							}
-							tokensToParse.push(currentToken);
-						}
 
 						case 'main method()':
 							currentToken = BToken.MainMethod;
@@ -132,8 +131,8 @@ class BLexer {
 
 						case "print":
 							if (current.contains("print(")) {
-							currentToken = BToken.Print(current.split('print(')[1].split(")")[0]);
-							tokensToParse.push(currentToken);
+								currentToken = BToken.Print(current.split('print(')[1].split(")")[0]);
+								tokensToParse.push(currentToken);
 							}
 
 						case "try":
@@ -162,16 +161,15 @@ class BLexer {
 								if (current.split('new ')[1].split('(')[1].split(')')[i] != null
 									&& current.split('new ')[1].split('(')[1].split(')')[i].contains(',')) {
 									args.push(current.split('new ')[1].split('(')[1].split(')')[i].split(','));
-								}
-								else if (current.split('new ')[1].split('(')[1].split(')')[i] != null
+								} else if (current.split('new ')[1].split('(')[1].split(')')[i] != null
 									&& !current.split('new ')[1].split('(')[1].split(')')[i].contains(',')) {
-										args.push([current.split('new ')[1].split('(')[1].split(')')[0]]);
-									}
+									args.push([current.split('new ')[1].split('(')[1].split(')')[0]]);
+								}
 							}
 							if (args != null) {
-								currentToken = BToken.New(current.split('new ')[1].split(''), args);
+								currentToken = BToken.New(current.split('new ')[1].split('(')[0], args);
 							} else {
-								BToken.New(current.split('new ')[1].split(''), null);
+								currentToken = BToken.New(current.split('new ')[1].split('(')[0], null);
 							}
 							tokensToParse.push(currentToken);
 
@@ -181,11 +179,10 @@ class BLexer {
 								if (current.split('constructor method ')[1].split('(')[1].split(')')[i] != null
 									&& current.split('constructor method ')[1].split('(')[1].split(')')[i].contains(',')) {
 									args.push(current.split('constructor method ')[1].split('(')[1].split(')')[i].split(','));
-								}
-								else if (current.split('constructor method ')[1].split('(')[1].split(')')[i] != null
+								} else if (current.split('constructor method ')[1].split('(')[1].split(')')[i] != null
 									&& !current.split('constructor method ')[1].split('(')[1].split(')')[i].contains(',')) {
-										args.push([current.split('constructor method ')[1].split('(')[1].split(')')[0]]);
-									}
+									args.push([current.split('constructor method ')[1].split('(')[1].split(')')[0]]);
+								}
 							}
 							if (args != null) {
 								currentToken = BToken.Constructor(args);
@@ -199,19 +196,21 @@ class BLexer {
 							tokensToParse.push(currentToken);
 
 						case '[':
+							if (!current.contains(',') && !current.contains('=')) {
 							currentToken = BToken.ArrayIndex(current.split('[')[1].split(']')[0]);
 							tokensToParse.push(currentToken);
+							}
 
 						case '(':
-							if (!current.contains('method') && !current.contains('print') && !current.contains('/')) {
+							if (!current.contains('method') && !current.contains('print') && !current.contains('/') && !current.contains('new')) {
 								currentToken = BToken.FunctionC(current.split(')')[0].replace(' ', ''));
 								tokensToParse.push(currentToken);
 							}
 
 						case '/':
-							currentToken = BToken.Property(current.split('/')[0].replace(' ', ''), current.split('/')[1].replace(' ', '').split('/')[0].replace(' ', '').replace("\r", ";"));
+							currentToken = BToken.Property(current.split('/')[0].replace(' ', ''),
+								current.split('/')[1].replace(' ', '').split('/')[0].replace(' ', '').replace("\r", ";"));
 							tokensToParse.push(currentToken);
-							
 					}
 				}
 			}

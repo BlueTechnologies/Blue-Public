@@ -194,104 +194,111 @@ HXDLIN(  75)										bool _hx_tmp13;
 HXDLIN(  75)										bool _hx_tmp14;
 HXDLIN(  75)										bool _hx_tmp15;
 HXDLIN(  75)										bool _hx_tmp16;
+HXDLIN(  75)										bool _hx_tmp17;
 HXDLIN(  75)										if ((line.indexOf(letters.split(HX_("",00,00,00,00))->__get(k),null()) != -1)) {
-HXLINE(  75)											_hx_tmp16 = (line.indexOf(HX_("=",3d,00,00,00),null()) != -1);
+HXLINE(  75)											_hx_tmp17 = (line.indexOf(HX_("=",3d,00,00,00),null()) != -1);
+            										}
+            										else {
+HXLINE(  75)											_hx_tmp17 = false;
+            										}
+HXDLIN(  75)										if (_hx_tmp17) {
+HXLINE(  75)											_hx_tmp16 = (line.indexOf(HX_("if",dd,5b,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  75)											_hx_tmp16 = false;
             										}
 HXDLIN(  75)										if (_hx_tmp16) {
-HXLINE(  75)											_hx_tmp15 = (line.indexOf(HX_("if",dd,5b,00,00),null()) == -1);
+HXLINE(  75)											_hx_tmp15 = (line.indexOf(HX_("1",31,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  75)											_hx_tmp15 = false;
             										}
 HXDLIN(  75)										if (_hx_tmp15) {
-HXLINE(  75)											_hx_tmp14 = (line.indexOf(HX_("1",31,00,00,00),null()) == -1);
+HXLINE(  75)											_hx_tmp14 = (line.indexOf(HX_("2",32,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  75)											_hx_tmp14 = false;
             										}
 HXDLIN(  75)										if (_hx_tmp14) {
-HXLINE(  75)											_hx_tmp13 = (line.indexOf(HX_("2",32,00,00,00),null()) == -1);
+HXLINE(  75)											_hx_tmp13 = (line.indexOf(HX_("3",33,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  75)											_hx_tmp13 = false;
             										}
 HXDLIN(  75)										if (_hx_tmp13) {
-HXLINE(  75)											_hx_tmp12 = (line.indexOf(HX_("3",33,00,00,00),null()) == -1);
+HXLINE(  75)											_hx_tmp12 = (line.indexOf(HX_("4",34,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  75)											_hx_tmp12 = false;
             										}
 HXDLIN(  75)										if (_hx_tmp12) {
-HXLINE(  75)											_hx_tmp11 = (line.indexOf(HX_("4",34,00,00,00),null()) == -1);
+HXLINE(  75)											_hx_tmp11 = (line.indexOf(HX_("5",35,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  75)											_hx_tmp11 = false;
             										}
 HXDLIN(  75)										if (_hx_tmp11) {
-HXLINE(  75)											_hx_tmp10 = (line.indexOf(HX_("5",35,00,00,00),null()) == -1);
+HXLINE(  75)											_hx_tmp10 = (line.indexOf(HX_("6",36,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  75)											_hx_tmp10 = false;
             										}
 HXDLIN(  75)										if (_hx_tmp10) {
-HXLINE(  75)											_hx_tmp9 = (line.indexOf(HX_("6",36,00,00,00),null()) == -1);
+HXLINE(  75)											_hx_tmp9 = (line.indexOf(HX_("7",37,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  75)											_hx_tmp9 = false;
             										}
 HXDLIN(  75)										if (_hx_tmp9) {
-HXLINE(  75)											_hx_tmp8 = (line.indexOf(HX_("7",37,00,00,00),null()) == -1);
+HXLINE(  75)											_hx_tmp8 = (line.indexOf(HX_("8",38,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  75)											_hx_tmp8 = false;
             										}
 HXDLIN(  75)										if (_hx_tmp8) {
-HXLINE(  75)											_hx_tmp7 = (line.indexOf(HX_("8",38,00,00,00),null()) == -1);
+HXLINE(  75)											_hx_tmp7 = (line.indexOf(HX_("9",39,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  75)											_hx_tmp7 = false;
             										}
 HXDLIN(  75)										if (_hx_tmp7) {
-HXLINE(  75)											_hx_tmp6 = (line.indexOf(HX_("9",39,00,00,00),null()) == -1);
+HXLINE(  75)											_hx_tmp6 = (line.indexOf(HX_("true",4e,a7,03,4d),null()) == -1);
             										}
             										else {
 HXLINE(  75)											_hx_tmp6 = false;
             										}
 HXDLIN(  75)										if (_hx_tmp6) {
-HXLINE(  75)											_hx_tmp5 = (line.indexOf(HX_("true",4e,a7,03,4d),null()) == -1);
+HXLINE(  75)											_hx_tmp5 = (line.indexOf(HX_("false",a3,35,4f,fb),null()) == -1);
             										}
             										else {
 HXLINE(  75)											_hx_tmp5 = false;
             										}
 HXDLIN(  75)										if (_hx_tmp5) {
-HXLINE(  75)											_hx_tmp4 = (line.indexOf(HX_("false",a3,35,4f,fb),null()) == -1);
+HXLINE(  75)											_hx_tmp4 = (line.indexOf(HX_("'",27,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  75)											_hx_tmp4 = false;
             										}
 HXDLIN(  75)										if (_hx_tmp4) {
-HXLINE(  75)											_hx_tmp3 = (line.indexOf(HX_("'",27,00,00,00),null()) == -1);
+HXLINE(  75)											_hx_tmp3 = (line.indexOf(HX_("\"",22,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  75)											_hx_tmp3 = false;
             										}
 HXDLIN(  75)										if (_hx_tmp3) {
-HXLINE(  75)											_hx_tmp2 = (line.indexOf(HX_("\"",22,00,00,00),null()) == -1);
+HXLINE(  75)											_hx_tmp2 = (line.indexOf(HX_("[",5b,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  75)											_hx_tmp2 = false;
             										}
 HXDLIN(  75)										if (_hx_tmp2) {
-HXLINE(  75)											_hx_tmp1 = (line.indexOf(HX_("[",5b,00,00,00),null()) == -1);
+HXLINE(  75)											_hx_tmp1 = (line.indexOf(HX_("]",5d,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  75)											_hx_tmp1 = false;
             										}
 HXDLIN(  75)										if (_hx_tmp1) {
-HXLINE(  75)											_hx_tmp = (line.indexOf(HX_("]",5d,00,00,00),null()) == -1);
+HXLINE(  75)											_hx_tmp = (line.indexOf(HX_("null",87,9e,0e,49),null()) == -1);
             										}
             										else {
 HXLINE(  75)											_hx_tmp = false;
@@ -300,8 +307,7 @@ HXDLIN(  75)										if (_hx_tmp) {
 HXLINE(  79)											::Sys_obj::println((HX_("Error: Values assigned to variables can only be 'Bool', 'Int', 'Float', 'String', or 'Array', Which was not found at line ",95,91,54,be) + i));
 HXLINE(  81)											return true;
             										}
-HXLINE(  84)										bool _hx_tmp17;
-HXDLIN(  84)										bool _hx_tmp18;
+HXLINE(  84)										bool _hx_tmp18;
 HXDLIN(  84)										bool _hx_tmp19;
 HXDLIN(  84)										bool _hx_tmp20;
 HXDLIN(  84)										bool _hx_tmp21;
@@ -319,127 +325,133 @@ HXDLIN(  84)										bool _hx_tmp32;
 HXDLIN(  84)										bool _hx_tmp33;
 HXDLIN(  84)										bool _hx_tmp34;
 HXDLIN(  84)										bool _hx_tmp35;
+HXDLIN(  84)										bool _hx_tmp36;
+HXDLIN(  84)										bool _hx_tmp37;
 HXDLIN(  84)										if ((line.indexOf(letters.split(HX_("",00,00,00,00))->__get(k),null()) != -1)) {
-HXLINE(  84)											_hx_tmp35 = (line.indexOf(HX_("if",dd,5b,00,00),null()) != -1);
+HXLINE(  84)											_hx_tmp37 = (line.indexOf(HX_("if",dd,5b,00,00),null()) != -1);
+            										}
+            										else {
+HXLINE(  84)											_hx_tmp37 = false;
+            										}
+HXDLIN(  84)										if (_hx_tmp37) {
+HXLINE(  84)											_hx_tmp36 = (line.indexOf(HX_("1",31,00,00,00),null()) == -1);
+            										}
+            										else {
+HXLINE(  84)											_hx_tmp36 = false;
+            										}
+HXDLIN(  84)										if (_hx_tmp36) {
+HXLINE(  84)											_hx_tmp35 = (line.indexOf(HX_("2",32,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp35 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp35) {
-HXLINE(  84)											_hx_tmp34 = (line.indexOf(HX_("1",31,00,00,00),null()) == -1);
+HXLINE(  84)											_hx_tmp34 = (line.indexOf(HX_("3",33,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp34 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp34) {
-HXLINE(  84)											_hx_tmp33 = (line.indexOf(HX_("2",32,00,00,00),null()) == -1);
+HXLINE(  84)											_hx_tmp33 = (line.indexOf(HX_("4",34,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp33 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp33) {
-HXLINE(  84)											_hx_tmp32 = (line.indexOf(HX_("3",33,00,00,00),null()) == -1);
+HXLINE(  84)											_hx_tmp32 = (line.indexOf(HX_("5",35,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp32 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp32) {
-HXLINE(  84)											_hx_tmp31 = (line.indexOf(HX_("4",34,00,00,00),null()) == -1);
+HXLINE(  84)											_hx_tmp31 = (line.indexOf(HX_("6",36,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp31 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp31) {
-HXLINE(  84)											_hx_tmp30 = (line.indexOf(HX_("5",35,00,00,00),null()) == -1);
+HXLINE(  84)											_hx_tmp30 = (line.indexOf(HX_("7",37,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp30 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp30) {
-HXLINE(  84)											_hx_tmp29 = (line.indexOf(HX_("6",36,00,00,00),null()) == -1);
+HXLINE(  84)											_hx_tmp29 = (line.indexOf(HX_("8",38,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp29 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp29) {
-HXLINE(  84)											_hx_tmp28 = (line.indexOf(HX_("7",37,00,00,00),null()) == -1);
+HXLINE(  84)											_hx_tmp28 = (line.indexOf(HX_("9",39,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp28 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp28) {
-HXLINE(  84)											_hx_tmp27 = (line.indexOf(HX_("8",38,00,00,00),null()) == -1);
+HXLINE(  84)											_hx_tmp27 = (line.indexOf(HX_("true",4e,a7,03,4d),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp27 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp27) {
-HXLINE(  84)											_hx_tmp26 = (line.indexOf(HX_("9",39,00,00,00),null()) == -1);
+HXLINE(  84)											_hx_tmp26 = (line.indexOf(HX_("false",a3,35,4f,fb),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp26 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp26) {
-HXLINE(  84)											_hx_tmp25 = (line.indexOf(HX_("true",4e,a7,03,4d),null()) == -1);
+HXLINE(  84)											_hx_tmp25 = (line.indexOf(HX_("'",27,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp25 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp25) {
-HXLINE(  84)											_hx_tmp24 = (line.indexOf(HX_("false",a3,35,4f,fb),null()) == -1);
+HXLINE(  84)											_hx_tmp24 = (line.indexOf(HX_("\"",22,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp24 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp24) {
-HXLINE(  84)											_hx_tmp23 = (line.indexOf(HX_("'",27,00,00,00),null()) == -1);
+HXLINE(  84)											_hx_tmp23 = (line.indexOf(HX_("=",3d,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp23 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp23) {
-HXLINE(  84)											_hx_tmp22 = (line.indexOf(HX_("\"",22,00,00,00),null()) == -1);
+HXLINE(  84)											_hx_tmp22 = (line.indexOf(HX_("greater than",47,34,3c,43),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp22 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp22) {
-HXLINE(  84)											_hx_tmp21 = (line.indexOf(HX_("=",3d,00,00,00),null()) == -1);
+HXLINE(  84)											_hx_tmp21 = (line.indexOf(HX_("less than",88,b9,bc,f1),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp21 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp21) {
-HXLINE(  84)											_hx_tmp20 = (line.indexOf(HX_("greater than",47,34,3c,43),null()) == -1);
+HXLINE(  84)											_hx_tmp20 = (line.indexOf(HX_("div",51,3d,4c,00),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp20 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp20) {
-HXLINE(  84)											_hx_tmp19 = (line.indexOf(HX_("less than",88,b9,bc,f1),null()) == -1);
+HXLINE(  84)											_hx_tmp19 = (line.indexOf(HX_("mult",f0,67,65,48),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp19 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp19) {
-HXLINE(  84)											_hx_tmp18 = (line.indexOf(HX_("div",51,3d,4c,00),null()) == -1);
+HXLINE(  84)											_hx_tmp18 = (line.indexOf(HX_("null",87,9e,0e,49),null()) == -1);
             										}
             										else {
 HXLINE(  84)											_hx_tmp18 = false;
             										}
 HXDLIN(  84)										if (_hx_tmp18) {
-HXLINE(  84)											_hx_tmp17 = (line.indexOf(HX_("mult",f0,67,65,48),null()) == -1);
-            										}
-            										else {
-HXLINE(  84)											_hx_tmp17 = false;
-            										}
-HXDLIN(  84)										if (_hx_tmp17) {
 HXLINE(  89)											::Sys_obj::println((HX_("Error: A valid 'if' condition was not found at line ",92,e4,43,51) + i));
 HXLINE(  90)											return true;
             										}
-HXLINE(  93)										bool _hx_tmp36;
-HXDLIN(  93)										bool _hx_tmp37;
-HXDLIN(  93)										bool _hx_tmp38;
+HXLINE(  93)										bool _hx_tmp38;
 HXDLIN(  93)										bool _hx_tmp39;
 HXDLIN(  93)										bool _hx_tmp40;
 HXDLIN(  93)										bool _hx_tmp41;
@@ -458,133 +470,142 @@ HXDLIN(  93)										bool _hx_tmp53;
 HXDLIN(  93)										bool _hx_tmp54;
 HXDLIN(  93)										bool _hx_tmp55;
 HXDLIN(  93)										bool _hx_tmp56;
+HXDLIN(  93)										bool _hx_tmp57;
+HXDLIN(  93)										bool _hx_tmp58;
+HXDLIN(  93)										bool _hx_tmp59;
 HXDLIN(  93)										if ((line.indexOf(letters.split(HX_("",00,00,00,00))->__get(k),null()) != -1)) {
-HXLINE(  93)											_hx_tmp56 = (line.indexOf(HX_("loop",64,a6,b7,47),null()) != -1);
+HXLINE(  93)											_hx_tmp59 = (line.indexOf(HX_("loop",64,a6,b7,47),null()) != -1);
+            										}
+            										else {
+HXLINE(  93)											_hx_tmp59 = false;
+            										}
+HXDLIN(  93)										if (_hx_tmp59) {
+HXLINE(  93)											_hx_tmp58 = (line.indexOf(HX_("1",31,00,00,00),null()) == -1);
+            										}
+            										else {
+HXLINE(  93)											_hx_tmp58 = false;
+            										}
+HXDLIN(  93)										if (_hx_tmp58) {
+HXLINE(  93)											_hx_tmp57 = (line.indexOf(HX_("2",32,00,00,00),null()) == -1);
+            										}
+            										else {
+HXLINE(  93)											_hx_tmp57 = false;
+            										}
+HXDLIN(  93)										if (_hx_tmp57) {
+HXLINE(  93)											_hx_tmp56 = (line.indexOf(HX_("3",33,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp56 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp56) {
-HXLINE(  93)											_hx_tmp55 = (line.indexOf(HX_("1",31,00,00,00),null()) == -1);
+HXLINE(  93)											_hx_tmp55 = (line.indexOf(HX_("4",34,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp55 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp55) {
-HXLINE(  93)											_hx_tmp54 = (line.indexOf(HX_("2",32,00,00,00),null()) == -1);
+HXLINE(  93)											_hx_tmp54 = (line.indexOf(HX_("5",35,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp54 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp54) {
-HXLINE(  93)											_hx_tmp53 = (line.indexOf(HX_("3",33,00,00,00),null()) == -1);
+HXLINE(  93)											_hx_tmp53 = (line.indexOf(HX_("6",36,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp53 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp53) {
-HXLINE(  93)											_hx_tmp52 = (line.indexOf(HX_("4",34,00,00,00),null()) == -1);
+HXLINE(  93)											_hx_tmp52 = (line.indexOf(HX_("7",37,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp52 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp52) {
-HXLINE(  93)											_hx_tmp51 = (line.indexOf(HX_("5",35,00,00,00),null()) == -1);
+HXLINE(  93)											_hx_tmp51 = (line.indexOf(HX_("8",38,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp51 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp51) {
-HXLINE(  93)											_hx_tmp50 = (line.indexOf(HX_("6",36,00,00,00),null()) == -1);
+HXLINE(  93)											_hx_tmp50 = (line.indexOf(HX_("9",39,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp50 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp50) {
-HXLINE(  93)											_hx_tmp49 = (line.indexOf(HX_("7",37,00,00,00),null()) == -1);
+HXLINE(  93)											_hx_tmp49 = (line.indexOf(HX_("true",4e,a7,03,4d),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp49 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp49) {
-HXLINE(  93)											_hx_tmp48 = (line.indexOf(HX_("8",38,00,00,00),null()) == -1);
+HXLINE(  93)											_hx_tmp48 = (line.indexOf(HX_("false",a3,35,4f,fb),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp48 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp48) {
-HXLINE(  93)											_hx_tmp47 = (line.indexOf(HX_("9",39,00,00,00),null()) == -1);
+HXLINE(  93)											_hx_tmp47 = (line.indexOf(HX_("'",27,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp47 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp47) {
-HXLINE(  93)											_hx_tmp46 = (line.indexOf(HX_("true",4e,a7,03,4d),null()) == -1);
+HXLINE(  93)											_hx_tmp46 = (line.indexOf(HX_("\"",22,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp46 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp46) {
-HXLINE(  93)											_hx_tmp45 = (line.indexOf(HX_("false",a3,35,4f,fb),null()) == -1);
+HXLINE(  93)											_hx_tmp45 = (line.indexOf(HX_("=",3d,00,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp45 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp45) {
-HXLINE(  93)											_hx_tmp44 = (line.indexOf(HX_("'",27,00,00,00),null()) == -1);
+HXLINE(  93)											_hx_tmp44 = (line.indexOf(HX_("greater than",47,34,3c,43),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp44 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp44) {
-HXLINE(  93)											_hx_tmp43 = (line.indexOf(HX_("\"",22,00,00,00),null()) == -1);
+HXLINE(  93)											_hx_tmp43 = (line.indexOf(HX_("less than",88,b9,bc,f1),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp43 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp43) {
-HXLINE(  93)											_hx_tmp42 = (line.indexOf(HX_("=",3d,00,00,00),null()) == -1);
+HXLINE(  93)											_hx_tmp42 = (line.indexOf(HX_("div",51,3d,4c,00),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp42 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp42) {
-HXLINE(  93)											_hx_tmp41 = (line.indexOf(HX_("greater than",47,34,3c,43),null()) == -1);
+HXLINE(  93)											_hx_tmp41 = (line.indexOf(HX_("mult",f0,67,65,48),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp41 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp41) {
-HXLINE(  93)											_hx_tmp40 = (line.indexOf(HX_("less than",88,b9,bc,f1),null()) == -1);
+HXLINE(  93)											_hx_tmp40 = (line.indexOf(HX_("until",9e,b8,ef,a6),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp40 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp40) {
-HXLINE(  93)											_hx_tmp39 = (line.indexOf(HX_("div",51,3d,4c,00),null()) == -1);
+HXLINE(  93)											_hx_tmp39 = (line.indexOf(HX_("in",e5,5b,00,00),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp39 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp39) {
-HXLINE(  93)											_hx_tmp38 = (line.indexOf(HX_("mult",f0,67,65,48),null()) == -1);
+HXLINE(  93)											_hx_tmp38 = (line.indexOf(HX_("null",87,9e,0e,49),null()) == -1);
             										}
             										else {
 HXLINE(  93)											_hx_tmp38 = false;
             										}
 HXDLIN(  93)										if (_hx_tmp38) {
-HXLINE(  93)											_hx_tmp37 = (line.indexOf(HX_("until",9e,b8,ef,a6),null()) == -1);
-            										}
-            										else {
-HXLINE(  93)											_hx_tmp37 = false;
-            										}
-HXDLIN(  93)										if (_hx_tmp37) {
-HXLINE(  93)											_hx_tmp36 = (line.indexOf(HX_("in",e5,5b,00,00),null()) == -1);
-            										}
-            										else {
-HXLINE(  93)											_hx_tmp36 = false;
-            										}
-HXDLIN(  93)										if (_hx_tmp36) {
 HXLINE(  98)											::Sys_obj::println((HX_("Error: A valid 'loop' expression was not found at line ",76,ba,74,5a) + i));
 HXLINE(  99)											return true;
             										}

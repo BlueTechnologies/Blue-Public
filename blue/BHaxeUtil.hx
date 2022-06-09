@@ -22,15 +22,15 @@ class BHaxeUtil {
 			haxeData.push(('public static var'
 				+ " "
 				+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
-				+ ':Any = '
+				+ ':Dynamic = '
 				+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
 		}
 
 		if (parsedAST.label == "Method") {
 			if (parsedAST.args[0] == null) {
-				haxeData.push('public static function ${parsedAST.name}():Any {');
+				haxeData.push('public static function ${parsedAST.name}():Dynamic {');
 			} else {
-				haxeData.push('public static function ${parsedAST.name}(${parsedAST.args[0].join(":Dynamic, ") + ":Dynamic"}):Any {\n');
+				haxeData.push('public static function ${parsedAST.name}(${parsedAST.args[0].join(":Dynamic, ") + ":Dynamic"}):Dynamic {\n');
 			}
 		}
 		if (parsedAST.label == "End") {
@@ -70,7 +70,7 @@ class BHaxeUtil {
 			if (parsedAST.args[0] == null) {
 				haxeData.push('new ${parsedAST.value}();');
 			} else {
-				haxeData.push('new ${parsedAST.value}(${parsedAST.args[0].join(":Dynamic, ") + ":Dynamic"});');
+				haxeData.push(('new ${parsedAST.value}(${parsedAST.args[0].join(":Dynamic, ") + ":Dynamic"});').replace("(:Dynamic)", "()"));
 			}
 		}
 		if (parsedAST.label == "Constructor") {

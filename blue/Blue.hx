@@ -75,7 +75,7 @@ class Blue {
 							if (line.contains(letters.split("")[k]) && line.contains("=") && !line.contains("if") && !line.contains('1')
 								&& !line.contains('2') && !line.contains('3') && !line.contains('4') && !line.contains('5') && !line.contains('6')
 								&& !line.contains('7') && !line.contains('8') && !line.contains('9') && !line.contains("true") && !line.contains("false")
-								&& !line.contains("'") && !line.contains('"') && !line.contains("[") && !line.contains("]")) {
+								&& !line.contains("'") && !line.contains('"') && !line.contains("[") && !line.contains("]") && !line.contains("null")) {
 								Sys.println("Error: Values assigned to variables can only be 'Bool', 'Int', 'Float', 'String', or 'Array', Which was not found at line "
 									+ i);
 								return true;
@@ -85,7 +85,7 @@ class Blue {
 								&& !line.contains('3') && !line.contains('4') && !line.contains('5') && !line.contains('6') && !line.contains('7')
 								&& !line.contains('8') && !line.contains('9') && !line.contains("true") && !line.contains("false") && !line.contains("'")
 								&& !line.contains('"') && !line.contains("=") && !line.contains("greater than") && !line.contains("less than")
-								&& !line.contains("div") && !line.contains("mult")) {
+								&& !line.contains("div") && !line.contains("mult") && !line.contains("null")) {
 								Sys.println("Error: A valid 'if' condition was not found at line " + i);
 								return true;
 							}
@@ -94,7 +94,7 @@ class Blue {
 								&& !line.contains('3') && !line.contains('4') && !line.contains('5') && !line.contains('6') && !line.contains('7')
 								&& !line.contains('8') && !line.contains('9') && !line.contains("true") && !line.contains("false") && !line.contains("'")
 								&& !line.contains('"') && !line.contains("=") && !line.contains("greater than") && !line.contains("less than")
-								&& !line.contains("div") && !line.contains("mult") && !line.contains("until") && !line.contains("in")) {
+								&& !line.contains("div") && !line.contains("mult") && !line.contains("until") && !line.contains("in") && !line.contains("null")) {
 								Sys.println("Error: A valid 'loop' expression was not found at line " + i);
 								return true;
 							}
@@ -123,8 +123,8 @@ class Blue {
 						}
 					}
 				}
-				if (line.contains("new ") && FileSystem.exists(line.split("new ")[1].split("(")[0])) {
-					if (!File.getContent(line.split("new ")[1].split("(")[0]).contains("constructor method()")) {
+				if (line.contains("new ") && FileSystem.exists(line.split("new ")[1].split("(")[0] + ".bl")) {
+					if (!File.getContent(line.split("new ")[1].split("(")[0] + ".bl").contains("constructor method()")) {
 						Sys.println("Error: Source File: " + line.split("new ")[1].split("(")[0] + " has no constructor method at line " + i);
 						return true;
 					}
