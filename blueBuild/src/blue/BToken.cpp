@@ -95,6 +95,11 @@ namespace blue{
 	return ::hx::CreateEnum< BToken_obj >(HX_("Subtract",34,31,c3,d1),8,2)->_hx_init(0,a)->_hx_init(1,b);
 }
 
+::blue::BToken BToken_obj::Super( ::Dynamic args)
+{
+	return ::hx::CreateEnum< BToken_obj >(HX_("Super",5b,71,ed,17),25,1)->_hx_init(0,args);
+}
+
 ::blue::BToken BToken_obj::Throw( ::Dynamic value)
 {
 	return ::hx::CreateEnum< BToken_obj >(HX_("Throw",06,cd,bd,a2),20,1)->_hx_init(0,value);
@@ -135,6 +140,7 @@ bool BToken_obj::__GetStatic(const ::String &inName, ::Dynamic &outValue, ::hx::
 	if (inName==HX_("Return",d0,18,c2,3d)) { outValue = BToken_obj::Return_dyn(); return true; }
 	if (inName==HX_("Stop",22,1c,35,37)) { outValue = BToken_obj::Stop; return true; }
 	if (inName==HX_("Subtract",34,31,c3,d1)) { outValue = BToken_obj::Subtract_dyn(); return true; }
+	if (inName==HX_("Super",5b,71,ed,17)) { outValue = BToken_obj::Super_dyn(); return true; }
 	if (inName==HX_("Throw",06,cd,bd,a2)) { outValue = BToken_obj::Throw_dyn(); return true; }
 	if (inName==HX_("Try",1b,21,40,00)) { outValue = BToken_obj::Try; return true; }
 	if (inName==HX_("Use",27,e4,40,00)) { outValue = BToken_obj::Use_dyn(); return true; }
@@ -167,6 +173,7 @@ int BToken_obj::__FindIndex(::String inName)
 	if (inName==HX_("Return",d0,18,c2,3d)) return 18;
 	if (inName==HX_("Stop",22,1c,35,37)) return 15;
 	if (inName==HX_("Subtract",34,31,c3,d1)) return 8;
+	if (inName==HX_("Super",5b,71,ed,17)) return 25;
 	if (inName==HX_("Throw",06,cd,bd,a2)) return 20;
 	if (inName==HX_("Try",1b,21,40,00)) return 12;
 	if (inName==HX_("Use",27,e4,40,00)) return 6;
@@ -206,6 +213,8 @@ STATIC_HX_DEFINE_DYNAMIC_FUNC1(BToken_obj,Return,return)
 
 STATIC_HX_DEFINE_DYNAMIC_FUNC2(BToken_obj,Subtract,return)
 
+STATIC_HX_DEFINE_DYNAMIC_FUNC1(BToken_obj,Super,return)
+
 STATIC_HX_DEFINE_DYNAMIC_FUNC1(BToken_obj,Throw,return)
 
 STATIC_HX_DEFINE_DYNAMIC_FUNC1(BToken_obj,Use,return)
@@ -235,6 +244,7 @@ int BToken_obj::__FindArgCount(::String inName)
 	if (inName==HX_("Return",d0,18,c2,3d)) return 1;
 	if (inName==HX_("Stop",22,1c,35,37)) return 0;
 	if (inName==HX_("Subtract",34,31,c3,d1)) return 2;
+	if (inName==HX_("Super",5b,71,ed,17)) return 1;
 	if (inName==HX_("Throw",06,cd,bd,a2)) return 1;
 	if (inName==HX_("Try",1b,21,40,00)) return 0;
 	if (inName==HX_("Use",27,e4,40,00)) return 1;
@@ -265,6 +275,7 @@ int BToken_obj::__FindArgCount(::String inName)
 	if (inName==HX_("Return",d0,18,c2,3d)) return Return_dyn();
 	if (inName==HX_("Stop",22,1c,35,37)) return Stop;
 	if (inName==HX_("Subtract",34,31,c3,d1)) return Subtract_dyn();
+	if (inName==HX_("Super",5b,71,ed,17)) return Super_dyn();
 	if (inName==HX_("Throw",06,cd,bd,a2)) return Throw_dyn();
 	if (inName==HX_("Try",1b,21,40,00)) return Try;
 	if (inName==HX_("Use",27,e4,40,00)) return Use_dyn();
@@ -298,6 +309,7 @@ static ::String BToken_obj_sStaticFields[] = {
 	HX_("Constructor",da,c4,f7,7b),
 	HX_("Else",d9,10,ee,2d),
 	HX_("FunctionC",0b,ea,d5,55),
+	HX_("Super",5b,71,ed,17),
 	::String(null())
 };
 

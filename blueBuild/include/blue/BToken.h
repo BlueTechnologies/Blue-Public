@@ -65,6 +65,8 @@ class BToken_obj : public ::hx::EnumBase_obj
 		static inline ::blue::BToken Stop_dyn() { return Stop; }
 		static ::blue::BToken Subtract( ::Dynamic a, ::Dynamic b);
 		static ::Dynamic Subtract_dyn();
+		static ::blue::BToken Super( ::Dynamic args);
+		static ::Dynamic Super_dyn();
 		static ::blue::BToken Throw( ::Dynamic value);
 		static ::Dynamic Throw_dyn();
 		static ::blue::BToken Try;

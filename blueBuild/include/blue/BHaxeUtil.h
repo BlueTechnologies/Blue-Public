@@ -54,6 +54,7 @@ class HXCPP_CLASS_ATTRIBUTES BHaxeUtil_obj : public ::hx::Object
 		static ::Array< ::String > haxeData;
 		static ::cpp::VirtualArray specificValues;
 		static ::cpp::VirtualArray oldValues;
+		static  ::Dynamic extension;
 		static ::String fileName;
 		static void toHaxe( ::Dynamic AST);
 		static ::Dynamic toHaxe_dyn();

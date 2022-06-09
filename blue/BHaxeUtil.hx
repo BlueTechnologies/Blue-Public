@@ -9,14 +9,17 @@ import blue.BLexer.BToken;
 using StringTools;
 
 class BHaxeUtil {
-	static var haxeData:Array<String> = ["package export.hxsrc;", "using StringTools;", "class", "{"];
+	public static var haxeData:Array<String> = ["package export.hxsrc;", "using StringTools;", "class", "{"];
 	static var specificValues:Array<Dynamic> = [];
 	static var oldValues:Array<Dynamic> = [];
-
+	public static var extension:Dynamic = null;
 	public static var fileName:String = null;
 
 	public static function toHaxe(AST:Dynamic) {
 		haxeData[2] = 'class ${fileName.replace(".bl", '')}';
+		if (extension != null) {
+			haxeData[2] = haxeData[2] + " extends " + extension;
+		}
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
 			haxeData.push(('public static var'
@@ -30,7 +33,7 @@ class BHaxeUtil {
 			if (parsedAST.args[0] == null) {
 				haxeData.push('public static function ${parsedAST.name}():Dynamic {');
 			} else {
-				haxeData.push('public static function ${parsedAST.name}(${parsedAST.args[0].join(":Dynamic, ") + ":Dynamic"}):Dynamic {\n');
+				haxeData.push(('public static function ${parsedAST.name}(${parsedAST.args[0].join(":Dynamic, ") + ":Dynamic"}):Dynamic {\n').replace("(:Dynamic)", "()"));
 			}
 		}
 		if (parsedAST.label == "End") {
@@ -77,7 +80,7 @@ class BHaxeUtil {
 			if (parsedAST.args[0] == null) {
 				haxeData.push('public function new() {');
 			} else {
-				haxeData.push('public function new(${parsedAST.args[0].join(":Dynamic, ") + ":Dynamic"}) {');
+				haxeData.push(('public function new(${parsedAST.args[0].join(":Dynamic, ") + ":Dynamic"}) {').replace("(:Dynamic)", "()"));
 			}
 		}
 		if (parsedAST.label == "Else") {
@@ -89,6 +92,14 @@ class BHaxeUtil {
 			}
 			else {
 				haxeData.push('${parsedAST.value}));');
+			}
+		}
+
+		if (parsedAST.label == "Super") {
+			if (parsedAST.args[0] == null) {
+				haxeData.push('super();');
+			} else {
+				haxeData.push(('super(${parsedAST.args[0].join(", ")});').replace("(:Dynamic)", "()"));
 			}
 		}
 
@@ -105,6 +116,6 @@ class BHaxeUtil {
 			FileSystem.createDirectory("export/hxsrc");
 		}
 		sys.io.File.write('export/hxsrc/${fileName.replace(".bl", ".hx")}', false);
-		sys.io.File.saveContent('export/hxsrc/${fileName.replace(".bl", ".hx")}', haxeData.join('\n').replace("/", ".") + "\n}");
+		sys.io.File.saveContent('export/hxsrc/${fileName.replace(".bl", ".hx")}', haxeData.join('\n').replace("/", ".").replace('{\n}', "{") + "\n}");
 	}
 }

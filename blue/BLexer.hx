@@ -28,6 +28,7 @@ enum BToken {
 	Constructor(args:Array<Dynamic>);
 	Else;
 	FunctionC(value:Dynamic);
+	Super(args:Dynamic);
 }
 
 class BLexer {
@@ -44,7 +45,7 @@ class BLexer {
 	static var tokensToParse:Array<Dynamic> = [];
 	static var completeSyntax:Array<String> = [
 		"method", "loop", "if", "+", "-", "mult", "div", "end", "otherwise", "stop", "continue", "then", "not", "=", "use", "try", "catch", "print", "return",
-		"***", "main method()", "throw", "new", "constructor method()", "or", "[", "/", "("
+		"***", "main method()", "throw", "new", "constructor method", "or", "[", "/", "(", "superClass"
 	];
 
 	public function new(content:String) {
@@ -60,7 +61,7 @@ class BLexer {
 				if (current.contains(completeSyntax[i])) {
 					switch (completeSyntax[i]) {
 						case 'method':
-							if (!current.contains('main method()')) {
+							if (!current.contains('main method()') && !current.contains('constructor method()')) {
 								var args = [];
 								for (i in 0...current.split('method ')[1].split('(')[1].split(')').length) {
 									if (current.split('method ')[1].split('(')[1].split(')')[i] != null
@@ -86,7 +87,7 @@ class BLexer {
 						case '=':
 							if (!current.contains('if ')) {
 								currentToken = BToken.Variable(current.split('=')[0].replace(' ', ''),
-									current.split('=')[1].split('\n')[0].replace(' ', '').replace('\r', ';'));
+									current.split('=')[1].split('\n')[0].replace(' ', '').replace('\r', ';').replace("new", "new "));
 								tokensToParse.push(currentToken);
 							}
 
@@ -155,6 +156,7 @@ class BLexer {
 							tokensToParse.push(currentToken);
 
 						case "new":
+							if (!current.contains("=")) {
 							var args = [];
 							for (i in 0...current.split('new ')[1].split('(')[1].split(')').length) {
 								if (current.split('new ')[1].split('(')[1].split(')')[i] != null
@@ -171,16 +173,17 @@ class BLexer {
 								currentToken = BToken.New(current.split('new ')[1].split('(')[0], null);
 							}
 							tokensToParse.push(currentToken);
+						}
 
-						case "constructor method()":
+						case "constructor method":
 							var args = [];
-							for (i in 0...current.split('constructor method ')[1].split('(')[1].split(')').length) {
-								if (current.split('constructor method ')[1].split('(')[1].split(')')[i] != null
-									&& current.split('constructor method ')[1].split('(')[1].split(')')[i].contains(',')) {
-									args.push(current.split('constructor method ')[1].split('(')[1].split(')')[i].split(','));
-								} else if (current.split('constructor method ')[1].split('(')[1].split(')')[i] != null
-									&& !current.split('constructor method ')[1].split('(')[1].split(')')[i].contains(',')) {
-									args.push([current.split('constructor method ')[1].split('(')[1].split(')')[0]]);
+							for (i in 0...current.split('constructor method')[1].split('(')[1].split(')').length) {
+								if (current.split('constructor method')[1].split('(')[1].split(')')[i] != null
+									&& current.split('constructor method')[1].split('(')[1].split(')')[i].contains(',')) {
+									args.push(current.split('constructor method')[1].split('(')[1].split(')')[i].split(','));
+								} else if (current.split('constructor method')[1].split('(')[1].split(')')[i] != null
+									&& !current.split('constructor method')[1].split('(')[1].split(')')[i].contains(',')) {
+									args.push([current.split('constructor method')[1].split('(')[1].split(')')[0]]);
 								}
 							}
 							if (args != null) {
@@ -195,10 +198,28 @@ class BLexer {
 							tokensToParse.push(currentToken);
 
 						case '(':
-							if (!current.contains('method') && !current.contains('print') && !current.contains('@')) {
+							if (!current.contains('method') && !current.contains('print') && !current.contains('@') && !current.contains('=')) {
 								currentToken = BToken.FunctionC(current.split(')')[0]);
 								tokensToParse.push(currentToken);
 							}
+
+						case 'superClass':
+							var args = [];
+							for (i in 0...current.split('superClass')[1].split('(')[1].split(')').length) {
+								if (current.split('superClass')[1].split('(')[1].split(')')[i] != null
+									&& current.split('superClass')[1].split('(')[1].split(')')[i].contains(',')) {
+									args.push(current.split('superClass')[1].split('(')[1].split(')')[i].split(','));
+								} else if (current.split('superClass')[1].split('(')[1].split(')')[i] != null
+									&& !current.split('superClass')[1].split('(')[1].split(')')[i].contains(',')) {
+									args.push([current.split('superClass')[1].split('(')[1].split(')')[0]]);
+								}
+							}
+							if (args != null) {
+								currentToken = BToken.Super(args);
+							} else {
+								currentToken = BToken.Super(null);
+							}
+							tokensToParse.push(currentToken);
 					}
 				}
 			}

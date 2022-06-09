@@ -123,6 +123,10 @@ class BParser {
 				BParser.b = b;
 				BParser.label = "Property";
 
+			case BToken.Super(args):
+				BParser.args = args;
+				BParser.label = "Super";
+
 			default:
 				return;
 		}
