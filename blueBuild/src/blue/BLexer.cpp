@@ -15,7 +15,7 @@
 
 HX_DEFINE_STACK_FRAME(_hx_pos_592fe0dd445f45d4_33_new,"blue.BLexer","new",0x89332db0,"blue.BLexer.new","blue/BLexer.hx",33,0x58708f9f)
 HX_LOCAL_STACK_FRAME(_hx_pos_592fe0dd445f45d4_55_enumContent,"blue.BLexer","enumContent",0xbfcd4988,"blue.BLexer.enumContent","blue/BLexer.hx",55,0x58708f9f)
-HX_LOCAL_STACK_FRAME(_hx_pos_592fe0dd445f45d4_219_buildAST,"blue.BLexer","buildAST",0x6f85d164,"blue.BLexer.buildAST","blue/BLexer.hx",219,0x58708f9f)
+HX_LOCAL_STACK_FRAME(_hx_pos_592fe0dd445f45d4_221_buildAST,"blue.BLexer","buildAST",0x6f85d164,"blue.BLexer.buildAST","blue/BLexer.hx",221,0x58708f9f)
 HX_LOCAL_STACK_FRAME(_hx_pos_592fe0dd445f45d4_34_boot,"blue.BLexer","boot",0x7badcce2,"blue.BLexer.boot","blue/BLexer.hx",34,0x58708f9f)
 HX_LOCAL_STACK_FRAME(_hx_pos_592fe0dd445f45d4_35_boot,"blue.BLexer","boot",0x7badcce2,"blue.BLexer.boot","blue/BLexer.hx",35,0x58708f9f)
 HX_LOCAL_STACK_FRAME(_hx_pos_592fe0dd445f45d4_40_boot,"blue.BLexer","boot",0x7badcce2,"blue.BLexer.boot","blue/BLexer.hx",40,0x58708f9f)
@@ -125,10 +125,19 @@ HXLINE( 112)								::blue::BLexer_obj::tokensToParse->push(currentToken);
 HXLINE( 109)								goto _hx_goto_3;
             							}
             							if (  (_hx_switch_0==HX_("/",2f,00,00,00)) ){
-HXLINE( 204)								::String currentToken1 = ::StringTools_obj::replace(::blue::BLexer_obj::current.split(HX_("/",2f,00,00,00))->__get(0),HX_(" ",20,00,00,00),HX_("",00,00,00,00));
-HXDLIN( 204)								currentToken = ::blue::BToken_obj::Property(currentToken1,::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::blue::BLexer_obj::current.split(HX_("/",2f,00,00,00))->__get(1),HX_(" ",20,00,00,00),HX_("",00,00,00,00)).split(HX_("/",2f,00,00,00))->__get(0),HX_(" ",20,00,00,00),HX_("",00,00,00,00)),HX_("\r",0d,00,00,00),HX_(";",3b,00,00,00)));
-HXLINE( 206)								::blue::BLexer_obj::tokensToParse->push(currentToken);
-HXLINE( 203)								goto _hx_goto_3;
+HXLINE( 204)								bool _hx_tmp;
+HXDLIN( 204)								if ((::StringTools_obj::replace(::blue::BLexer_obj::current.split(HX_("/",2f,00,00,00))->__get(0),HX_(" ",20,00,00,00),HX_("",00,00,00,00)).indexOf(HX_("\"",22,00,00,00),null()) == -1)) {
+HXLINE( 204)									_hx_tmp = (::StringTools_obj::replace(::blue::BLexer_obj::current.split(HX_("/",2f,00,00,00))->__get(0),HX_(" ",20,00,00,00),HX_("",00,00,00,00)).indexOf(HX_("\"",22,00,00,00),null()) == -1);
+            								}
+            								else {
+HXLINE( 204)									_hx_tmp = false;
+            								}
+HXDLIN( 204)								if (_hx_tmp) {
+HXLINE( 205)									::String currentToken1 = ::StringTools_obj::replace(::blue::BLexer_obj::current.split(HX_("/",2f,00,00,00))->__get(0),HX_(" ",20,00,00,00),HX_("",00,00,00,00));
+HXDLIN( 205)									currentToken = ::blue::BToken_obj::Property(currentToken1,::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::blue::BLexer_obj::current.split(HX_("/",2f,00,00,00))->__get(1),HX_(" ",20,00,00,00),HX_("",00,00,00,00)).split(HX_("/",2f,00,00,00))->__get(0),HX_(" ",20,00,00,00),HX_("",00,00,00,00)),HX_("\r",0d,00,00,00),HX_(";",3b,00,00,00)));
+HXLINE( 207)									::blue::BLexer_obj::tokensToParse->push(currentToken);
+            								}
+HXLINE( 204)								goto _hx_goto_3;
             							}
             							if (  (_hx_switch_0==HX_("=",3d,00,00,00)) ){
 HXLINE(  87)								if ((::blue::BLexer_obj::current.indexOf(HX_("if ",a3,05,50,00),null()) == -1)) {
@@ -340,13 +349,13 @@ HXLINE( 127)								goto _hx_goto_3;
             				}
             			}
             		}
-HXLINE( 211)		if (::hx::IsNotNull( ::blue::BLexer_obj::tokensToParse )) {
-HXLINE( 212)			int _g = 0;
-HXDLIN( 212)			int _g1 = ::blue::BLexer_obj::tokensToParse->get_length();
-HXDLIN( 212)			while((_g < _g1)){
-HXLINE( 212)				_g = (_g + 1);
-HXDLIN( 212)				int i = (_g - 1);
-HXLINE( 213)				::blue::BLexer_obj::buildAST(::blue::BLexer_obj::tokensToParse->__get(i));
+HXLINE( 213)		if (::hx::IsNotNull( ::blue::BLexer_obj::tokensToParse )) {
+HXLINE( 214)			int _g = 0;
+HXDLIN( 214)			int _g1 = ::blue::BLexer_obj::tokensToParse->get_length();
+HXDLIN( 214)			while((_g < _g1)){
+HXLINE( 214)				_g = (_g + 1);
+HXDLIN( 214)				int i = (_g - 1);
+HXLINE( 215)				::blue::BLexer_obj::buildAST(::blue::BLexer_obj::tokensToParse->__get(i));
             			}
             		}
             	}
@@ -355,8 +364,8 @@ HXLINE( 213)				::blue::BLexer_obj::buildAST(::blue::BLexer_obj::tokensToParse->
 STATIC_HX_DEFINE_DYNAMIC_FUNC1(BLexer_obj,enumContent,(void))
 
 void BLexer_obj::buildAST( ::blue::BToken input){
-            	HX_STACKFRAME(&_hx_pos_592fe0dd445f45d4_219_buildAST)
-HXDLIN( 219)		::blue::BParser_obj::parse(input);
+            	HX_STACKFRAME(&_hx_pos_592fe0dd445f45d4_221_buildAST)
+HXDLIN( 221)		::blue::BParser_obj::parse(input);
             	}
 
 

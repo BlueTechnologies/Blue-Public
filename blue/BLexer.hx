@@ -201,9 +201,11 @@ class BLexer {
 							}
 
 						case '/':
+							if (!current.split('/')[0].replace(' ', '').contains('"') && !current.split('/')[0].replace(' ', '').contains('"')) {
 							currentToken = BToken.Property(current.split('/')[0].replace(' ', ''),
 								current.split('/')[1].replace(' ', '').split('/')[0].replace(' ', '').replace("\r", ";"));
 							tokensToParse.push(currentToken);
+							}
 					}
 				}
 			}
