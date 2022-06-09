@@ -38,13 +38,13 @@ Compiling the blue compiler is pretty simple; Read "Installing dependencies" ste
 *** Dynamically Typed Variables***
 a = 1
 b = [2, 3]
-
-*** Main function, where the code starts executing ***
+```
+*```** Main function, where the code starts executing ***
 main method()
 getNumber(1)
 end
 
-```method getNumber(num)
+method getNumber(num)
 *** Print the number that was passed in ***
 print(num)
 *** Return the number, and stop the function" ***
