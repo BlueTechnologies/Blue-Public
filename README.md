@@ -17,7 +17,7 @@ After clicking 'new', type in 'C:\Blue1', click 'OK'. And see if blue works by o
 
 ## Installing Haxe
 Blue will NOT work without the haxe language installed, to do so, go to https://haxe.org/download/ and download the LATEST VERSION of haxe.
-Follow the installation instructions and do not attempt to compile your project folder until haxe, hxcpp (Disussed in "Installing hxcpp"), and a C++ compiler (Discussed in "Installing a C++ compiler" are successfully installed on your computer.
+Follow the installation instructions and do not attempt to compile your project folder until haxe, hxcpp (Disussed in "Installing hxcpp"), and a C++ compiler (Discussed in "Installing a C++ compiler") are successfully installed on your computer.
 
 ## Installing hxcpp
 When haxe is installed on your computer, you get access to the haxelib library manager, and Blue makes use of this feature. Open a command line terminal, and type "haxelib install hxcpp", when it is installed successfully, you can continue to the next step.
