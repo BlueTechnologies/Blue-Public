@@ -14,6 +14,9 @@ class Blue {
 	public static var directory:String = "";
 
 	static var mainFile = "";
+	static var libs = [];
+
+	static var buildCommand:String = "haxe -cp src --main export.hxsrc.Main --cpp export/bin";
 
 	static var completeSyntax:Array<String> = [
 		"method", "loop", "if", "+", "-", "mult", "div", "end", "otherwise", "stop", "continue", "then", "not", "=", "use", "try", "catch", "print", "return",
@@ -31,7 +34,7 @@ class Blue {
 		if (FileSystem.exists(directory) && FileSystem.isDirectory(directory)) {
 			Sys.println('Compiling source folder: ' + directory);
 			for (file in FileSystem.readDirectory(directory)) {
-				if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
+				if (!FileSystem.isDirectory(file) && file.endsWith(".bl") || file.endsWith(".xml") || file.endsWith(".json")) {
 					i++;
 					files.push(file);
 					Sys.println(file);
@@ -41,12 +44,16 @@ class Blue {
 						BHaxeUtil.fileName = file;
 						lexSourceFile(rawContent);
 						if (i == files.length) {
-							Sys.command('haxe -cp src --main export.hxsrc.Main --cpp export/bin');
+							if (libs != null && buildCommand == "haxe -cp src --main export.hxsrc.Main --cpp export/bin") {
+								buildCommand = "haxe -cp src --main export.hxsrc --library " + libs.join(" --library") + " --cpp export/bin"; 
+							}
+							Sys.command(buildCommand);
 							Sys.exit(0);
 						}
 					}
 				}
 			}
+				
 		} else {
 			Sys.println("Error: Source folder '" + directory + "' does not exist or is not a directory");
 		}
@@ -65,7 +72,7 @@ class Blue {
 			for (i in 0...input.split("\n").length) {
 				var line = input.split("\n")[i];
 				var letters = "abcdefghijklmnopqrstuvwusyz";
-				var chars = "@#$%^&_{}:><?|;";
+				var chars = "#$%^&_{}:><?|;";
 				if (line.contains("if") && !line.contains("then")) {
 					Sys.println("Error: Expected 'then' at the end of line " + i);
 					return true;
@@ -138,6 +145,15 @@ class Blue {
 				if (line.contains("main method()") && input.split("main method()")[1].split("end")[0].contains("return ")) {
 					Sys.println("Error: The main method cannot have a return value at line " + i);
 					return true;
+				}
+
+				if (line.contains("@BuildCommand(")) {
+					buildCommand = line.split("@BuildCommand('")[1].split("')")[0];
+					Sys.println("Warning: You are using a custom build command! The program is not guaranteed to successfully compile!");
+					return false;
+				}
+				if (line.contains("@IncludeLib(")) {
+					libs.push(line.split("@IncludeLib('")[1].split("')")[0]);
 				}
 
 				/*for (file in FileSystem.readDirectory(directory)) {

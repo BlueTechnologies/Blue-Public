@@ -195,7 +195,7 @@ class BLexer {
 							tokensToParse.push(currentToken);
 
 						case '(':
-							if (!current.contains('method') && !current.contains('print')) {
+							if (!current.contains('method') && !current.contains('print') && !current.contains('@')) {
 								currentToken = BToken.FunctionC(current.split(')')[0]);
 								tokensToParse.push(currentToken);
 							}

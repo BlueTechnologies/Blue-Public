@@ -55,6 +55,8 @@ class HXCPP_CLASS_ATTRIBUTES Blue_obj : public ::hx::Object
 		static ::Array< ::Dynamic> currentMappedLines;
 		static ::String directory;
 		static ::String mainFile;
+		static ::Array< ::String > libs;
+		static ::String buildCommand;
 		static ::Array< ::String > completeSyntax;
 		static void main();
 		static ::Dynamic main_dyn();

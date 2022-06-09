@@ -81,8 +81,15 @@ HXLINE(  60)						if ((::blue::BLexer_obj::current.indexOf(::blue::BLexer_obj::c
 HXLINE(  61)							::String _hx_switch_0 = ::blue::BLexer_obj::completeSyntax->__get(i);
             							if (  (_hx_switch_0==HX_("(",28,00,00,00)) ){
 HXLINE( 198)								bool _hx_tmp;
+HXDLIN( 198)								bool _hx_tmp1;
 HXDLIN( 198)								if ((::blue::BLexer_obj::current.indexOf(HX_("method",e1,f6,5a,09),null()) == -1)) {
-HXLINE( 198)									_hx_tmp = (::blue::BLexer_obj::current.indexOf(HX_("print",2d,58,8b,c8),null()) == -1);
+HXLINE( 198)									_hx_tmp1 = (::blue::BLexer_obj::current.indexOf(HX_("print",2d,58,8b,c8),null()) == -1);
+            								}
+            								else {
+HXLINE( 198)									_hx_tmp1 = false;
+            								}
+HXDLIN( 198)								if (_hx_tmp1) {
+HXLINE( 198)									_hx_tmp = (::blue::BLexer_obj::current.indexOf(HX_("@",40,00,00,00),null()) == -1);
             								}
             								else {
 HXLINE( 198)									_hx_tmp = false;
