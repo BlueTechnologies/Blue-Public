@@ -51,7 +51,7 @@ class HXCPP_CLASS_ATTRIBUTES BHaxeUtil_obj : public ::hx::Object
 		::String __ToString() const { return HX_("BHaxeUtil",aa,91,e2,94); }
 
 		static void __boot();
-		static ::cpp::VirtualArray haxeData;
+		static ::Array< ::String > haxeData;
 		static ::cpp::VirtualArray specificValues;
 		static ::cpp::VirtualArray oldValues;
 		static ::String fileName;

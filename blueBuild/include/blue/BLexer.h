@@ -5,7 +5,7 @@
 #include <hxcpp.h>
 #endif
 
-HX_DECLARE_STACK_FRAME(_hx_pos_592fe0dd445f45d4_34_new)
+HX_DECLARE_STACK_FRAME(_hx_pos_592fe0dd445f45d4_33_new)
 HX_DECLARE_CLASS1(blue,BLexer)
 HX_DECLARE_CLASS1(blue,BToken)
 
@@ -38,11 +38,11 @@ class HXCPP_CLASS_ATTRIBUTES BLexer_obj : public ::hx::Object
 			BLexer_obj *__this = (BLexer_obj*)(::hx::Ctx::alloc(_hx_ctx, sizeof(BLexer_obj), true, "blue.BLexer"));
 			*(void **)__this = BLexer_obj::_hx_vtable;
 {
-            	HX_STACKFRAME(&_hx_pos_592fe0dd445f45d4_34_new)
-HXLINE(  43)		( ( ::blue::BLexer)(__this) )->number = ((Float)0);
-HXLINE(  38)		( ( ::blue::BLexer)(__this) )->end = null();
-HXLINE(  52)		::blue::BLexer_obj::content = content;
-HXLINE(  53)		::blue::BLexer_obj::enumContent(content);
+            	HX_STACKFRAME(&_hx_pos_592fe0dd445f45d4_33_new)
+HXLINE(  42)		( ( ::blue::BLexer)(__this) )->number = ((Float)0);
+HXLINE(  37)		( ( ::blue::BLexer)(__this) )->end = null();
+HXLINE(  51)		::blue::BLexer_obj::content = content;
+HXLINE(  52)		::blue::BLexer_obj::enumContent(content);
             	}
 		
 			return __this;

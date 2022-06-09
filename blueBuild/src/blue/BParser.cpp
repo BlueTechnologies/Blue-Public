@@ -166,12 +166,12 @@ HXLINE(  88)					::blue::BParser_obj::label = HX_("Catch",1b,ec,4e,d4);
             			}
             			break;
             			case (int)16: {
-HXLINE( 125)				 ::Dynamic a = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
-HXDLIN( 125)				 ::Dynamic b = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(1);
-HXDLIN( 125)				{
-HXLINE( 126)					::blue::BParser_obj::a = a;
-HXLINE( 127)					::blue::BParser_obj::b = b;
-HXLINE( 128)					::blue::BParser_obj::label = HX_("Property",75,04,ea,85);
+HXLINE( 121)				 ::Dynamic a = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
+HXDLIN( 121)				 ::Dynamic b = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(1);
+HXDLIN( 121)				{
+HXLINE( 122)					::blue::BParser_obj::a = a;
+HXLINE( 123)					::blue::BParser_obj::b = b;
+HXLINE( 124)					::blue::BParser_obj::label = HX_("Property",75,04,ea,85);
             				}
             			}
             			break;
@@ -225,36 +225,28 @@ HXLINE( 115)				::blue::BParser_obj::label = HX_("Else",d9,10,ee,2d);
 HXLINE( 117)				 ::Dynamic value = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
 HXDLIN( 117)				{
 HXLINE( 118)					::blue::BParser_obj::value = value;
-HXLINE( 119)					::blue::BParser_obj::label = HX_("ArrayIndex",d9,b6,f2,ae);
-            				}
-            			}
-            			break;
-            			case (int)25: {
-HXLINE( 121)				 ::Dynamic value = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
-HXDLIN( 121)				{
-HXLINE( 122)					::blue::BParser_obj::value = value;
-HXLINE( 123)					::blue::BParser_obj::label = HX_("FunctionCall",f6,a7,c7,f0);
+HXLINE( 119)					::blue::BParser_obj::label = HX_("FunctionCall",f6,a7,c7,f0);
             				}
             			}
             			break;
             			default:{
-HXLINE( 131)				return;
+HXLINE( 127)				return;
             			}
             		}
-HXLINE( 135)		 ::Dynamic astStructure = ::blue::BParser_obj::iterator;
-HXLINE( 136)		::String astStructure1 = ::blue::BParser_obj::numberOne;
-HXLINE( 137)		::String astStructure2 = ::blue::BParser_obj::numberTwo;
-HXLINE( 138)		 ::Dynamic astStructure3 = ::blue::BParser_obj::valueOne;
-HXLINE( 139)		 ::Dynamic astStructure4 = ::blue::BParser_obj::valueTwo;
-HXLINE( 140)		 ::Dynamic astStructure5 = ::blue::BParser_obj::condition;
-HXLINE( 141)		 ::Dynamic astStructure6 = ::blue::BParser_obj::value;
-HXLINE( 142)		::cpp::VirtualArray astStructure7 = ::blue::BParser_obj::args;
-HXLINE( 143)		::String astStructure8 = ::blue::BParser_obj::name;
-HXLINE( 144)		::cpp::VirtualArray astStructure9 = ::blue::BParser_obj::entries;
-HXLINE( 145)		 ::Dynamic astStructure10 = ::blue::BParser_obj::a;
-HXLINE( 146)		 ::Dynamic astStructure11 = ::blue::BParser_obj::b;
-HXLINE( 147)		::String astStructure12 = ::blue::BParser_obj::label;
-HXLINE( 133)		 ::Dynamic astStructure13 =  ::Dynamic(::hx::Anon_obj::Create(15)
+HXLINE( 131)		 ::Dynamic astStructure = ::blue::BParser_obj::iterator;
+HXLINE( 132)		::String astStructure1 = ::blue::BParser_obj::numberOne;
+HXLINE( 133)		::String astStructure2 = ::blue::BParser_obj::numberTwo;
+HXLINE( 134)		 ::Dynamic astStructure3 = ::blue::BParser_obj::valueOne;
+HXLINE( 135)		 ::Dynamic astStructure4 = ::blue::BParser_obj::valueTwo;
+HXLINE( 136)		 ::Dynamic astStructure5 = ::blue::BParser_obj::condition;
+HXLINE( 137)		 ::Dynamic astStructure6 = ::blue::BParser_obj::value;
+HXLINE( 138)		::cpp::VirtualArray astStructure7 = ::blue::BParser_obj::args;
+HXLINE( 139)		::String astStructure8 = ::blue::BParser_obj::name;
+HXLINE( 140)		::cpp::VirtualArray astStructure9 = ::blue::BParser_obj::entries;
+HXLINE( 141)		 ::Dynamic astStructure10 = ::blue::BParser_obj::a;
+HXLINE( 142)		 ::Dynamic astStructure11 = ::blue::BParser_obj::b;
+HXLINE( 143)		::String astStructure12 = ::blue::BParser_obj::label;
+HXLINE( 129)		 ::Dynamic astStructure13 =  ::Dynamic(::hx::Anon_obj::Create(15)
             			->setFixed(0,HX_("iterator",ee,49,9a,93),astStructure)
             			->setFixed(1,HX_("valueOne",75,4f,4e,ee),astStructure3)
             			->setFixed(2,HX_("valueTwo",9b,22,52,ee),astStructure4)
@@ -270,11 +262,11 @@ HXLINE( 133)		 ::Dynamic astStructure13 =  ::Dynamic(::hx::Anon_obj::Create(15)
             			->setFixed(12,HX_("name",4b,72,ff,48),astStructure8)
             			->setFixed(13,HX_("label",f4,0d,af,6f),astStructure12)
             			->setFixed(14,HX_("entries",50,2d,5f,79),astStructure9));
-HXLINE( 151)		 ::Dynamic replacer = null();
-HXDLIN( 151)		::String space = null();
-HXDLIN( 151)		::String serializedResult = ::haxe::format::JsonPrinter_obj::print(astStructure13,replacer,space);
-HXLINE( 152)		::blue::BHaxeUtil_obj::toHaxe(serializedResult);
-HXLINE( 153)		::blue::BHaxeUtil_obj::buildHaxeFile();
+HXLINE( 147)		 ::Dynamic replacer = null();
+HXDLIN( 147)		::String space = null();
+HXDLIN( 147)		::String serializedResult = ::haxe::format::JsonPrinter_obj::print(astStructure13,replacer,space);
+HXLINE( 148)		::blue::BHaxeUtil_obj::toHaxe(serializedResult);
+HXLINE( 149)		::blue::BHaxeUtil_obj::buildHaxeFile();
             	}
 
 

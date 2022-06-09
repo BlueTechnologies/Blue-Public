@@ -27,8 +27,6 @@ class BToken_obj : public ::hx::EnumBase_obj
 		static ::Dynamic Add_dyn();
 		static ::blue::BToken Array(::cpp::VirtualArray entries);
 		static ::Dynamic Array_dyn();
-		static ::blue::BToken ArrayIndex( ::Dynamic value);
-		static ::Dynamic ArrayIndex_dyn();
 		static ::blue::BToken Catch( ::Dynamic value);
 		static ::Dynamic Catch_dyn();
 		static ::blue::BToken Comment( ::Dynamic value);

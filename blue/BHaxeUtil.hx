@@ -9,7 +9,7 @@ import blue.BLexer.BToken;
 using StringTools;
 
 class BHaxeUtil {
-	static var haxeData:Array<Dynamic> = ["package export.hxsrc;", "using StringTools;", "class", "{"];
+	static var haxeData:Array<String> = ["package export.hxsrc;", "using StringTools;", "class", "{"];
 	static var specificValues:Array<Dynamic> = [];
 	static var oldValues:Array<Dynamic> = [];
 
@@ -83,14 +83,17 @@ class BHaxeUtil {
 		if (parsedAST.label == "Else") {
 			haxeData.push('else {');
 		}
-		if (parsedAST.label == "ArrayIndex") {
-			haxeData[haxeData.length].replace("[" + haxeData[haxeData.length].split("[")[1].split("]")[0] + "]", '[${Std.parseFloat(parsedAST.value) - 1}]');
-		}
 		if (parsedAST.label == "Property") {
 			haxeData.push('${parsedAST.a}.${parsedAST.b}');
 		}
 		if (parsedAST.label == "FunctionCall") {
 			haxeData.push('${parsedAST.value});');
+		}
+
+		for (i in 0...haxeData.length) {
+		    if (haxeData[i].contains("[") && haxeData[i].contains("]") && !haxeData[i].contains(",")) {
+				haxeData[i] = haxeData[i].replace(haxeData[i].split("[")[1].split("]")[0], haxeData[i].split("[")[1].split("]")[0].replace("1", "0").replace("2", "1").replace("3", "2").replace("4", "3").replace("5", "4").replace("6", "5").replace("7", "6").replace("8", "7").replace("9", "8"));
+			}
 		}
 	}
 

@@ -15,11 +15,6 @@ namespace blue{
 	return ::hx::CreateEnum< BToken_obj >(HX_("Array",79,dd,bc,b8),2,1)->_hx_init(0,entries);
 }
 
-::blue::BToken BToken_obj::ArrayIndex( ::Dynamic value)
-{
-	return ::hx::CreateEnum< BToken_obj >(HX_("ArrayIndex",d9,b6,f2,ae),24,1)->_hx_init(0,value);
-}
-
 ::blue::BToken BToken_obj::Catch( ::Dynamic value)
 {
 	return ::hx::CreateEnum< BToken_obj >(HX_("Catch",1b,ec,4e,d4),13,1)->_hx_init(0,value);
@@ -53,7 +48,7 @@ namespace blue{
 
 ::blue::BToken BToken_obj::FunctionC( ::Dynamic value)
 {
-	return ::hx::CreateEnum< BToken_obj >(HX_("FunctionC",0b,ea,d5,55),25,1)->_hx_init(0,value);
+	return ::hx::CreateEnum< BToken_obj >(HX_("FunctionC",0b,ea,d5,55),24,1)->_hx_init(0,value);
 }
 
 ::blue::BToken BToken_obj::IfStatement( ::Dynamic condition)
@@ -121,7 +116,6 @@ bool BToken_obj::__GetStatic(const ::String &inName, ::Dynamic &outValue, ::hx::
 {
 	if (inName==HX_("Add",01,aa,31,00)) { outValue = BToken_obj::Add_dyn(); return true; }
 	if (inName==HX_("Array",79,dd,bc,b8)) { outValue = BToken_obj::Array_dyn(); return true; }
-	if (inName==HX_("ArrayIndex",d9,b6,f2,ae)) { outValue = BToken_obj::ArrayIndex_dyn(); return true; }
 	if (inName==HX_("Catch",1b,ec,4e,d4)) { outValue = BToken_obj::Catch_dyn(); return true; }
 	if (inName==HX_("Comment",3f,a2,c1,4e)) { outValue = BToken_obj::Comment_dyn(); return true; }
 	if (inName==HX_("Constructor",da,c4,f7,7b)) { outValue = BToken_obj::Constructor_dyn(); return true; }
@@ -154,7 +148,6 @@ int BToken_obj::__FindIndex(::String inName)
 {
 	if (inName==HX_("Add",01,aa,31,00)) return 7;
 	if (inName==HX_("Array",79,dd,bc,b8)) return 2;
-	if (inName==HX_("ArrayIndex",d9,b6,f2,ae)) return 24;
 	if (inName==HX_("Catch",1b,ec,4e,d4)) return 13;
 	if (inName==HX_("Comment",3f,a2,c1,4e)) return 19;
 	if (inName==HX_("Constructor",da,c4,f7,7b)) return 22;
@@ -163,7 +156,7 @@ int BToken_obj::__FindIndex(::String inName)
 	if (inName==HX_("Else",d9,10,ee,2d)) return 23;
 	if (inName==HX_("End",bb,bb,34,00)) return 11;
 	if (inName==HX_("ForStatement",06,54,ec,5d)) return 4;
-	if (inName==HX_("FunctionC",0b,ea,d5,55)) return 25;
+	if (inName==HX_("FunctionC",0b,ea,d5,55)) return 24;
 	if (inName==HX_("IfStatement",72,d0,12,3f)) return 5;
 	if (inName==HX_("MainMethod",1a,18,b8,55)) return 1;
 	if (inName==HX_("Method",01,6b,ef,3d)) return 0;
@@ -184,8 +177,6 @@ int BToken_obj::__FindIndex(::String inName)
 STATIC_HX_DEFINE_DYNAMIC_FUNC2(BToken_obj,Add,return)
 
 STATIC_HX_DEFINE_DYNAMIC_FUNC1(BToken_obj,Array,return)
-
-STATIC_HX_DEFINE_DYNAMIC_FUNC1(BToken_obj,ArrayIndex,return)
 
 STATIC_HX_DEFINE_DYNAMIC_FUNC1(BToken_obj,Catch,return)
 
@@ -225,7 +216,6 @@ int BToken_obj::__FindArgCount(::String inName)
 {
 	if (inName==HX_("Add",01,aa,31,00)) return 2;
 	if (inName==HX_("Array",79,dd,bc,b8)) return 1;
-	if (inName==HX_("ArrayIndex",d9,b6,f2,ae)) return 1;
 	if (inName==HX_("Catch",1b,ec,4e,d4)) return 1;
 	if (inName==HX_("Comment",3f,a2,c1,4e)) return 1;
 	if (inName==HX_("Constructor",da,c4,f7,7b)) return 1;
@@ -256,7 +246,6 @@ int BToken_obj::__FindArgCount(::String inName)
 {
 	if (inName==HX_("Add",01,aa,31,00)) return Add_dyn();
 	if (inName==HX_("Array",79,dd,bc,b8)) return Array_dyn();
-	if (inName==HX_("ArrayIndex",d9,b6,f2,ae)) return ArrayIndex_dyn();
 	if (inName==HX_("Catch",1b,ec,4e,d4)) return Catch_dyn();
 	if (inName==HX_("Comment",3f,a2,c1,4e)) return Comment_dyn();
 	if (inName==HX_("Constructor",da,c4,f7,7b)) return Constructor_dyn();
@@ -308,7 +297,6 @@ static ::String BToken_obj_sStaticFields[] = {
 	HX_("New",40,88,3b,00),
 	HX_("Constructor",da,c4,f7,7b),
 	HX_("Else",d9,10,ee,2d),
-	HX_("ArrayIndex",d9,b6,f2,ae),
 	HX_("FunctionC",0b,ea,d5,55),
 	::String(null())
 };

@@ -27,7 +27,6 @@ enum BToken {
 	New(value:Dynamic, args:Array<Dynamic>);
 	Constructor(args:Array<Dynamic>);
 	Else;
-	ArrayIndex(value:Dynamic);
 	FunctionC(value:Dynamic);
 }
 
@@ -194,12 +193,6 @@ class BLexer {
 						case 'otherwise':
 							currentToken = BToken.Else;
 							tokensToParse.push(currentToken);
-
-						case '[':
-							if (!current.contains(',') && !current.contains('=')) {
-							currentToken = BToken.ArrayIndex(current.split('[')[1].split(']')[0]);
-							tokensToParse.push(currentToken);
-							}
 
 						case '(':
 							if (!current.contains('method') && !current.contains('print') && !current.contains('/') && !current.contains('new')) {

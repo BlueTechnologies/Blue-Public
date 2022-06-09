@@ -114,10 +114,6 @@ class BParser {
 			case BToken.Else:
 				BParser.label = "Else";
 
-			case BToken.ArrayIndex(value):
-				BParser.value = value;
-				BParser.label = "ArrayIndex";
-
 			case BToken.FunctionC(value):
 				BParser.value = value;
 				BParser.label = "FunctionCall";
