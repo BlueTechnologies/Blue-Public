@@ -23,7 +23,7 @@ Follow the installation instructions and do not attempt to compile your project 
 When haxe is installed on your computer, you get access to the haxelib library manager, and Blue makes use of this feature. Open a command line terminal, and type "haxelib install hxcpp", when it is installed successfully, you can continue to the next step.
 
 ## Installing a C++ compiler
-To finish things off, we need a C++ compiler, to final compile the outputted C++ code into an executable file.
+To finish things off, we need a C++ compiler, to finally compile the outputted C++ code into an executable file.
 I personally recommend the GNU Gcc compiler, as it is a very stable, reputable piece of software. You can download it here: https://gcc.gnu.org/ 
 Follow a GNU Gcc compiler installation tutorial and when it is installed successfully, you can continue to the next step.
 
