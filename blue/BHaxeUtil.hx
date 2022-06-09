@@ -84,7 +84,7 @@ class BHaxeUtil {
 			haxeData.push('else {');
 		}
 		if (parsedAST.label == "ArrayIndex") {
-			haxeData.push('[${Std.parseFloat(parsedAST.value) - 1}]');
+			haxeData[haxeData.length].replace("[" + haxeData[haxeData.length].split("[")[1].split("]")[0] + "]", '[${Std.parseFloat(parsedAST.value) - 1}]');
 		}
 		if (parsedAST.label == "Property") {
 			haxeData.push('${parsedAST.a}.${parsedAST.b}');

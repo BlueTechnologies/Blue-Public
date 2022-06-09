@@ -134,8 +134,9 @@ HXLINE(  83)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::
 HXLINE(  84)			::blue::BHaxeUtil_obj::haxeData->push(HX_("else {",54,61,a2,dd));
             		}
 HXLINE(  86)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("ArrayIndex",d9,b6,f2,ae) )) {
-HXLINE(  87)			::cpp::VirtualArray _hx_tmp = ::blue::BHaxeUtil_obj::haxeData;
-HXDLIN(  87)			_hx_tmp->push(((HX_("[",5b,00,00,00) + (::Std_obj::parseFloat(( (::String)(parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) )) - ( (Float)(1) ))) + HX_("]",5d,00,00,00)));
+HXLINE(  87)			 ::Dynamic _hx_tmp =  ::Dynamic(::blue::BHaxeUtil_obj::haxeData->__get(::blue::BHaxeUtil_obj::haxeData->get_length())->__Field(HX_("replace",34,48,28,ab),::hx::paccDynamic));
+HXDLIN(  87)			::String _hx_tmp1 = ((HX_("[",5b,00,00,00) + ::blue::BHaxeUtil_obj::haxeData->__get(::blue::BHaxeUtil_obj::haxeData->get_length())->__Field(HX_("split",da,ea,6e,81),::hx::paccDynamic)(HX_("[",5b,00,00,00))->__GetItem(1)->__Field(HX_("split",da,ea,6e,81),::hx::paccDynamic)(HX_("]",5d,00,00,00))->__GetItem(0)) + HX_("]",5d,00,00,00));
+HXDLIN(  87)			_hx_tmp(_hx_tmp1,((HX_("[",5b,00,00,00) + (::Std_obj::parseFloat(( (::String)(parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) )) - ( (Float)(1) ))) + HX_("]",5d,00,00,00)));
             		}
 HXLINE(  89)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Property",75,04,ea,85) )) {
 HXLINE(  90)			::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic((((HX_("",00,00,00,00) + parsedAST->__Field(HX_("a",61,00,00,00),::hx::paccDynamic)) + HX_(".",2e,00,00,00)) + parsedAST->__Field(HX_("b",62,00,00,00),::hx::paccDynamic))));
