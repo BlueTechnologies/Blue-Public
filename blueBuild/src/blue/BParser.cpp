@@ -68,193 +68,208 @@ bool BParser_obj::_hx_isInstanceOf(int inClassId) {
 
 void BParser_obj::parse( ::Dynamic input){
             	HX_STACKFRAME(&_hx_pos_dfb761f66489164a_40_parse)
-HXLINE(  41)		switch((int)(input.StaticCast< ::hx::EnumBase >()->_hx_getIndex())){
+HXLINE(  41)		::blue::BParser_obj::token = null();
+HXLINE(  42)		::blue::BParser_obj::iterator = null();
+HXLINE(  43)		::blue::BParser_obj::numberTwo = null();
+HXLINE(  44)		::blue::BParser_obj::numberOne = null();
+HXLINE(  45)		::blue::BParser_obj::valueOne = null();
+HXLINE(  46)		::blue::BParser_obj::valueTwo = null();
+HXLINE(  47)		::blue::BParser_obj::condition = null();
+HXLINE(  48)		::blue::BParser_obj::name = null();
+HXLINE(  49)		::blue::BParser_obj::args = null();
+HXLINE(  50)		::blue::BParser_obj::value = null();
+HXLINE(  51)		::blue::BParser_obj::a = null();
+HXLINE(  52)		::blue::BParser_obj::b = null();
+HXLINE(  53)		::blue::BParser_obj::entries = null();
+HXLINE(  54)		::blue::BParser_obj::label = null();
+HXLINE(  55)		::blue::BParser_obj::stringValue = null();
+HXLINE(  56)		switch((int)(input.StaticCast< ::hx::EnumBase >()->_hx_getIndex())){
             			case (int)0: {
-HXLINE(  47)				::String name = input.StaticCast< ::hx::EnumBase >()->_hx_getString(0);
-HXDLIN(  47)				::cpp::VirtualArray args = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(1).StaticCast< ::cpp::VirtualArray >();
-HXDLIN(  47)				{
-HXLINE(  48)					::blue::BParser_obj::name = name;
-HXLINE(  49)					::blue::BParser_obj::args = args;
-HXLINE(  50)					::blue::BParser_obj::label = HX_("Method",01,6b,ef,3d);
+HXLINE(  62)				::String name = input.StaticCast< ::hx::EnumBase >()->_hx_getString(0);
+HXDLIN(  62)				::cpp::VirtualArray args = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(1).StaticCast< ::cpp::VirtualArray >();
+HXDLIN(  62)				{
+HXLINE(  63)					::blue::BParser_obj::name = name;
+HXLINE(  64)					::blue::BParser_obj::args = args;
+HXLINE(  65)					::blue::BParser_obj::label = HX_("Method",01,6b,ef,3d);
             				}
             			}
             			break;
             			case (int)1: {
-HXLINE(  99)				::blue::BParser_obj::label = HX_("Main",59,64,2f,33);
+HXLINE( 114)				::blue::BParser_obj::label = HX_("Main",59,64,2f,33);
             			}
             			break;
             			case (int)2: {
-HXLINE(  62)				::cpp::VirtualArray entries = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0).StaticCast< ::cpp::VirtualArray >();
-HXDLIN(  62)				{
-HXLINE(  63)					::blue::BParser_obj::entries = entries;
-HXLINE(  64)					::blue::BParser_obj::label = HX_("Array",79,dd,bc,b8);
+HXLINE(  77)				::cpp::VirtualArray entries = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0).StaticCast< ::cpp::VirtualArray >();
+HXDLIN(  77)				{
+HXLINE(  78)					::blue::BParser_obj::entries = entries;
+HXLINE(  79)					::blue::BParser_obj::label = HX_("Array",79,dd,bc,b8);
             				}
             			}
             			break;
             			case (int)3: {
-HXLINE(  42)				::String name = input.StaticCast< ::hx::EnumBase >()->_hx_getString(0);
-HXDLIN(  42)				 ::Dynamic value = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(1);
-HXDLIN(  42)				{
-HXLINE(  43)					::blue::BParser_obj::name = name;
-HXLINE(  44)					::blue::BParser_obj::value = value;
-HXLINE(  45)					::blue::BParser_obj::label = HX_("Variable",5c,ce,be,42);
+HXLINE(  57)				::String name = input.StaticCast< ::hx::EnumBase >()->_hx_getString(0);
+HXDLIN(  57)				 ::Dynamic value = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(1);
+HXDLIN(  57)				{
+HXLINE(  58)					::blue::BParser_obj::name = name;
+HXLINE(  59)					::blue::BParser_obj::value = value;
+HXLINE(  60)					::blue::BParser_obj::label = HX_("Variable",5c,ce,be,42);
             				}
             			}
             			break;
             			case (int)4: {
-HXLINE(  56)				 ::Dynamic iterator = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
-HXDLIN(  56)				::String numberOne = input.StaticCast< ::hx::EnumBase >()->_hx_getString(1);
-HXDLIN(  56)				::String numberTwo = input.StaticCast< ::hx::EnumBase >()->_hx_getString(2);
-HXDLIN(  56)				{
-HXLINE(  57)					::blue::BParser_obj::iterator = iterator;
-HXLINE(  58)					::blue::BParser_obj::numberOne = numberOne;
-HXLINE(  59)					::blue::BParser_obj::numberTwo = numberTwo;
-HXLINE(  60)					::blue::BParser_obj::label = HX_("For",e9,7e,35,00);
+HXLINE(  71)				 ::Dynamic iterator = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
+HXDLIN(  71)				::String numberOne = input.StaticCast< ::hx::EnumBase >()->_hx_getString(1);
+HXDLIN(  71)				::String numberTwo = input.StaticCast< ::hx::EnumBase >()->_hx_getString(2);
+HXDLIN(  71)				{
+HXLINE(  72)					::blue::BParser_obj::iterator = iterator;
+HXLINE(  73)					::blue::BParser_obj::numberOne = numberOne;
+HXLINE(  74)					::blue::BParser_obj::numberTwo = numberTwo;
+HXLINE(  75)					::blue::BParser_obj::label = HX_("For",e9,7e,35,00);
             				}
             			}
             			break;
             			case (int)5: {
-HXLINE(  52)				 ::Dynamic condition = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
-HXDLIN(  52)				{
-HXLINE(  53)					::blue::BParser_obj::condition = condition;
-HXLINE(  54)					::blue::BParser_obj::label = HX_("If",fd,3f,00,00);
+HXLINE(  67)				 ::Dynamic condition = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
+HXDLIN(  67)				{
+HXLINE(  68)					::blue::BParser_obj::condition = condition;
+HXLINE(  69)					::blue::BParser_obj::label = HX_("If",fd,3f,00,00);
             				}
             			}
             			break;
             			case (int)6: {
-HXLINE(  79)				 ::Dynamic value = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
-HXDLIN(  79)				{
-HXLINE(  80)					::blue::BParser_obj::value = value;
-HXLINE(  81)					::blue::BParser_obj::label = HX_("Use",27,e4,40,00);
+HXLINE(  94)				 ::Dynamic value = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
+HXDLIN(  94)				{
+HXLINE(  95)					::blue::BParser_obj::value = value;
+HXLINE(  96)					::blue::BParser_obj::label = HX_("Use",27,e4,40,00);
             				}
             			}
             			break;
             			case (int)9: {
-HXLINE(  71)				 ::Dynamic a = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
-HXDLIN(  71)				 ::Dynamic b = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(1);
-HXDLIN(  71)				{
-HXLINE(  72)					::blue::BParser_obj::a = a;
-HXLINE(  73)					::blue::BParser_obj::b = b;
-HXLINE(  74)					::blue::BParser_obj::label = HX_("Mult",10,94,3e,33);
+HXLINE(  86)				 ::Dynamic a = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
+HXDLIN(  86)				 ::Dynamic b = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(1);
+HXDLIN(  86)				{
+HXLINE(  87)					::blue::BParser_obj::a = a;
+HXLINE(  88)					::blue::BParser_obj::b = b;
+HXLINE(  89)					::blue::BParser_obj::label = HX_("Mult",10,94,3e,33);
             				}
             			}
             			break;
             			case (int)10: {
-HXLINE(  66)				 ::Dynamic a = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
-HXDLIN(  66)				 ::Dynamic b = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(1);
-HXDLIN(  66)				{
-HXLINE(  67)					::blue::BParser_obj::a = a;
-HXLINE(  68)					::blue::BParser_obj::b = b;
-HXLINE(  69)					::blue::BParser_obj::label = HX_("Div",31,f5,33,00);
+HXLINE(  81)				 ::Dynamic a = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
+HXDLIN(  81)				 ::Dynamic b = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(1);
+HXDLIN(  81)				{
+HXLINE(  82)					::blue::BParser_obj::a = a;
+HXLINE(  83)					::blue::BParser_obj::b = b;
+HXLINE(  84)					::blue::BParser_obj::label = HX_("Div",31,f5,33,00);
             				}
             			}
             			break;
             			case (int)11: {
-HXLINE(  77)				::blue::BParser_obj::label = HX_("End",bb,bb,34,00);
+HXLINE(  92)				::blue::BParser_obj::label = HX_("End",bb,bb,34,00);
             			}
             			break;
             			case (int)12: {
-HXLINE(  84)				::blue::BParser_obj::label = HX_("Try",1b,21,40,00);
+HXLINE(  99)				::blue::BParser_obj::label = HX_("Try",1b,21,40,00);
             			}
             			break;
             			case (int)13: {
-HXLINE(  86)				 ::Dynamic value = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
-HXDLIN(  86)				{
-HXLINE(  87)					::blue::BParser_obj::value = value;
-HXLINE(  88)					::blue::BParser_obj::label = HX_("Catch",1b,ec,4e,d4);
+HXLINE( 101)				 ::Dynamic value = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
+HXDLIN( 101)				{
+HXLINE( 102)					::blue::BParser_obj::value = value;
+HXLINE( 103)					::blue::BParser_obj::label = HX_("Catch",1b,ec,4e,d4);
             				}
             			}
             			break;
             			case (int)16: {
-HXLINE( 121)				 ::Dynamic a = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
-HXDLIN( 121)				 ::Dynamic b = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(1);
-HXDLIN( 121)				{
-HXLINE( 122)					::blue::BParser_obj::a = a;
-HXLINE( 123)					::blue::BParser_obj::b = b;
-HXLINE( 124)					::blue::BParser_obj::label = HX_("Property",75,04,ea,85);
+HXLINE( 136)				 ::Dynamic a = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
+HXDLIN( 136)				 ::Dynamic b = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(1);
+HXDLIN( 136)				{
+HXLINE( 137)					::blue::BParser_obj::a = a;
+HXLINE( 138)					::blue::BParser_obj::b = b;
+HXLINE( 139)					::blue::BParser_obj::label = HX_("Property",75,04,ea,85);
             				}
             			}
             			break;
             			case (int)17: {
-HXLINE(  90)				 ::Dynamic stringToPrint = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
-HXDLIN(  90)				{
-HXLINE(  91)					::blue::BParser_obj::value = stringToPrint;
-HXLINE(  92)					::blue::BParser_obj::label = HX_("Print",0d,c8,b8,5b);
+HXLINE( 105)				 ::Dynamic stringToPrint = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
+HXDLIN( 105)				{
+HXLINE( 106)					::blue::BParser_obj::value = stringToPrint;
+HXLINE( 107)					::blue::BParser_obj::label = HX_("Print",0d,c8,b8,5b);
             				}
             			}
             			break;
             			case (int)18: {
-HXLINE(  94)				 ::Dynamic value = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
-HXDLIN(  94)				{
-HXLINE(  95)					::blue::BParser_obj::value = value;
-HXLINE(  96)					::blue::BParser_obj::label = HX_("Return",d0,18,c2,3d);
+HXLINE( 109)				 ::Dynamic value = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
+HXDLIN( 109)				{
+HXLINE( 110)					::blue::BParser_obj::value = value;
+HXLINE( 111)					::blue::BParser_obj::label = HX_("Return",d0,18,c2,3d);
             				}
             			}
             			break;
             			case (int)20: {
-HXLINE( 101)				 ::Dynamic value = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
-HXDLIN( 101)				{
-HXLINE( 102)					::blue::BParser_obj::value = value;
-HXLINE( 103)					::blue::BParser_obj::label = HX_("Throw",06,cd,bd,a2);
+HXLINE( 116)				 ::Dynamic value = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
+HXDLIN( 116)				{
+HXLINE( 117)					::blue::BParser_obj::value = value;
+HXLINE( 118)					::blue::BParser_obj::label = HX_("Throw",06,cd,bd,a2);
             				}
             			}
             			break;
             			case (int)21: {
-HXLINE( 105)				 ::Dynamic value = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
-HXDLIN( 105)				::cpp::VirtualArray args = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(1).StaticCast< ::cpp::VirtualArray >();
-HXDLIN( 105)				{
-HXLINE( 106)					::blue::BParser_obj::value = value;
-HXLINE( 107)					::blue::BParser_obj::args = args;
-HXLINE( 108)					::blue::BParser_obj::label = HX_("New",40,88,3b,00);
+HXLINE( 120)				 ::Dynamic value = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
+HXDLIN( 120)				::cpp::VirtualArray args = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(1).StaticCast< ::cpp::VirtualArray >();
+HXDLIN( 120)				{
+HXLINE( 121)					::blue::BParser_obj::value = value;
+HXLINE( 122)					::blue::BParser_obj::args = args;
+HXLINE( 123)					::blue::BParser_obj::label = HX_("New",40,88,3b,00);
             				}
             			}
             			break;
             			case (int)22: {
-HXLINE( 110)				::cpp::VirtualArray args = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0).StaticCast< ::cpp::VirtualArray >();
-HXDLIN( 110)				{
-HXLINE( 111)					::blue::BParser_obj::args = args;
-HXLINE( 112)					::blue::BParser_obj::label = HX_("Constructor",da,c4,f7,7b);
+HXLINE( 125)				::cpp::VirtualArray args = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0).StaticCast< ::cpp::VirtualArray >();
+HXDLIN( 125)				{
+HXLINE( 126)					::blue::BParser_obj::args = args;
+HXLINE( 127)					::blue::BParser_obj::label = HX_("Constructor",da,c4,f7,7b);
             				}
             			}
             			break;
             			case (int)23: {
-HXLINE( 115)				::blue::BParser_obj::label = HX_("Else",d9,10,ee,2d);
+HXLINE( 130)				::blue::BParser_obj::label = HX_("Else",d9,10,ee,2d);
             			}
             			break;
             			case (int)24: {
-HXLINE( 117)				 ::Dynamic value = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
-HXDLIN( 117)				{
-HXLINE( 118)					::blue::BParser_obj::value = value;
-HXLINE( 119)					::blue::BParser_obj::label = HX_("FunctionCall",f6,a7,c7,f0);
+HXLINE( 132)				 ::Dynamic value = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
+HXDLIN( 132)				{
+HXLINE( 133)					::blue::BParser_obj::value = value;
+HXLINE( 134)					::blue::BParser_obj::label = HX_("FunctionCall",f6,a7,c7,f0);
             				}
             			}
             			break;
             			case (int)25: {
-HXLINE( 126)				 ::Dynamic args = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
-HXDLIN( 126)				{
-HXLINE( 127)					::blue::BParser_obj::args = ( (::cpp::VirtualArray)(args) );
-HXLINE( 128)					::blue::BParser_obj::label = HX_("Super",5b,71,ed,17);
+HXLINE( 141)				 ::Dynamic args = input.StaticCast< ::hx::EnumBase >()->_hx_getObject(0);
+HXDLIN( 141)				{
+HXLINE( 142)					::blue::BParser_obj::args = ( (::cpp::VirtualArray)(args) );
+HXLINE( 143)					::blue::BParser_obj::label = HX_("Super",5b,71,ed,17);
             				}
             			}
             			break;
             			default:{
-HXLINE( 131)				return;
+HXLINE( 146)				return;
             			}
             		}
-HXLINE( 135)		 ::Dynamic astStructure = ::blue::BParser_obj::iterator;
-HXLINE( 136)		::String astStructure1 = ::blue::BParser_obj::numberOne;
-HXLINE( 137)		::String astStructure2 = ::blue::BParser_obj::numberTwo;
-HXLINE( 138)		 ::Dynamic astStructure3 = ::blue::BParser_obj::valueOne;
-HXLINE( 139)		 ::Dynamic astStructure4 = ::blue::BParser_obj::valueTwo;
-HXLINE( 140)		 ::Dynamic astStructure5 = ::blue::BParser_obj::condition;
-HXLINE( 141)		 ::Dynamic astStructure6 = ::blue::BParser_obj::value;
-HXLINE( 142)		::cpp::VirtualArray astStructure7 = ::blue::BParser_obj::args;
-HXLINE( 143)		::String astStructure8 = ::blue::BParser_obj::name;
-HXLINE( 144)		::cpp::VirtualArray astStructure9 = ::blue::BParser_obj::entries;
-HXLINE( 145)		 ::Dynamic astStructure10 = ::blue::BParser_obj::a;
-HXLINE( 146)		 ::Dynamic astStructure11 = ::blue::BParser_obj::b;
-HXLINE( 147)		::String astStructure12 = ::blue::BParser_obj::label;
-HXLINE( 133)		 ::Dynamic astStructure13 =  ::Dynamic(::hx::Anon_obj::Create(15)
+HXLINE( 150)		 ::Dynamic astStructure = ::blue::BParser_obj::iterator;
+HXLINE( 151)		::String astStructure1 = ::blue::BParser_obj::numberOne;
+HXLINE( 152)		::String astStructure2 = ::blue::BParser_obj::numberTwo;
+HXLINE( 153)		 ::Dynamic astStructure3 = ::blue::BParser_obj::valueOne;
+HXLINE( 154)		 ::Dynamic astStructure4 = ::blue::BParser_obj::valueTwo;
+HXLINE( 155)		 ::Dynamic astStructure5 = ::blue::BParser_obj::condition;
+HXLINE( 156)		 ::Dynamic astStructure6 = ::blue::BParser_obj::value;
+HXLINE( 157)		::cpp::VirtualArray astStructure7 = ::blue::BParser_obj::args;
+HXLINE( 158)		::String astStructure8 = ::blue::BParser_obj::name;
+HXLINE( 159)		::cpp::VirtualArray astStructure9 = ::blue::BParser_obj::entries;
+HXLINE( 160)		 ::Dynamic astStructure10 = ::blue::BParser_obj::a;
+HXLINE( 161)		 ::Dynamic astStructure11 = ::blue::BParser_obj::b;
+HXLINE( 162)		::String astStructure12 = ::blue::BParser_obj::label;
+HXLINE( 148)		 ::Dynamic astStructure13 =  ::Dynamic(::hx::Anon_obj::Create(15)
             			->setFixed(0,HX_("iterator",ee,49,9a,93),astStructure)
             			->setFixed(1,HX_("valueOne",75,4f,4e,ee),astStructure3)
             			->setFixed(2,HX_("valueTwo",9b,22,52,ee),astStructure4)
@@ -270,11 +285,26 @@ HXLINE( 133)		 ::Dynamic astStructure13 =  ::Dynamic(::hx::Anon_obj::Create(15)
             			->setFixed(12,HX_("name",4b,72,ff,48),astStructure8)
             			->setFixed(13,HX_("label",f4,0d,af,6f),astStructure12)
             			->setFixed(14,HX_("entries",50,2d,5f,79),astStructure9));
-HXLINE( 151)		 ::Dynamic replacer = null();
-HXDLIN( 151)		::String space = null();
-HXDLIN( 151)		::String serializedResult = ::haxe::format::JsonPrinter_obj::print(astStructure13,replacer,space);
-HXLINE( 152)		::blue::BHaxeUtil_obj::toHaxe(serializedResult);
-HXLINE( 153)		::blue::BHaxeUtil_obj::buildHaxeFile();
+HXLINE( 166)		 ::Dynamic replacer = null();
+HXDLIN( 166)		::String space = null();
+HXDLIN( 166)		::String serializedResult = ::haxe::format::JsonPrinter_obj::print(astStructure13,replacer,space);
+HXLINE( 167)		::blue::BHaxeUtil_obj::toHaxe(serializedResult);
+HXLINE( 168)		::blue::BHaxeUtil_obj::buildHaxeFile();
+HXLINE( 170)		::blue::BParser_obj::token = null();
+HXLINE( 171)		::blue::BParser_obj::iterator = null();
+HXLINE( 172)		::blue::BParser_obj::numberTwo = null();
+HXLINE( 173)		::blue::BParser_obj::numberOne = null();
+HXLINE( 174)		::blue::BParser_obj::valueOne = null();
+HXLINE( 175)		::blue::BParser_obj::valueTwo = null();
+HXLINE( 176)		::blue::BParser_obj::condition = null();
+HXLINE( 177)		::blue::BParser_obj::name = null();
+HXLINE( 178)		::blue::BParser_obj::args = null();
+HXLINE( 179)		::blue::BParser_obj::value = null();
+HXLINE( 180)		::blue::BParser_obj::a = null();
+HXLINE( 181)		::blue::BParser_obj::b = null();
+HXLINE( 182)		::blue::BParser_obj::entries = null();
+HXLINE( 183)		::blue::BParser_obj::label = null();
+HXLINE( 184)		::blue::BParser_obj::stringValue = null();
             	}
 
 

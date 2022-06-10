@@ -157,23 +157,23 @@ class BLexer {
 
 						case "new":
 							if (!current.contains("=")) {
-							var args = [];
-							for (i in 0...current.split('new ')[1].split('(')[1].split(')').length) {
-								if (current.split('new ')[1].split('(')[1].split(')')[i] != null
-									&& current.split('new ')[1].split('(')[1].split(')')[i].contains(',')) {
-									args.push(current.split('new ')[1].split('(')[1].split(')')[i].split(','));
-								} else if (current.split('new ')[1].split('(')[1].split(')')[i] != null
-									&& !current.split('new ')[1].split('(')[1].split(')')[i].contains(',')) {
-									args.push([current.split('new ')[1].split('(')[1].split(')')[0]]);
+								var args = [];
+								for (i in 0...current.split('new ')[1].split('(')[1].split(')').length) {
+									if (current.split('new ')[1].split('(')[1].split(')')[i] != null
+										&& current.split('new ')[1].split('(')[1].split(')')[i].contains(',')) {
+										args.push(current.split('new ')[1].split('(')[1].split(')')[i].split(','));
+									} else if (current.split('new ')[1].split('(')[1].split(')')[i] != null
+										&& !current.split('new ')[1].split('(')[1].split(')')[i].contains(',')) {
+										args.push([current.split('new ')[1].split('(')[1].split(')')[0]]);
+									}
 								}
+								if (args != null) {
+									currentToken = BToken.New(current.split('new ')[1].split('(')[0], args);
+								} else {
+									currentToken = BToken.New(current.split('new ')[1].split('(')[0], null);
+								}
+								tokensToParse.push(currentToken);
 							}
-							if (args != null) {
-								currentToken = BToken.New(current.split('new ')[1].split('(')[0], args);
-							} else {
-								currentToken = BToken.New(current.split('new ')[1].split('(')[0], null);
-							}
-							tokensToParse.push(currentToken);
-						}
 
 						case "constructor method":
 							var args = [];
@@ -229,6 +229,7 @@ class BLexer {
 				buildAST(tokensToParse[i]);
 			}
 		}
+		tokensToParse = [];
 	}
 
 	public static function buildAST(input:BToken) {

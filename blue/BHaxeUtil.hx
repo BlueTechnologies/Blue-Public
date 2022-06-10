@@ -33,7 +33,8 @@ class BHaxeUtil {
 			if (parsedAST.args[0] == null) {
 				haxeData.push('public static function ${parsedAST.name}():Dynamic {');
 			} else {
-				haxeData.push(('public static function ${parsedAST.name}(${parsedAST.args[0].join(":Dynamic, ") + ":Dynamic"}):Dynamic {\n').replace("(:Dynamic)", "()"));
+				haxeData.push(('public static function ${parsedAST.name}(${parsedAST.args[0].join(":Dynamic, ") + ":Dynamic"}):Dynamic {\n')
+					.replace("(:Dynamic)", "()"));
 			}
 		}
 		if (parsedAST.label == "End") {
@@ -88,9 +89,8 @@ class BHaxeUtil {
 		}
 		if (parsedAST.label == "FunctionCall") {
 			if (!parsedAST.value.contains("new ")) {
-			haxeData.push('${parsedAST.value});');
-			}
-			else {
+				haxeData.push('${parsedAST.value});');
+			} else {
 				haxeData.push('${parsedAST.value}));');
 			}
 		}
@@ -104,8 +104,17 @@ class BHaxeUtil {
 		}
 
 		for (i in 0...haxeData.length) {
-		    if (haxeData[i].contains("[") && haxeData[i].contains("]") && !haxeData[i].contains(",")) {
-				haxeData[i] = haxeData[i].replace(haxeData[i].split("[")[1].split("]")[0], haxeData[i].split("[")[1].split("]")[0].replace("1", "0").replace("2", "1").replace("3", "2").replace("4", "3").replace("5", "4").replace("6", "5").replace("7", "6").replace("8", "7").replace("9", "8"));
+			if (haxeData[i].contains("[") && haxeData[i].contains("]") && !haxeData[i].contains(",")) {
+				haxeData[i] = haxeData[i].replace(haxeData[i].split("[")[1].split("]")[0],
+					haxeData[i].split("[")[1].split("]")[0].replace("1", "0")
+					.replace("2", "1")
+					.replace("3", "2")
+					.replace("4", "3")
+					.replace("5", "4")
+					.replace("6", "5")
+					.replace("7", "6")
+					.replace("8", "7")
+					.replace("9", "8"));
 			}
 		}
 	}

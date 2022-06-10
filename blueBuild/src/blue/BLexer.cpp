@@ -15,7 +15,7 @@
 
 HX_DEFINE_STACK_FRAME(_hx_pos_592fe0dd445f45d4_34_new,"blue.BLexer","new",0x89332db0,"blue.BLexer.new","blue/BLexer.hx",34,0x58708f9f)
 HX_LOCAL_STACK_FRAME(_hx_pos_592fe0dd445f45d4_56_enumContent,"blue.BLexer","enumContent",0xbfcd4988,"blue.BLexer.enumContent","blue/BLexer.hx",56,0x58708f9f)
-HX_LOCAL_STACK_FRAME(_hx_pos_592fe0dd445f45d4_235_buildAST,"blue.BLexer","buildAST",0x6f85d164,"blue.BLexer.buildAST","blue/BLexer.hx",235,0x58708f9f)
+HX_LOCAL_STACK_FRAME(_hx_pos_592fe0dd445f45d4_236_buildAST,"blue.BLexer","buildAST",0x6f85d164,"blue.BLexer.buildAST","blue/BLexer.hx",236,0x58708f9f)
 HX_LOCAL_STACK_FRAME(_hx_pos_592fe0dd445f45d4_35_boot,"blue.BLexer","boot",0x7badcce2,"blue.BLexer.boot","blue/BLexer.hx",35,0x58708f9f)
 HX_LOCAL_STACK_FRAME(_hx_pos_592fe0dd445f45d4_36_boot,"blue.BLexer","boot",0x7badcce2,"blue.BLexer.boot","blue/BLexer.hx",36,0x58708f9f)
 HX_LOCAL_STACK_FRAME(_hx_pos_592fe0dd445f45d4_41_boot,"blue.BLexer","boot",0x7badcce2,"blue.BLexer.boot","blue/BLexer.hx",41,0x58708f9f)
@@ -393,14 +393,15 @@ HXDLIN( 228)				int i = (_g - 1);
 HXLINE( 229)				::blue::BLexer_obj::buildAST(::blue::BLexer_obj::tokensToParse->__get(i));
             			}
             		}
+HXLINE( 232)		::blue::BLexer_obj::tokensToParse = ::cpp::VirtualArray_obj::__new(0);
             	}
 
 
 STATIC_HX_DEFINE_DYNAMIC_FUNC1(BLexer_obj,enumContent,(void))
 
 void BLexer_obj::buildAST( ::blue::BToken input){
-            	HX_STACKFRAME(&_hx_pos_592fe0dd445f45d4_235_buildAST)
-HXDLIN( 235)		::blue::BParser_obj::parse(input);
+            	HX_STACKFRAME(&_hx_pos_592fe0dd445f45d4_236_buildAST)
+HXDLIN( 236)		::blue::BParser_obj::parse(input);
             	}
 
 

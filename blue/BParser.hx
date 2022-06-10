@@ -38,6 +38,21 @@ class BParser {
 	static var stringValue:String;
 
 	public static function parse(input:Dynamic) {
+		token = null;
+		iterator = null;
+		numberTwo = null;
+		numberOne = null;
+		valueOne = null;
+		valueTwo = null;
+		condition = null;
+		name = null;
+		args = null;
+		value = null;
+		a = null;
+		b = null;
+		entries = null;
+		label = null;
+		stringValue = null;
 		switch (input) {
 			case BToken.Variable(name, value):
 				BParser.name = name;
@@ -151,5 +166,21 @@ class BParser {
 		var serializedResult = haxe.Json.stringify(astStructure);
 		BHaxeUtil.toHaxe(serializedResult);
 		BHaxeUtil.buildHaxeFile();
+
+		token = null;
+		iterator = null;
+		numberTwo = null;
+		numberOne = null;
+		valueOne = null;
+		valueTwo = null;
+		condition = null;
+		name = null;
+		args = null;
+		value = null;
+		a = null;
+		b = null;
+		entries = null;
+		label = null;
+		stringValue = null;
 	}
 }

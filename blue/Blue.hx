@@ -29,47 +29,57 @@ class Blue {
 
 	public static function mapSource(directory:String) {
 		Blue.directory = directory;
-		var i = 0;
+		var i = -1;
 		var files = [];
 		if (FileSystem.exists(directory) && FileSystem.isDirectory(directory)) {
 			Sys.println('Compiling source folder: ' + directory);
 			for (file in FileSystem.readDirectory(directory)) {
 				if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
-					i++;
-					files.push(file);
 					Sys.println(file);
 					if (!checkForErrors(File.getContent(directory + "/" + file))) {
+						i++;
+						files.push(file);
 						var rawContent = File.getContent(directory + "/" + file);
+						mapFile(directory + "/" + file);
+						BHaxeUtil.fileName = file;
+						BHaxeUtil.haxeData = ["package export.hxsrc;", "using StringTools;", "class", "{"];
 						for (i in 0...rawContent.split("\n").length) {
 							var line = rawContent.split("\n")[i];
 							if (line.contains("@BuildCommand(")) {
 								buildCommand = line.split("@BuildCommand('")[1].split("')")[0];
 								Sys.println("Warning: You are using a custom build command! The program is not guaranteed to successfully compile!");
 							}
+						}
+						for (i in 0...rawContent.split("\n").length) {
+							var line = rawContent.split("\n")[i];
 							if (line.contains("@IncludeLib(")) {
 								libs.push(line.split("@IncludeLib('")[1].split("')")[0]);
 							}
+						}
+						for (i in 0...rawContent.split("\n").length) {
+							var line = rawContent.split("\n")[i];
 							if (line.contains("@Extends(")) {
 								BHaxeUtil.extension = (line.split("@Extends(")[1].split(")")[0]);
 							}
 						}
-						mapFile(directory + "/" + file);
-						BHaxeUtil.fileName = file;
+						for (i in 0...rawContent.split("\n").length) {
+							var line = rawContent.split("\n")[i];
+							if (line.contains("@Package(")) {
+								BHaxeUtil.haxeData[0] = 'package ' + (line.split("@Package(")[1].split(")")[0]) + ';';
+							}
+						}
+		
 						lexSourceFile(rawContent);
-						if (i == files.length) {
+						if (FileSystem.exists("export/hxsrc") && files.length == FileSystem.readDirectory("export/hxsrc").length) {
 							if (libs != null && buildCommand == "haxe -cp src --main export.hxsrc.Main --cpp export/bin") {
-								buildCommand = "haxe -cp src --main export.hxsrc --library " + libs.join(" --library") + " --cpp export/bin"; 
+								buildCommand = "haxe -cp src --main export.hxsrc --library " + libs.join(" --library") + " --cpp export/bin";
 							}
 							Sys.command(buildCommand);
 							Sys.exit(0);
 						}
 					}
-					else {
-						break;
-					}
 				}
 			}
-				
 		} else {
 			Sys.println("Error: Source folder '" + directory + "' does not exist or is not a directory");
 		}
@@ -98,7 +108,8 @@ class Blue {
 							if (line.contains(letters.split("")[k]) && line.contains("=") && !line.contains("if") && !line.contains('1')
 								&& !line.contains('2') && !line.contains('3') && !line.contains('4') && !line.contains('5') && !line.contains('6')
 								&& !line.contains('7') && !line.contains('8') && !line.contains('9') && !line.contains("true") && !line.contains("false")
-								&& !line.contains("'") && !line.contains('"') && !line.contains("[") && !line.contains("]") && !line.contains("null") && !line.contains("new")) {
+								&& !line.contains("'") && !line.contains('"') && !line.contains("[") && !line.contains("]") && !line.contains("null")
+								&& !line.contains("new")) {
 								Sys.println("Error: Values assigned to variables can only be 'Bool', 'Int', 'Float', 'String', or 'Array', Which was not found at line "
 									+ i);
 								return true;
@@ -162,12 +173,6 @@ class Blue {
 					Sys.println("Error: The main method cannot have a return value at line " + i);
 					return true;
 				}
-
-				if (line.contains("@Package(")) {
-					BHaxeUtil.haxeData[0] = 'package ' + (line.split("@Package(")[1].split(")")[0]) + ';';
-				}
-				
-
 				/*for (file in FileSystem.readDirectory(directory)) {
 					if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
 						if (file != mainFile && File.getContent(directory + "/" + file).contains("main method()")) {

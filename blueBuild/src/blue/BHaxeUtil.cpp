@@ -26,7 +26,7 @@
 #endif
 
 HX_LOCAL_STACK_FRAME(_hx_pos_7651d1f60270261f_18_toHaxe,"blue.BHaxeUtil","toHaxe",0x7b6839d9,"blue.BHaxeUtil.toHaxe","blue/BHaxeUtil.hx",18,0x4a304729)
-HX_LOCAL_STACK_FRAME(_hx_pos_7651d1f60270261f_113_buildHaxeFile,"blue.BHaxeUtil","buildHaxeFile",0x98861778,"blue.BHaxeUtil.buildHaxeFile","blue/BHaxeUtil.hx",113,0x4a304729)
+HX_LOCAL_STACK_FRAME(_hx_pos_7651d1f60270261f_122_buildHaxeFile,"blue.BHaxeUtil","buildHaxeFile",0x98861778,"blue.BHaxeUtil.buildHaxeFile","blue/BHaxeUtil.hx",122,0x4a304729)
 HX_LOCAL_STACK_FRAME(_hx_pos_7651d1f60270261f_12_boot,"blue.BHaxeUtil","boot",0xd335c8ca,"blue.BHaxeUtil.boot","blue/BHaxeUtil.hx",12,0x4a304729)
 static const ::String _hx_array_data_fa1062d6_4[] = {
 	HX_("package export.hxsrc;",87,95,b1,6f),HX_("using StringTools;",ed,61,db,f1),HX_("class",38,78,58,48),HX_("{",7b,00,00,00),
@@ -87,65 +87,65 @@ HXDLIN(  36)				::String _hx_tmp1 = ( (::String)(((HX_("public static function "
 HXDLIN(  36)				_hx_tmp->push(::StringTools_obj::replace(((_hx_tmp1 + ( ::Dynamic(parsedAST->__Field(HX_("args",5d,8d,74,40),::hx::paccDynamic))->__GetItem(0)->__Field(HX_("join",ea,33,65,46),::hx::paccDynamic)(HX_(":Dynamic, ",19,ec,0d,51)) + HX_(":Dynamic",65,a2,d4,f8))) + HX_("):Dynamic {\n",81,6c,c0,22)),HX_("(:Dynamic)",fc,30,dc,cc),HX_("()",01,23,00,00)));
             			}
             		}
-HXLINE(  39)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("End",bb,bb,34,00) )) {
-HXLINE(  40)			::blue::BHaxeUtil_obj::haxeData->push(HX_("}",7d,00,00,00));
+HXLINE(  40)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("End",bb,bb,34,00) )) {
+HXLINE(  41)			::blue::BHaxeUtil_obj::haxeData->push(HX_("}",7d,00,00,00));
             		}
-HXLINE(  42)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Try",1b,21,40,00) )) {
-HXLINE(  43)			::blue::BHaxeUtil_obj::haxeData->push(HX_("try {",56,8a,31,16));
+HXLINE(  43)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Try",1b,21,40,00) )) {
+HXLINE(  44)			::blue::BHaxeUtil_obj::haxeData->push(HX_("try {",56,8a,31,16));
             		}
-HXLINE(  45)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Catch",1b,ec,4e,d4) )) {
-HXLINE(  46)			::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((HX_("catch(",8d,37,2b,bc) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) + HX_(") {",c4,38,1f,00))));
+HXLINE(  46)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Catch",1b,ec,4e,d4) )) {
+HXLINE(  47)			::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((HX_("catch(",8d,37,2b,bc) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) + HX_(") {",c4,38,1f,00))));
             		}
-HXLINE(  48)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Continue",87,9c,7a,0b) )) {
-HXLINE(  49)			::blue::BHaxeUtil_obj::haxeData->push(HX_("continue;",f4,79,fb,5d));
+HXLINE(  49)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Continue",87,9c,7a,0b) )) {
+HXLINE(  50)			::blue::BHaxeUtil_obj::haxeData->push(HX_("continue;",f4,79,fb,5d));
             		}
-HXLINE(  51)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Stop",22,1c,35,37) )) {
-HXLINE(  52)			::blue::BHaxeUtil_obj::haxeData->push(HX_("break;",9c,02,b4,15));
+HXLINE(  52)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Stop",22,1c,35,37) )) {
+HXLINE(  53)			::blue::BHaxeUtil_obj::haxeData->push(HX_("break;",9c,02,b4,15));
             		}
-HXLINE(  54)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("If",fd,3f,00,00) )) {
-HXLINE(  55)			::Array< ::String > _hx_tmp = ::blue::BHaxeUtil_obj::haxeData;
-HXDLIN(  55)			_hx_tmp->push(((HX_("if (",25,e9,b4,45) + ::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::Std_obj::string( ::Dynamic(parsedAST->__Field(HX_("condition",9b,e9,33,fc),::hx::paccDynamic))),HX_("not ",ad,17,0a,49),HX_("!",21,00,00,00)),HX_("=",3d,00,00,00),HX_("==",60,35,00,00)),HX_("!==",c1,3f,19,00),HX_("!=",fc,1c,00,00)),HX_("greater than",47,34,3c,43),HX_(">",3e,00,00,00)),HX_("less than",88,b9,bc,f1),HX_("<",3c,00,00,00)),HX_("or",23,61,00,00),HX_("||",80,6c,00,00))) + HX_(") {",c4,38,1f,00)));
+HXLINE(  55)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("If",fd,3f,00,00) )) {
+HXLINE(  56)			::Array< ::String > _hx_tmp = ::blue::BHaxeUtil_obj::haxeData;
+HXDLIN(  56)			_hx_tmp->push(((HX_("if (",25,e9,b4,45) + ::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::StringTools_obj::replace(::Std_obj::string( ::Dynamic(parsedAST->__Field(HX_("condition",9b,e9,33,fc),::hx::paccDynamic))),HX_("not ",ad,17,0a,49),HX_("!",21,00,00,00)),HX_("=",3d,00,00,00),HX_("==",60,35,00,00)),HX_("!==",c1,3f,19,00),HX_("!=",fc,1c,00,00)),HX_("greater than",47,34,3c,43),HX_(">",3e,00,00,00)),HX_("less than",88,b9,bc,f1),HX_("<",3c,00,00,00)),HX_("or",23,61,00,00),HX_("||",80,6c,00,00))) + HX_(") {",c4,38,1f,00)));
             		}
-HXLINE(  57)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("For",e9,7e,35,00) )) {
-HXLINE(  58)			::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((((((HX_("for (",51,77,94,04) + parsedAST->__Field(HX_("iterator",ee,49,9a,93),::hx::paccDynamic)) + HX_(" in ",7b,e0,76,15)) + parsedAST->__Field(HX_("numberOne",1d,6f,75,1e),::hx::paccDynamic)) + HX_("...",ee,0f,23,00)) + parsedAST->__Field(HX_("numberTwo",43,42,79,1e),::hx::paccDynamic)) + HX_(") {",c4,38,1f,00))));
+HXLINE(  58)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("For",e9,7e,35,00) )) {
+HXLINE(  59)			::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((((((HX_("for (",51,77,94,04) + parsedAST->__Field(HX_("iterator",ee,49,9a,93),::hx::paccDynamic)) + HX_(" in ",7b,e0,76,15)) + parsedAST->__Field(HX_("numberOne",1d,6f,75,1e),::hx::paccDynamic)) + HX_("...",ee,0f,23,00)) + parsedAST->__Field(HX_("numberTwo",43,42,79,1e),::hx::paccDynamic)) + HX_(") {",c4,38,1f,00))));
             		}
-HXLINE(  60)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Print",0d,c8,b8,5b) )) {
-HXLINE(  61)			::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((HX_("trace(",03,26,7d,45) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) + HX_(");",f2,23,00,00))));
+HXLINE(  61)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Print",0d,c8,b8,5b) )) {
+HXLINE(  62)			::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((HX_("trace(",03,26,7d,45) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) + HX_(");",f2,23,00,00))));
             		}
-HXLINE(  63)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Return",d0,18,c2,3d) )) {
-HXLINE(  64)			::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic((HX_("return ",70,75,c2,fe) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic))));
+HXLINE(  64)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Return",d0,18,c2,3d) )) {
+HXLINE(  65)			::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic((HX_("return ",70,75,c2,fe) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic))));
             		}
-HXLINE(  66)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Comment",3f,a2,c1,4e) )) {
-HXLINE(  67)			::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic((HX_("// ",00,d3,23,00) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic))));
+HXLINE(  67)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Comment",3f,a2,c1,4e) )) {
+HXLINE(  68)			::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic((HX_("// ",00,d3,23,00) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic))));
             		}
-HXLINE(  69)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Main",59,64,2f,33) )) {
-HXLINE(  70)			::blue::BHaxeUtil_obj::haxeData->push(HX_("public static function main() {",c2,f8,58,8e));
+HXLINE(  70)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Main",59,64,2f,33) )) {
+HXLINE(  71)			::blue::BHaxeUtil_obj::haxeData->push(HX_("public static function main() {",c2,f8,58,8e));
             		}
-HXLINE(  72)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("New",40,88,3b,00) )) {
-HXLINE(  73)			if (::hx::IsNull(  ::Dynamic(parsedAST->__Field(HX_("args",5d,8d,74,40),::hx::paccDynamic))->__GetItem(0) )) {
-HXLINE(  74)				::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((HX_("new ",c0,83,02,49) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) + HX_("();",1a,7e,1e,00))));
+HXLINE(  73)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("New",40,88,3b,00) )) {
+HXLINE(  74)			if (::hx::IsNull(  ::Dynamic(parsedAST->__Field(HX_("args",5d,8d,74,40),::hx::paccDynamic))->__GetItem(0) )) {
+HXLINE(  75)				::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((HX_("new ",c0,83,02,49) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) + HX_("();",1a,7e,1e,00))));
             			}
             			else {
-HXLINE(  76)				::Array< ::String > _hx_tmp = ::blue::BHaxeUtil_obj::haxeData;
-HXDLIN(  76)				::String _hx_tmp1 = ( (::String)(((HX_("new ",c0,83,02,49) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) + HX_("(",28,00,00,00))) );
-HXDLIN(  76)				_hx_tmp->push(::StringTools_obj::replace(((_hx_tmp1 +  ::Dynamic(parsedAST->__Field(HX_("args",5d,8d,74,40),::hx::paccDynamic))->__GetItem(0)->__Field(HX_("join",ea,33,65,46),::hx::paccDynamic)(HX_(", ",74,26,00,00))) + HX_(");",f2,23,00,00)),HX_("(:Dynamic)",fc,30,dc,cc),HX_("()",01,23,00,00)));
+HXLINE(  77)				::Array< ::String > _hx_tmp = ::blue::BHaxeUtil_obj::haxeData;
+HXDLIN(  77)				::String _hx_tmp1 = ( (::String)(((HX_("new ",c0,83,02,49) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) + HX_("(",28,00,00,00))) );
+HXDLIN(  77)				_hx_tmp->push(::StringTools_obj::replace(((_hx_tmp1 +  ::Dynamic(parsedAST->__Field(HX_("args",5d,8d,74,40),::hx::paccDynamic))->__GetItem(0)->__Field(HX_("join",ea,33,65,46),::hx::paccDynamic)(HX_(", ",74,26,00,00))) + HX_(");",f2,23,00,00)),HX_("(:Dynamic)",fc,30,dc,cc),HX_("()",01,23,00,00)));
             			}
             		}
-HXLINE(  79)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Constructor",da,c4,f7,7b) )) {
-HXLINE(  80)			if (::hx::IsNull(  ::Dynamic(parsedAST->__Field(HX_("args",5d,8d,74,40),::hx::paccDynamic))->__GetItem(0) )) {
-HXLINE(  81)				::blue::BHaxeUtil_obj::haxeData->push(HX_("public function new() {",4b,7a,78,d5));
+HXLINE(  80)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Constructor",da,c4,f7,7b) )) {
+HXLINE(  81)			if (::hx::IsNull(  ::Dynamic(parsedAST->__Field(HX_("args",5d,8d,74,40),::hx::paccDynamic))->__GetItem(0) )) {
+HXLINE(  82)				::blue::BHaxeUtil_obj::haxeData->push(HX_("public function new() {",4b,7a,78,d5));
             			}
             			else {
-HXLINE(  83)				::Array< ::String > _hx_tmp = ::blue::BHaxeUtil_obj::haxeData;
-HXDLIN(  83)				_hx_tmp->push(::StringTools_obj::replace(((HX_("public function new(",19,94,61,61) + ( ::Dynamic(parsedAST->__Field(HX_("args",5d,8d,74,40),::hx::paccDynamic))->__GetItem(0)->__Field(HX_("join",ea,33,65,46),::hx::paccDynamic)(HX_(":Dynamic, ",19,ec,0d,51)) + HX_(":Dynamic",65,a2,d4,f8))) + HX_(") {",c4,38,1f,00)),HX_("(:Dynamic)",fc,30,dc,cc),HX_("()",01,23,00,00)));
+HXLINE(  84)				::Array< ::String > _hx_tmp = ::blue::BHaxeUtil_obj::haxeData;
+HXDLIN(  84)				_hx_tmp->push(::StringTools_obj::replace(((HX_("public function new(",19,94,61,61) + ( ::Dynamic(parsedAST->__Field(HX_("args",5d,8d,74,40),::hx::paccDynamic))->__GetItem(0)->__Field(HX_("join",ea,33,65,46),::hx::paccDynamic)(HX_(":Dynamic, ",19,ec,0d,51)) + HX_(":Dynamic",65,a2,d4,f8))) + HX_(") {",c4,38,1f,00)),HX_("(:Dynamic)",fc,30,dc,cc),HX_("()",01,23,00,00)));
             			}
             		}
-HXLINE(  86)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Else",d9,10,ee,2d) )) {
-HXLINE(  87)			::blue::BHaxeUtil_obj::haxeData->push(HX_("else {",54,61,a2,dd));
+HXLINE(  87)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("Else",d9,10,ee,2d) )) {
+HXLINE(  88)			::blue::BHaxeUtil_obj::haxeData->push(HX_("else {",54,61,a2,dd));
             		}
-HXLINE(  89)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("FunctionCall",f6,a7,c7,f0) )) {
-HXLINE(  90)			if ((( (::String)(parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) ).indexOf(HX_("new ",c0,83,02,49),null()) == -1)) {
-HXLINE(  91)				::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((HX_("",00,00,00,00) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) + HX_(");",f2,23,00,00))));
+HXLINE(  90)		if (::hx::IsEq( parsedAST->__Field(HX_("label",f4,0d,af,6f),::hx::paccDynamic),HX_("FunctionCall",f6,a7,c7,f0) )) {
+HXLINE(  91)			if ((( (::String)(parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) ).indexOf(HX_("new ",c0,83,02,49),null()) == -1)) {
+HXLINE(  92)				::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((HX_("",00,00,00,00) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) + HX_(");",f2,23,00,00))));
             			}
             			else {
 HXLINE(  94)				::blue::BHaxeUtil_obj::haxeData->push( ::Dynamic(((HX_("",00,00,00,00) + parsedAST->__Field(HX_("value",71,7f,b8,31),::hx::paccDynamic)) + HX_("));",5b,40,1f,00))));
@@ -194,14 +194,14 @@ HXDLIN( 108)					_hx_tmp[i] = ::StringTools_obj::replace(_hx_tmp1,_hx_tmp2,::Str
 STATIC_HX_DEFINE_DYNAMIC_FUNC1(BHaxeUtil_obj,toHaxe,(void))
 
 void BHaxeUtil_obj::buildHaxeFile(){
-            	HX_STACKFRAME(&_hx_pos_7651d1f60270261f_113_buildHaxeFile)
-HXLINE( 114)		if (!(::sys::FileSystem_obj::exists(HX_("export",74,91,7d,c4)))) {
-HXLINE( 115)			::sys::FileSystem_obj::createDirectory(HX_("export",74,91,7d,c4));
-HXLINE( 116)			::sys::FileSystem_obj::createDirectory(HX_("export/hxsrc",b9,ab,55,3c));
+            	HX_STACKFRAME(&_hx_pos_7651d1f60270261f_122_buildHaxeFile)
+HXLINE( 123)		if (!(::sys::FileSystem_obj::exists(HX_("export",74,91,7d,c4)))) {
+HXLINE( 124)			::sys::FileSystem_obj::createDirectory(HX_("export",74,91,7d,c4));
+HXLINE( 125)			::sys::FileSystem_obj::createDirectory(HX_("export/hxsrc",b9,ab,55,3c));
             		}
-HXLINE( 118)		::sys::io::File_obj::write((HX_("export/hxsrc/",56,96,a0,8e) + ::StringTools_obj::replace(::blue::BHaxeUtil_obj::fileName,HX_(".bl",78,3d,23,00),HX_(".hx",be,42,23,00))),false);
-HXLINE( 119)		::String _hx_tmp = (HX_("export/hxsrc/",56,96,a0,8e) + ::StringTools_obj::replace(::blue::BHaxeUtil_obj::fileName,HX_(".bl",78,3d,23,00),HX_(".hx",be,42,23,00)));
-HXDLIN( 119)		::sys::io::File_obj::saveContent(_hx_tmp,(::StringTools_obj::replace(::StringTools_obj::replace(::blue::BHaxeUtil_obj::haxeData->join(HX_("\n",0a,00,00,00)),HX_("/",2f,00,00,00),HX_(".",2e,00,00,00)),HX_("{\n}",6e,5e,5d,00),HX_("{",7b,00,00,00)) + HX_("\n}",33,09,00,00)));
+HXLINE( 127)		::sys::io::File_obj::write((HX_("export/hxsrc/",56,96,a0,8e) + ::StringTools_obj::replace(::blue::BHaxeUtil_obj::fileName,HX_(".bl",78,3d,23,00),HX_(".hx",be,42,23,00))),false);
+HXLINE( 128)		::String _hx_tmp = (HX_("export/hxsrc/",56,96,a0,8e) + ::StringTools_obj::replace(::blue::BHaxeUtil_obj::fileName,HX_(".bl",78,3d,23,00),HX_(".hx",be,42,23,00)));
+HXDLIN( 128)		::sys::io::File_obj::saveContent(_hx_tmp,(::StringTools_obj::replace(::StringTools_obj::replace(::blue::BHaxeUtil_obj::haxeData->join(HX_("\n",0a,00,00,00)),HX_("/",2f,00,00,00),HX_(".",2e,00,00,00)),HX_("{\n}",6e,5e,5d,00),HX_("{",7b,00,00,00)) + HX_("\n}",33,09,00,00)));
             	}
 
 
