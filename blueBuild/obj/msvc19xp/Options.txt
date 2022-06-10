@@ -1,3 +1,0 @@
-hxcpp_api_level=400
-hxcpp_smart_strings=1
-hxcpp=C:\HaxeToolkit\haxe\lib\hxcpp/4,2,1/
