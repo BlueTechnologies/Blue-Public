@@ -22,11 +22,15 @@ class BHaxeUtil {
 		}
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			haxeData.push(('public static var'
-				+ " "
-				+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
-				+ ':Dynamic = '
-				+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
+			if (!haxeData.join('\n').contains(parsedAST.name + " =")) {
+				haxeData.push(('public static var'
+					+ " "
+					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
+					+ ':Dynamic = '
+					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
+			} else {
+				haxeData.push(parsedAST.name + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
+			}
 		}
 
 		if (parsedAST.label == "Method") {
@@ -133,6 +137,12 @@ class BHaxeUtil {
 		FileSystem.createDirectory("export");
 		FileSystem.createDirectory("export/hxsrc");
 		sys.io.File.write('export/hxsrc/${fileName.replace(".bl", ".hx")}', false);
-		sys.io.File.saveContent('export/hxsrc/${fileName.replace(".bl", ".hx")}', haxeData.join('\n').replace("/", ".").replace('\n{\n}', "\n{") + "\n}");
+		sys.io.File.saveContent('export/hxsrc/${fileName.replace(".bl", ".hx")}',
+			haxeData.join('\n')
+				.replace("/", ".")
+				.replace('\n{\n}', "\n{")
+				.replace('method', 'function')
+				.replace('mult', '*')
+				.replace('div', '/') + "\n}");
 	}
 }

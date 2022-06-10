@@ -70,11 +70,12 @@ class Blue {
 								BHaxeUtil.haxeData[0] = 'package ' + (line.split("@Package(")[1].split(")")[0]) + ';';
 							}
 						}
-		
+
 						lexSourceFile(rawContent);
 						if (FileSystem.exists("export/hxsrc") && FileSystem.readDirectory("export/hxsrc").length == files.length) {
 							if (libs != null && buildCommand.contains('haxe -cp src --main "export.hxsrc.Main" --cpp export/bin')) {
-								buildCommand = 'haxe -cp src --main "export.hxsrc.Main" --library ' + libs.join(" --library") + buildCommand.split('"export.hxsrc.Main"')[1];
+								buildCommand = 'haxe -cp src --main "export.hxsrc.Main" --library ' + libs.join(" --library")
+									+ buildCommand.split('"export.hxsrc.Main"')[1];
 							}
 							Sys.command(buildCommand);
 							Sys.exit(0);
@@ -150,8 +151,8 @@ class Blue {
 							Sys.println("Error: Only the main file can contain a main method at line " + i);
 							return true;
 						}
+					}
 				}
-			}
 				if (line.contains("[0]")) {
 					Sys.println("Error: Array index's start at '1' at line " + i);
 					return true;
@@ -185,7 +186,8 @@ class Blue {
 					return true;
 				}
 
-				if (line.contains(".") && line.contains("1") || line.contains("2") || line.contains("3") || line.contains("4") || line.contains("5") || line.contains("6") || line.contains("7") || line.contains("8") || line.contains("9"))  {
+				if (line.contains(".") && line.contains("1") || line.contains("2") || line.contains("3") || line.contains("4") || line.contains("5")
+					|| line.contains("6") || line.contains("7") || line.contains("8") || line.contains("9")) {
 					Sys.println("Error: Unknown character: . at line " + i);
 					return true;
 				}

@@ -29,7 +29,7 @@ enum BToken {
 	Else;
 	FunctionC(value:Dynamic);
 	Super(args:Dynamic);
-    OverrideTag;
+	OverrideTag;
 }
 
 class BLexer {
@@ -103,31 +103,8 @@ class BLexer {
 							currentToken = BToken.IfStatement(contentToEnum.split('if ')[1].split('then')[0]);
 							tokensToParse.push(currentToken);
 
-						case "+":
-							currentToken = BToken.Add(contentToEnum.split('+')[0].replace(' ', '').split('\n')[1].replace(' ', ''),
-								contentToEnum.split('+')[1].replace(' ', '').split(' ')[0]);
-							tokensToParse.push(currentToken);
-
-						case "-":
-							currentToken = BToken.Subtract(contentToEnum.split('-')[0].replace(' ', '').split('\n')[1].replace(' ', ''),
-								contentToEnum.split('-')[1].replace(' ', '').split(' ')[0]);
-							tokensToParse.push(currentToken);
-
-						case "div":
-							currentToken = BToken.Multiply(contentToEnum.split('div')[0].replace(' ', '').split('\n')[1].replace(' ', ''),
-								contentToEnum.split('div')[1].replace(' ', '').split(' ')[0]);
-							tokensToParse.push(currentToken);
-
-						case "mult":
-							currentToken = BToken.Divide(contentToEnum.split('mult')[0].replace(' ', '').split('\n')[1].replace(' ', ''),
-								contentToEnum.split('mult')[1].replace(' ', '').split(' ')[0]);
-							tokensToParse.push(currentToken);
 						case "end":
 							currentToken = BToken.End;
-							tokensToParse.push(currentToken);
-
-						case "use":
-							currentToken = BToken.Use(current.split('use ')[1].split("\n")[0]);
 							tokensToParse.push(currentToken);
 
 						case "print":
@@ -199,7 +176,8 @@ class BLexer {
 							tokensToParse.push(currentToken);
 
 						case '(':
-							if (!current.contains('method') && !current.contains('print') && !current.contains('@') && !current.contains('=') && !current.contains('superClass(')) {
+							if (!current.contains('method') && !current.contains('print') && !current.contains('@') && !current.contains('=')
+								&& !current.contains('superClass(')) {
 								currentToken = BToken.FunctionC(current.split(')')[0]);
 								tokensToParse.push(currentToken);
 							}
