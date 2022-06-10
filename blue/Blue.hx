@@ -147,7 +147,7 @@ class Blue {
 				}
 				for (file in FileSystem.readDirectory(directory)) {
 					if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
-						if (file != mainFile && File.getContent(directory + "/" + file).contains("main method()")) {
+						if (file != "Main.bl" && File.getContent(directory + "/" + file).contains("main method()")) {
 							Sys.println("Error: Only the main file can contain a main method at line " + i);
 							return true;
 						}
