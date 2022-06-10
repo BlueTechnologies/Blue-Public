@@ -103,6 +103,10 @@ class BHaxeUtil {
 			}
 		}
 
+		if (parsedAST.label == "Override") {
+			haxeData.push("override");
+		}
+
 		for (i in 0...haxeData.length) {
 			if (haxeData[i].contains("[") && haxeData[i].contains("]") && !haxeData[i].contains(",")) {
 				haxeData[i] = haxeData[i].replace(haxeData[i].split("[")[1].split("]")[0],
@@ -116,15 +120,19 @@ class BHaxeUtil {
 					.replace("8", "7")
 					.replace("9", "8"));
 			}
+			if (haxeData[i].contains("public static function")) {
+				if (haxeData[i - 1].contains("override")) {
+					haxeData[i] = "override " + haxeData[i].replace("static ", "");
+					haxeData.remove(haxeData[i - 1]);
+				}
+			}
 		}
 	}
 
 	public static function buildHaxeFile() {
-		if (!FileSystem.exists("export")) {
-			FileSystem.createDirectory("export");
-			FileSystem.createDirectory("export/hxsrc");
-		}
+		FileSystem.createDirectory("export");
+		FileSystem.createDirectory("export/hxsrc");
 		sys.io.File.write('export/hxsrc/${fileName.replace(".bl", ".hx")}', false);
-		sys.io.File.saveContent('export/hxsrc/${fileName.replace(".bl", ".hx")}', haxeData.join('\n').replace("/", ".").replace('{\n}', "{") + "\n}");
+		sys.io.File.saveContent('export/hxsrc/${fileName.replace(".bl", ".hx")}', haxeData.join('\n').replace("/", ".").replace('\n{\n}', "\n{") + "\n}");
 	}
 }

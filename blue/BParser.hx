@@ -142,6 +142,9 @@ class BParser {
 				BParser.args = args;
 				BParser.label = "Super";
 
+			case BToken.OverrideTag:
+				BParser.label = "Override";
+
 			default:
 				return;
 		}

@@ -29,6 +29,7 @@ enum BToken {
 	Else;
 	FunctionC(value:Dynamic);
 	Super(args:Dynamic);
+    OverrideTag;
 }
 
 class BLexer {
@@ -45,7 +46,7 @@ class BLexer {
 	static var tokensToParse:Array<Dynamic> = [];
 	static var completeSyntax:Array<String> = [
 		"method", "loop", "if", "+", "-", "mult", "div", "end", "otherwise", "stop", "continue", "then", "not", "=", "use", "try", "catch", "print", "return",
-		"***", "main method()", "throw", "new", "constructor method", "or", "[", "/", "(", "superClass"
+		"***", "main method()", "throw", "new", "constructor method", "or", "[", "/", "(", "superClass(", "@Override"
 	];
 
 	public function new(content:String) {
@@ -198,12 +199,12 @@ class BLexer {
 							tokensToParse.push(currentToken);
 
 						case '(':
-							if (!current.contains('method') && !current.contains('print') && !current.contains('@') && !current.contains('=') && !current.contains('superClass')) {
+							if (!current.contains('method') && !current.contains('print') && !current.contains('@') && !current.contains('=') && !current.contains('superClass(')) {
 								currentToken = BToken.FunctionC(current.split(')')[0]);
 								tokensToParse.push(currentToken);
 							}
 
-						case 'superClass':
+						case 'superClass(':
 							var args = [];
 							for (i in 0...current.split('superClass')[1].split('(')[1].split(')').length) {
 								if (current.split('superClass')[1].split('(')[1].split(')')[i] != null
@@ -219,6 +220,10 @@ class BLexer {
 							} else {
 								currentToken = BToken.Super(null);
 							}
+							tokensToParse.push(currentToken);
+
+						case '@Override':
+							currentToken = BToken.OverrideTag;
 							tokensToParse.push(currentToken);
 					}
 				}

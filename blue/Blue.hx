@@ -16,11 +16,11 @@ class Blue {
 	static var mainFile = "";
 	static var libs = [];
 
-	static var buildCommand:String = "haxe -cp src --main export.hxsrc.Main --cpp export/bin";
+	static var buildCommand:String = 'haxe -cp src --main "export.hxsrc.Main" --cpp export/bin';
 
 	static var completeSyntax:Array<String> = [
 		"method", "loop", "if", "+", "-", "mult", "div", "end", "otherwise", "stop", "continue", "then", "not", "=", "use", "try", "catch", "print", "return",
-		"***", "main method()", "throw", "new", "constructor method()", "or",
+		"***", "main method()", "throw", "new", "constructor method", "or", "[", "/", "(", "superClass(", "@Override"
 	];
 
 	public static function main() {
@@ -29,16 +29,18 @@ class Blue {
 
 	public static function mapSource(directory:String) {
 		Blue.directory = directory;
-		var i = -1;
 		var files = [];
 		if (FileSystem.exists(directory) && FileSystem.isDirectory(directory)) {
 			Sys.println('Compiling source folder: ' + directory);
 			for (file in FileSystem.readDirectory(directory)) {
 				if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
-					Sys.println(file);
+					files.push(file);
+				}
+			}
+			for (file in FileSystem.readDirectory(directory)) {
+				if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
 					if (!checkForErrors(File.getContent(directory + "/" + file))) {
-						i++;
-						files.push(file);
+						Sys.println(file.replace(".bl", ".hx"));
 						var rawContent = File.getContent(directory + "/" + file);
 						mapFile(directory + "/" + file);
 						BHaxeUtil.fileName = file;
@@ -70,9 +72,9 @@ class Blue {
 						}
 		
 						lexSourceFile(rawContent);
-						if (FileSystem.exists("export/hxsrc") && files.length == FileSystem.readDirectory("export/hxsrc").length) {
-							if (libs != null && buildCommand == "haxe -cp src --main export.hxsrc.Main --cpp export/bin") {
-								buildCommand = "haxe -cp src --main export.hxsrc --library " + libs.join(" --library") + " --cpp export/bin";
+						if (FileSystem.exists("export/hxsrc") && FileSystem.readDirectory("export/hxsrc").length == files.length) {
+							if (libs != null && buildCommand.contains('haxe -cp src --main "export.hxsrc.Main" --cpp export/bin')) {
+								buildCommand = 'haxe -cp src --main "export.hxsrc.Main" --library ' + libs.join(" --library") + buildCommand.split('"export.hxsrc.Main"')[1];
 							}
 							Sys.command(buildCommand);
 							Sys.exit(0);
@@ -103,37 +105,6 @@ class Blue {
 					Sys.println("Error: Expected 'then' at the end of line " + i);
 					return true;
 				} else {
-					for (k in 0...letters.split("").length) {
-						for (l in 0...completeSyntax.length) {
-							if (line.contains(letters.split("")[k]) && line.contains("=") && !line.contains("if") && !line.contains('1')
-								&& !line.contains('2') && !line.contains('3') && !line.contains('4') && !line.contains('5') && !line.contains('6')
-								&& !line.contains('7') && !line.contains('8') && !line.contains('9') && !line.contains("true") && !line.contains("false")
-								&& !line.contains("'") && !line.contains('"') && !line.contains("[") && !line.contains("]") && !line.contains("null")
-								&& !line.contains("new") && !line.contains(".")) {
-								Sys.println("Error: Values assigned to variables can only be 'Bool', 'Int', 'Float', 'String', or 'Array', Which was not found at line "
-									+ i);
-								return true;
-							}
-
-							if (line.contains(letters.split("")[k]) && line.contains("if") && !line.contains('1') && !line.contains('2')
-								&& !line.contains('3') && !line.contains('4') && !line.contains('5') && !line.contains('6') && !line.contains('7')
-								&& !line.contains('8') && !line.contains('9') && !line.contains("true") && !line.contains("false") && !line.contains("'")
-								&& !line.contains('"') && !line.contains("=") && !line.contains("greater than") && !line.contains("less than")
-								&& !line.contains("div") && !line.contains("mult") && !line.contains("null") && !line.contains(".")) {
-								Sys.println("Error: A valid 'if' condition was not found at line " + i);
-								return true;
-							}
-
-							if (line.contains(letters.split("")[k]) && line.contains("loop") && !line.contains('1') && !line.contains('2')
-								&& !line.contains('3') && !line.contains('4') && !line.contains('5') && !line.contains('6') && !line.contains('7')
-								&& !line.contains('8') && !line.contains('9') && !line.contains("true") && !line.contains("false") && !line.contains("'")
-								&& !line.contains('"') && !line.contains("=") && !line.contains("greater than") && !line.contains("less than")
-								&& !line.contains("div") && !line.contains("mult") && !line.contains("until") && !line.contains("in") && !line.contains("null") && !line.contains(".")){
-								Sys.println("Error: A valid 'loop' expression was not found at line " + i);
-								return true;
-							}
-						}
-					}
 					for (n in 0...chars.split("").length) {
 						if (line.contains(chars.split("")[n]) && !completeSyntax[i].contains(chars.split("")[n])) {
 							Sys.println("Error: Unknown character: " + chars.split("")[n] + " at line " + i);
@@ -173,14 +144,14 @@ class Blue {
 					Sys.println("Error: The main method cannot have a return value at line " + i);
 					return true;
 				}
-				/*for (file in FileSystem.readDirectory(directory)) {
+				for (file in FileSystem.readDirectory(directory)) {
 					if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
 						if (file != mainFile && File.getContent(directory + "/" + file).contains("main method()")) {
 							Sys.println("Error: Only the main file can contain a main method at line " + i);
 							return true;
 						}
-					}
-				 */
+				}
+			}
 				if (line.contains("[0]")) {
 					Sys.println("Error: Array index's start at '1' at line " + i);
 					return true;
@@ -217,6 +188,12 @@ class Blue {
 				if (line.contains(".") && line.contains("1") || line.contains("2") || line.contains("3") || line.contains("4") || line.contains("5") || line.contains("6") || line.contains("7") || line.contains("8") || line.contains("9"))  {
 					Sys.println("Error: Unknown character: . at line " + i);
 					return true;
+				}
+				if (line.contains("@Override") && input.split("@Override")[1].contains("\n")) {
+					if (!input.split("@Override")[1].split("\n")[1].split('\n')[0].contains("method")) {
+						Sys.println("Error: 'Override' compiler tag was not given a method below it to override at line" + i);
+						return true;
+					}
 				}
 			}
 
