@@ -83,20 +83,27 @@ HXLINE(  62)							::String _hx_switch_0 = ::blue::BLexer_obj::completeSyntax->_
 HXLINE( 201)								bool _hx_tmp;
 HXDLIN( 201)								bool _hx_tmp1;
 HXDLIN( 201)								bool _hx_tmp2;
+HXDLIN( 201)								bool _hx_tmp3;
 HXDLIN( 201)								if ((::blue::BLexer_obj::current.indexOf(HX_("method",e1,f6,5a,09),null()) == -1)) {
-HXLINE( 201)									_hx_tmp2 = (::blue::BLexer_obj::current.indexOf(HX_("print",2d,58,8b,c8),null()) == -1);
+HXLINE( 201)									_hx_tmp3 = (::blue::BLexer_obj::current.indexOf(HX_("print",2d,58,8b,c8),null()) == -1);
+            								}
+            								else {
+HXLINE( 201)									_hx_tmp3 = false;
+            								}
+HXDLIN( 201)								if (_hx_tmp3) {
+HXLINE( 201)									_hx_tmp2 = (::blue::BLexer_obj::current.indexOf(HX_("@",40,00,00,00),null()) == -1);
             								}
             								else {
 HXLINE( 201)									_hx_tmp2 = false;
             								}
 HXDLIN( 201)								if (_hx_tmp2) {
-HXLINE( 201)									_hx_tmp1 = (::blue::BLexer_obj::current.indexOf(HX_("@",40,00,00,00),null()) == -1);
+HXLINE( 201)									_hx_tmp1 = (::blue::BLexer_obj::current.indexOf(HX_("=",3d,00,00,00),null()) == -1);
             								}
             								else {
 HXLINE( 201)									_hx_tmp1 = false;
             								}
 HXDLIN( 201)								if (_hx_tmp1) {
-HXLINE( 201)									_hx_tmp = (::blue::BLexer_obj::current.indexOf(HX_("=",3d,00,00,00),null()) == -1);
+HXLINE( 201)									_hx_tmp = (::blue::BLexer_obj::current.indexOf(HX_("superClass",bd,a8,07,a8),null()) == -1);
             								}
             								else {
 HXLINE( 201)									_hx_tmp = false;

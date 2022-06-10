@@ -109,7 +109,7 @@ class Blue {
 								&& !line.contains('2') && !line.contains('3') && !line.contains('4') && !line.contains('5') && !line.contains('6')
 								&& !line.contains('7') && !line.contains('8') && !line.contains('9') && !line.contains("true") && !line.contains("false")
 								&& !line.contains("'") && !line.contains('"') && !line.contains("[") && !line.contains("]") && !line.contains("null")
-								&& !line.contains("new")) {
+								&& !line.contains("new") && !line.contains(".")) {
 								Sys.println("Error: Values assigned to variables can only be 'Bool', 'Int', 'Float', 'String', or 'Array', Which was not found at line "
 									+ i);
 								return true;
@@ -119,7 +119,7 @@ class Blue {
 								&& !line.contains('3') && !line.contains('4') && !line.contains('5') && !line.contains('6') && !line.contains('7')
 								&& !line.contains('8') && !line.contains('9') && !line.contains("true") && !line.contains("false") && !line.contains("'")
 								&& !line.contains('"') && !line.contains("=") && !line.contains("greater than") && !line.contains("less than")
-								&& !line.contains("div") && !line.contains("mult") && !line.contains("null")) {
+								&& !line.contains("div") && !line.contains("mult") && !line.contains("null") && !line.contains(".")) {
 								Sys.println("Error: A valid 'if' condition was not found at line " + i);
 								return true;
 							}
@@ -128,7 +128,7 @@ class Blue {
 								&& !line.contains('3') && !line.contains('4') && !line.contains('5') && !line.contains('6') && !line.contains('7')
 								&& !line.contains('8') && !line.contains('9') && !line.contains("true") && !line.contains("false") && !line.contains("'")
 								&& !line.contains('"') && !line.contains("=") && !line.contains("greater than") && !line.contains("less than")
-								&& !line.contains("div") && !line.contains("mult") && !line.contains("until") && !line.contains("in") && !line.contains("null")) {
+								&& !line.contains("div") && !line.contains("mult") && !line.contains("until") && !line.contains("in") && !line.contains("null") && !line.contains(".")){
 								Sys.println("Error: A valid 'loop' expression was not found at line " + i);
 								return true;
 							}
@@ -214,7 +214,7 @@ class Blue {
 					return true;
 				}
 
-				if (line.contains(".")) {
+				if (line.contains(".") && line.contains("1") || line.contains("2") || line.contains("3") || line.contains("4") || line.contains("5") || line.contains("6") || line.contains("7") || line.contains("8") || line.contains("9"))  {
 					Sys.println("Error: Unknown character: . at line " + i);
 					return true;
 				}
