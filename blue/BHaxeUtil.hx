@@ -35,11 +35,14 @@ class BHaxeUtil {
 
 		if (parsedAST.label == "Method") {
 			if (parsedAST.args[0] == null) {
-				haxeData.push('public function ${parsedAST.name}():Dynamic {');
+				haxeData.push('public static function ${parsedAST.name}():Dynamic {');
 			} else {
-				haxeData.push(('public function ${parsedAST.name}(${parsedAST.args[0].join(":Dynamic, ") + ":Dynamic"}):Dynamic {\n').replace("(:Dynamic)",
+				haxeData.push(('public static function ${parsedAST.name}(${parsedAST.args[0].join(":Dynamic, ") + ":Dynamic"}):Dynamic {\n').replace("(:Dynamic)",
 					"()"));
 			}
+		}
+		if (parsedAST.label == "Throw") {
+			haxeData.push('throw(${parsedAST.value})');
 		}
 		if (parsedAST.label == "End") {
 			haxeData.push('}');
@@ -150,7 +153,6 @@ class BHaxeUtil {
 	}
 
 	static public function buildHaxeFile() {
-		FileSystem.createDirectory("export");
 		FileSystem.createDirectory("export/hxsrc");
 		sys.io.File.write('export/hxsrc/${fileName.replace(".bl", ".hx")}', false);
 		sys.io.File.saveContent('export/hxsrc/${fileName.replace(".bl", ".hx")}',

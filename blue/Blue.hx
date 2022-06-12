@@ -16,7 +16,7 @@ class Blue {
 	static var mainFile = "";
 	static var libs = [];
 
-	static var buildCommand:String = 'haxe -cp src --main "export.hxsrc.Main" --cpp export/bin';
+	static var buildCommand:String = "haxe -cp src --main " + "export.hxsrc.Main" + " --cpp export/bin";
 
 	static var completeSyntax:Array<String> = [
 		"method", "loop", "if", "+", "-", "mult", "div", "end", "otherwise", "stop", "continue", "then", "not", "=", "use", "try", "catch", "print", "return",
@@ -39,7 +39,6 @@ class Blue {
 			}
 			for (file in FileSystem.readDirectory(directory)) {
 				if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
-					files.push(file);
 					if (!checkForErrors(File.getContent(directory + "/" + file))) {
 						Sys.println(file.replace(".bl", ".hx"));
 						var rawContent = File.getContent(directory + "/" + file);
@@ -74,7 +73,7 @@ class Blue {
 
 						lexSourceFile(rawContent);
 						if (FileSystem.exists("export/hxsrc") && FileSystem.readDirectory("export/hxsrc").length == files.length) {
-							if (libs != null && buildCommand.contains('haxe -cp src --main "export.hxsrc.Main" --cpp export/bin')) {
+							if (libs != null && libs.length > 0 && buildCommand.contains("haxe -cp src --main " + "export.hxsrc.Main" + " --cpp export/bin")) {
 								buildCommand = 'haxe -cp src --main "export.hxsrc.Main" --library ' + libs.join(" --library")
 									+ buildCommand.split('"export.hxsrc.Main"')[1];
 							}
