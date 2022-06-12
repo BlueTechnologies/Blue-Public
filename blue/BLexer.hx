@@ -217,7 +217,6 @@ class BLexer {
 				buildAST(tokensToParse[i]);
 			}
 		}
-		tokensToParse = [];
 	}
 
 	public static function buildAST(input:BToken) {

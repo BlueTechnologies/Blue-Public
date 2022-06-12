@@ -39,6 +39,7 @@ class Blue {
 			}
 			for (file in FileSystem.readDirectory(directory)) {
 				if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
+					files.push(file);
 					if (!checkForErrors(File.getContent(directory + "/" + file))) {
 						Sys.println(file.replace(".bl", ".hx"));
 						var rawContent = File.getContent(directory + "/" + file);
