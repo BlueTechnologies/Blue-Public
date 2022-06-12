@@ -20,7 +20,7 @@ class Blue {
 
 	static var completeSyntax:Array<String> = [
 		"method", "loop", "if", "+", "-", "mult", "div", "end", "otherwise", "stop", "continue", "then", "not", "=", "use", "try", "catch", "print", "return",
-		"***", "main method()", "throw", "new", "constructor method", "or", "[", "/", "(", "superClass(", "@Override"
+		"***", "main method()", "throw", "new", "constructor method", "or", "[", "/", "(", "superClass(", "@Override", "@Static"
 	];
 
 	public static function main() {

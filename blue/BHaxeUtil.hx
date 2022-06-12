@@ -12,7 +12,7 @@ class BHaxeUtil {
 	public static var haxeData:Array<String> = ["package export.hxsrc;", "using StringTools;", "class", "{"];
 	static var specificValues:Array<Dynamic> = [];
 	static var oldValues:Array<Dynamic> = [];
-	public static var extension:Dynamic = null;
+	static public var extension:Dynamic = null;
 	public static var fileName:String = null;
 
 	public static function toHaxe(AST:Dynamic) {
@@ -23,7 +23,7 @@ class BHaxeUtil {
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
 			if (!haxeData.join('\n').contains(parsedAST.name + " =")) {
-				haxeData.push(('public static var'
+				haxeData.push(('public var'
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ':Dynamic = '
@@ -35,10 +35,10 @@ class BHaxeUtil {
 
 		if (parsedAST.label == "Method") {
 			if (parsedAST.args[0] == null) {
-				haxeData.push('public static function ${parsedAST.name}():Dynamic {');
+				haxeData.push('public function ${parsedAST.name}():Dynamic {');
 			} else {
-				haxeData.push(('public static function ${parsedAST.name}(${parsedAST.args[0].join(":Dynamic, ") + ":Dynamic"}):Dynamic {\n')
-					.replace("(:Dynamic)", "()"));
+				haxeData.push(('public function ${parsedAST.name}(${parsedAST.args[0].join(":Dynamic, ") + ":Dynamic"}):Dynamic {\n').replace("(:Dynamic)",
+					"()"));
 			}
 		}
 		if (parsedAST.label == "End") {
@@ -72,7 +72,7 @@ class BHaxeUtil {
 			haxeData.push('// ${parsedAST.value}');
 		}
 		if (parsedAST.label == "Main") {
-			haxeData.push('public static function main() {');
+			haxeData.push('public function main() {');
 		}
 		if (parsedAST.label == "New") {
 			if (parsedAST.args[0] == null) {
@@ -111,6 +111,10 @@ class BHaxeUtil {
 			haxeData.push("override");
 		}
 
+		if (parsedAST.label == "Static") {
+			haxeData.push("static");
+		}
+
 		for (i in 0...haxeData.length) {
 			if (haxeData[i].contains("[") && haxeData[i].contains("]") && !haxeData[i].contains(",")) {
 				haxeData[i] = haxeData[i].replace(haxeData[i].split("[")[1].split("]")[0],
@@ -124,16 +128,28 @@ class BHaxeUtil {
 					.replace("8", "7")
 					.replace("9", "8"));
 			}
-			if (haxeData[i].contains("public static function")) {
+			if (haxeData[i].contains("public static function") || haxeData[i].contains("public function")) {
 				if (haxeData[i - 1].contains("override")) {
 					haxeData[i] = "override " + haxeData[i].replace("static ", "");
 					haxeData.remove(haxeData[i - 1]);
+				}
+				if (haxeData[i].contains("public function")) {
+					if (haxeData[i - 1].contains("static")) {
+						haxeData[i] = "static " + haxeData[i];
+						haxeData.remove(haxeData[i - 1]);
+					}
+				}
+				if (haxeData[i].contains("public var")) {
+					if (haxeData[i - 1].contains("static")) {
+						haxeData[i] = "static " + haxeData[i];
+						haxeData.remove(haxeData[i - 1]);
+					}
 				}
 			}
 		}
 	}
 
-	public static function buildHaxeFile() {
+	static public function buildHaxeFile() {
 		FileSystem.createDirectory("export");
 		FileSystem.createDirectory("export/hxsrc");
 		sys.io.File.write('export/hxsrc/${fileName.replace(".bl", ".hx")}', false);
