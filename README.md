@@ -44,6 +44,7 @@ main method()
 getNumber(1)
 end
 
+@Static
 method getNumber(num)
 *** Print the number that was passed in ***
 print(num)
