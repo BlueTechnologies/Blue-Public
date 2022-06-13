@@ -197,6 +197,10 @@ class Blue {
 						return true;
 					}
 				}
+				if (line.contains("***") && !line.split("***")[1].contains("***")) {
+					Sys.println("Error: Expected '***' to end comment at line" + i);
+					return true;
+				}
 			}
 
 			return false;

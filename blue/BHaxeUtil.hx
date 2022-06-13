@@ -42,7 +42,7 @@ class BHaxeUtil {
 			}
 		}
 		if (parsedAST.label == "Throw") {
-			haxeData.push('throw(${parsedAST.value})');
+			haxeData.push('throw(${parsedAST.value});');
 		}
 		if (parsedAST.label == "End") {
 			haxeData.push('}');
