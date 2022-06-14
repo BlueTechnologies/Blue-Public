@@ -35,9 +35,9 @@ class BHaxeUtil {
 
 		if (parsedAST.label == "Method") {
 			if (parsedAST.args[0] == null) {
-				haxeData.push('public static function ${parsedAST.name}():Dynamic {');
+				haxeData.push('public function ${parsedAST.name}():Dynamic {');
 			} else {
-				haxeData.push(('public static function ${parsedAST.name}(${parsedAST.args[0].join(":Dynamic, ") + ":Dynamic"}):Dynamic {\n').replace("(:Dynamic)",
+				haxeData.push(('public function ${parsedAST.name}(${parsedAST.args[0].join(":Dynamic, ") + ":Dynamic"}):Dynamic {\n').replace("(:Dynamic)",
 					"()"));
 			}
 		}
@@ -75,7 +75,7 @@ class BHaxeUtil {
 			haxeData.push('// ${parsedAST.value}');
 		}
 		if (parsedAST.label == "Main") {
-			haxeData.push('public function main() {');
+			haxeData.push('public static function main() {');
 		}
 		if (parsedAST.label == "New") {
 			if (parsedAST.args[0] == null) {

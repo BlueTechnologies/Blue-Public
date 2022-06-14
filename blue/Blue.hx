@@ -118,17 +118,6 @@ class Blue {
 					Sys.println("Error: Unknown character: ':'" + " at line " + i);
 					return true;
 				}
-				if (line.contains("(") && line.split("(")[1].split(")")[0].contains(",")) {
-					if (input.contains(line.split("(")[0].replace(' ', '')) && input.split("(")[1].split(")")[0].contains(",")) {
-						if (line.split("(")[1].split(")")[0].split(",").length > input.split("(")[1].split(")")[0].split(",").length) {
-							Sys.println("Error: Too many parameters for method: " + line.split("(")[0].replace(' ', '') + " at line " + i);
-							return true;
-						} else if (line.split("(")[1].split(")")[0].split(",").length < input.split("(")[1].split(")")[0].split(",").length) {
-							Sys.println("Error: Not enough parameters for method: " + line.split("(")[0].replace(' ', '') + " at line " + i);
-							return true;
-						}
-					}
-				}
 				if (line.contains("new ") && FileSystem.exists(line.split("new ")[1].split("(")[0] + ".bl")) {
 					if (!File.getContent(line.split("new ")[1].split("(")[0] + ".bl").contains("constructor method()")) {
 						Sys.println("Error: Source File: " + line.split("new ")[1].split("(")[0] + " has no constructor method at line " + i);
