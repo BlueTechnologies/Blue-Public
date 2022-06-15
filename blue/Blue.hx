@@ -103,7 +103,7 @@ class Blue {
 			for (i in 0...input.split("\n").length) {
 				var line = input.split("\n")[i];
 				var letters = "abcdefghijklmnopqrstuvwusyz";
-				var chars = "#$%^&_{}:><?|;";
+				var chars = "#$%^&:?|;";
 				if (line.contains("if") && !line.contains("then")) {
 					Sys.println("Error: Expected 'then' at the end of line " + i);
 					return true;
