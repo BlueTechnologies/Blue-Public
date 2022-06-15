@@ -95,9 +95,8 @@ class BLexer {
 
 						case 'loop':
 							currentToken = BToken.ForStatement(current.split('loop ')[1].split('in')[0].replace(' ', ''),
-							current.split('loop ')[1].split('in')[1].replace(' ', '').split('until')[0].replace(' ', ''),
-							current.split('loop ')[1].split('in')[1].replace(' ', '')
-								.split('until')[1].replace(' ', '').split('\n')[0].replace(' ', ''));
+								current.split('loop ')[1].split('in')[1].replace(' ', '').split('until')[0].replace(' ', ''),
+								current.split('loop ')[1].split('in')[1].replace(' ', '').split('until')[1].replace(' ', '').split('\n')[0].replace(' ', ''));
 							tokensToParse.push(currentToken);
 
 						case "if":
@@ -177,7 +176,7 @@ class BLexer {
 							tokensToParse.push(currentToken);
 
 						case '(':
-							if (!current.contains('method') && !current.contains('print') && !current.contains('@') && !current.contains('=')
+							if (!current.contains('method') && !current.contains('print(') && !current.contains('@') && !current.contains('=')
 								&& !current.contains('superClass(')) {
 								currentToken = BToken.FunctionC(current.split(')')[0]);
 								tokensToParse.push(currentToken);

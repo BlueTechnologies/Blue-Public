@@ -73,7 +73,9 @@ class Blue {
 
 						lexSourceFile(rawContent);
 						if (FileSystem.exists("export/hxsrc") && FileSystem.readDirectory("export/hxsrc").length == files.length) {
-							if (libs != null && libs.length > 0 && buildCommand.contains("haxe -cp src --main " + "export.hxsrc.Main" + " --cpp export/bin")) {
+							if (libs != null
+								&& libs.length > 0
+								&& buildCommand.contains("haxe -cp src --main " + "export.hxsrc.Main" + " --cpp export/bin")) {
 								buildCommand = 'haxe -cp src --main "export.hxsrc.Main" --library ' + libs.join(" --library")
 									+ buildCommand.split('"export.hxsrc.Main"')[1];
 							}
@@ -175,8 +177,9 @@ class Blue {
 					return true;
 				}
 
-				if (line.contains(".") && line.contains("1") || line.contains("2") || line.contains("3") || line.contains("4") || line.contains("5")
-					|| line.contains("6") || line.contains("7") || line.contains("8") || line.contains("9")) {
+				if (line.contains(".") && !line.contains("1") || line.contains(".") && !line.contains("2") || line.contains(".") && !line.contains("3")
+					|| line.contains(".") && !line.contains("4") || line.contains(".") && !line.contains("5") || line.contains(".") && !line.contains("6")
+					|| line.contains(".") && !line.contains("7") || line.contains(".") && !line.contains("8") || line.contains(".") && !line.contains("9")) {
 					Sys.println("Error: Unknown character: . at line " + i);
 					return true;
 				}

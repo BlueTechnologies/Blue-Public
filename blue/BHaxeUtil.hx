@@ -60,7 +60,7 @@ class BHaxeUtil {
 			haxeData.push('break;');
 		}
 		if (parsedAST.label == "If") {
-			haxeData.push('if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||")}) {');
+			haxeData.push('if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
 		}
 		if (parsedAST.label == "For") {
 			haxeData.push('for (${parsedAST.iterator} in ${parsedAST.numberOne}...${parsedAST.numberTwo}) {');
@@ -161,6 +161,7 @@ class BHaxeUtil {
 				.replace('\n{\n}', "\n{")
 				.replace('method', 'function')
 				.replace('mult', '*')
-				.replace('div', '/') + "\n}");
+				.replace('div', '/')
+				.replace("not ", "!") + "\n}");
 	}
 }
