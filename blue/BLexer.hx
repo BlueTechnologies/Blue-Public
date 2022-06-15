@@ -75,9 +75,9 @@ class BLexer {
 									}
 								}
 								if (args != null) {
-									currentToken = BToken.Method(contentToEnum.split('method ')[1].split('(')[0], args);
+									currentToken = BToken.Method(current.split('method ')[1].split('(')[0], args);
 								} else {
-									currentToken = BToken.Method(contentToEnum.split('method ')[1].split('(')[0], null);
+									currentToken = BToken.Method(current.split('method ')[1].split('(')[0], null);
 								}
 								tokensToParse.push(currentToken);
 							}
@@ -94,14 +94,14 @@ class BLexer {
 							}
 
 						case 'loop':
-							currentToken = BToken.ForStatement(contentToEnum.split('loop ')[1].split('in')[0].replace(' ', ''),
-								contentToEnum.split('loop ')[1].split('in')[1].replace(' ', '').split('until')[0].replace(' ', ''),
-								contentToEnum.split('loop ')[1].split('in')[1].replace(' ', '')
+							currentToken = BToken.ForStatement(current.split('loop ')[1].split('in')[0].replace(' ', ''),
+							current.split('loop ')[1].split('in')[1].replace(' ', '').split('until')[0].replace(' ', ''),
+							current.split('loop ')[1].split('in')[1].replace(' ', '')
 								.split('until')[1].replace(' ', '').split('\n')[0].replace(' ', ''));
 							tokensToParse.push(currentToken);
 
 						case "if":
-							currentToken = BToken.IfStatement(contentToEnum.split('if ')[1].split('then')[0]);
+							currentToken = BToken.IfStatement(current.split('if ')[1].split('then')[0]);
 							tokensToParse.push(currentToken);
 
 						case "end":
