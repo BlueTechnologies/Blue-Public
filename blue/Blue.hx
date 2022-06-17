@@ -103,21 +103,9 @@ class Blue {
 			for (i in 0...input.split("\n").length) {
 				var line = input.split("\n")[i];
 				var letters = "abcdefghijklmnopqrstuvwusyz";
-				var chars = "#$%^&:?|;";
+				var chars = "#$%^&?|;";
 				if (line.contains("if") && !line.contains("then")) {
 					Sys.println("Error: Expected 'then' at the end of line " + i);
-					return true;
-				} else {
-					for (n in 0...chars.split("").length) {
-						if (line.contains(chars.split("")[n]) && !completeSyntax[i].contains(chars.split("")[n])) {
-							Sys.println("Error: Unknown character: " + chars.split("")[n] + " at line " + i);
-							return true;
-						}
-					}
-				}
-
-				if (line.contains("method") && line.contains(":")) {
-					Sys.println("Error: Unknown character: ':'" + " at line " + i);
 					return true;
 				}
 				if (line.contains("new ") && FileSystem.exists(line.split("new ")[1].split("(")[0] + ".bl")) {
@@ -152,28 +140,6 @@ class Blue {
 				if (line.contains("method ") && !line.contains("(") && !line.contains(")")) {
 					Sys.println("Error: Method: "
 						+ line.split("method ")[1].split("(")[0].replace(' ', '') + "is missing it's parameter brackets at line " + i);
-					return true;
-				}
-
-				if (line.contains("method ") && !input.split("method ")[1].contains("end")) {
-					Sys.println("Error: Method: "
-						+ line.split("method ")[1].split("(")[0].replace(' ', '') + "is missing it's enclosing 'end' block at line " + i);
-					return true;
-				}
-
-				if (line.contains("loop ") && !input.split("loop ")[1].contains("end")) {
-					Sys.println("Error: Loop: "
-						+ line.split("loop ")[1].split("(")[0].replace(' ', '') + "is missing it's enclosing 'end' block at line " + i);
-					return true;
-				}
-
-				if (line.contains("if ") && !input.split("if ")[1].contains("end")) {
-					Sys.println("Error: An if statement is missing it's enclosing 'end' block at line " + i);
-					return true;
-				}
-
-				if (line.contains("otherwise") && !input.split("otherwise")[1].contains("end")) {
-					Sys.println("Error: An else statement is missing it's enclosing 'end' block at line " + i);
 					return true;
 				}
 

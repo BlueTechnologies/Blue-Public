@@ -22,14 +22,14 @@ class BHaxeUtil {
 		}
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!haxeData.join('\n').contains(parsedAST.name + " =")) {
+			if (!haxeData.join('\n').contains(parsedAST.name)) {
 				haxeData.push(('public var'
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ':Dynamic = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
 			} else {
-				haxeData.push(parsedAST.name + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
+				haxeData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
 		}
 
@@ -61,6 +61,9 @@ class BHaxeUtil {
 		}
 		if (parsedAST.label == "If") {
 			haxeData.push('if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
+		}
+		if (parsedAST.label == "Otherwise If") {
+			haxeData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
 		}
 		if (parsedAST.label == "For") {
 			haxeData.push('for (${parsedAST.iterator} in ${parsedAST.numberOne}...${parsedAST.numberTwo}) {');
@@ -95,11 +98,7 @@ class BHaxeUtil {
 			haxeData.push('else {');
 		}
 		if (parsedAST.label == "FunctionCall") {
-			if (!parsedAST.value.contains("new ")) {
-				haxeData.push('${parsedAST.value});');
-			} else {
-				haxeData.push('${parsedAST.value}));');
-			}
+			haxeData.push('${parsedAST.value});');
 		}
 
 		if (parsedAST.label == "Super") {

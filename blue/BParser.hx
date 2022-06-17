@@ -69,6 +69,10 @@ class BParser {
 				BParser.condition = condition;
 				BParser.label = "If";
 
+			case BToken.OtherwiseIf(condition):
+				BParser.condition = condition;
+				BParser.label = "Otherwise If";
+
 			case BToken.ForStatement(iterator, numberOne, numberTwo):
 				BParser.iterator = iterator;
 				BParser.numberOne = numberOne;
