@@ -116,6 +116,18 @@ class BHaxeUtil {
 		if (parsedAST.label == "Static") {
 			haxeData.push("static");
 		}
+		if (haxeData[haxeData.length].contains("public function")) {
+			if (haxeData[haxeData.length - 1].contains("static")) {
+				haxeData[haxeData.length] = "static " + haxeData[haxeData.length];
+				haxeData.remove(haxeData[haxeData.length - 1]);
+			}
+		}
+		if (haxeData[haxeData.length].contains("public var")) {
+			if (haxeData[haxeData.length - 1].contains("static")) {
+				haxeData[haxeData.length] = "static " + haxeData[haxeData.length];
+				haxeData.remove(haxeData[haxeData.length - 1]);
+			}
+		}
 
 		for (i in 0...haxeData.length) {
 			if (haxeData[i].contains("[") && haxeData[i].contains("]") && !haxeData[i].contains(",")) {
@@ -130,22 +142,10 @@ class BHaxeUtil {
 					.replace("8", "7")
 					.replace("9", "8"));
 			}
-			if (haxeData[i].contains("public static function") || haxeData[i].contains("public function")) {
+			if (haxeData[i].contains("public static function") || haxeData[i].contains("public function") || haxeData[i].contains("public var")) {
 				if (haxeData[i - 1].contains("override")) {
 					haxeData[i] = "override " + haxeData[i].replace("static ", "");
 					haxeData.remove(haxeData[i - 1]);
-				}
-				if (haxeData[i].contains("public function")) {
-					if (haxeData[i - 1].contains("static")) {
-						haxeData[i] = "static " + haxeData[i];
-						haxeData.remove(haxeData[i - 1]);
-					}
-				}
-				if (haxeData[i].contains("public var")) {
-					if (haxeData[i - 1].contains("static")) {
-						haxeData[i] = "static " + haxeData[i];
-						haxeData.remove(haxeData[i - 1]);
-					}
 				}
 			}
 		}
