@@ -47,8 +47,8 @@ class BLexer {
 
 	static var tokensToParse:Array<Dynamic> = [];
 	static var completeSyntax:Array<String> = [
-		"method", "loop ", "if", "+", "-", "mult", "div", "end", "otherwise", "stop", "continue", "then", "not", "=", "use", "try", "catch", "print", "return",
-		"***", "main method()", "throw", "new", "constructor method", "or", "[", "/", "(", "superClass(", "@Override", "@Static", "otherwise if"
+		"method", "loop ", "if", "+", "-", "mult", "div", "end", "otherwise", "stop", "continue", "then", "not", "=", "use", "try", "catch", "print",
+		"return", "***", "main method()", "throw", "new", "constructor method", "or", "[", "/", "(", "superClass(", "@Override", "@Static", "otherwise if"
 	];
 
 	public function new(content:String) {
@@ -102,8 +102,8 @@ class BLexer {
 
 						case "if":
 							if (!current.contains('otherwise if')) {
-							currentToken = BToken.IfStatement(current.split('if ')[1].split('then')[0]);
-							tokensToParse.push(currentToken);
+								currentToken = BToken.IfStatement(current.split('if ')[1].split('then')[0]);
+								tokensToParse.push(currentToken);
 							}
 
 						case "end":
@@ -180,13 +180,13 @@ class BLexer {
 
 						case 'otherwise':
 							if (!current.contains('otherwise if')) {
-							currentToken = BToken.Else;
-							tokensToParse.push(currentToken);
+								currentToken = BToken.Else;
+								tokensToParse.push(currentToken);
 							}
 
 						case '(':
-							if (!current.contains('method') && !current.contains('loop ') && !current.contains('if')  && !current.contains('otherwise if') && !current.contains('print(') && !current.contains('@') && !current.contains('=')
-								&& !current.contains('superClass(')) {
+							if (!current.contains('method') && !current.contains('loop ') && !current.contains('if') && !current.contains('otherwise if')
+								&& !current.contains('print(') && !current.contains('@') && !current.contains('=') && !current.contains('superClass(')) {
 								currentToken = BToken.FunctionC(current.split(')\r')[0]);
 								tokensToParse.push(currentToken);
 							}

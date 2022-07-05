@@ -24,7 +24,16 @@ class Blue {
 	];
 
 	public static function main() {
-		mapSource(Sys.getCwd());
+		if (Sys.args()[0] != null) {
+			var folder = Sys.args()[0];
+			if (FileSystem.exists(folder) && FileSystem.isDirectory(folder)) {
+				mapSource(folder);
+			} else {
+				Sys.println("Error: " + folder + "either does not exist or is not a directory");
+			}
+		} else {
+			Sys.println("Usage: blue 'source-folder-name'");
+		}
 	}
 
 	public static function mapSource(directory:String) {
@@ -40,7 +49,7 @@ class Blue {
 			for (file in FileSystem.readDirectory(directory)) {
 				if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
 					if (!checkForErrors(File.getContent(directory + "/" + file))) {
-						Sys.println(file.replace(".bl", ".hx"));
+						Sys.println("- " + file.replace(".bl", ".hx"));
 						var rawContent = File.getContent(directory + "/" + file);
 						mapFile(directory + "/" + file);
 						BHaxeUtil.fileName = file;
@@ -103,7 +112,7 @@ class Blue {
 			for (i in 0...input.split("\n").length) {
 				var line = input.split("\n")[i];
 				var letters = "abcdefghijklmnopqrstuvwusyz";
-				var chars = "#$%^&?|;";
+				var chars = "#%^&|;";
 				if (line.contains("if") && !line.contains("then")) {
 					Sys.println("Error: Expected 'then' at the end of line " + i);
 					return true;

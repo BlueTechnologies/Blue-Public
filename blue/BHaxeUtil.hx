@@ -142,7 +142,9 @@ class BHaxeUtil {
 					.replace("8", "7")
 					.replace("9", "8"));
 			}
-			if (haxeData[i].contains("public static function") || haxeData[i].contains("public function") || haxeData[i].contains("public var")) {
+			if (haxeData[i].contains("public static function")
+				|| haxeData[i].contains("public function")
+				|| haxeData[i].contains("public var")) {
 				if (haxeData[i - 1].contains("override")) {
 					haxeData[i] = "override " + haxeData[i].replace("static ", "");
 					haxeData.remove(haxeData[i - 1]);
@@ -161,6 +163,6 @@ class BHaxeUtil {
 				.replace('method', 'function')
 				.replace('mult', '*')
 				.replace('div', '/')
-				.replace("not ", "!") + "\n}");
+				.replace("not ", "!") + "\n}".replace("outof", "%"));
 	}
 }
