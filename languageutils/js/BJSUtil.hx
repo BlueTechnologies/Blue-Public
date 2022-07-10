@@ -22,7 +22,9 @@ class BJSUtil {
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
-			} else {
+			} else if (jsData.join('\n').contains(parsedAST.name)
+				&& !jsData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !jsData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				jsData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
 		}

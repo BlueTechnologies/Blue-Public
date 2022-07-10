@@ -22,7 +22,9 @@ class BGoUtil {
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*").replace("[", "{").replace("]", "}"));
-			} else {
+			} else if (goData.join('\n').contains(parsedAST.name)
+				&& !goData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !goData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				goData.push(parsedAST.name.replace("public var", "")
 					+ '='
 					+ parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*").replace("[", "{").replace("]", "}"));

@@ -23,7 +23,9 @@ class BCoffeeScriptUtil {
 				Std.string(parsedAST.name)
 					.replace("|", ":")
 					.replace("\n", "") + ' = ' + Std.string(parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*");
-			} else {
+			} else if (coffeeScriptData.join('\n').contains(parsedAST.name)
+				&& !coffeeScriptData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !coffeeScriptData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				coffeeScriptData.push(parsedAST.name.replace("public var", "")
 					+ '='
 					+ Std.string(parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));

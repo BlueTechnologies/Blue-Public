@@ -26,7 +26,9 @@ class BGroovyUtil {
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
-			} else {
+			} else if (groovyData.join('\n').contains(parsedAST.name)
+				&& !groovyData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !groovyData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				groovyData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
 		}

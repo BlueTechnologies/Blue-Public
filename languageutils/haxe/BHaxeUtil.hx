@@ -28,7 +28,9 @@ class BHaxeUtil {
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ':Dynamic = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
-			} else {
+			} else if (haxeData.join('\n').contains(parsedAST.name)
+				&& !haxeData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !haxeData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				haxeData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
 		}

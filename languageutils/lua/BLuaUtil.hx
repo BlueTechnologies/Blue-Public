@@ -20,7 +20,9 @@ class BLuaUtil {
 				luaData.push((Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
-			} else {
+			} else if (luaData.join('\n').contains(parsedAST.name)
+				&& !luaData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !luaData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				luaData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
 		}

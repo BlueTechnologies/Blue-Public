@@ -24,7 +24,9 @@ class BJuliaUtil {
 				juliaData.push((Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
-			} else {
+			} else if (juliaData.join('\n').contains(parsedAST.name)
+				&& !juliaData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !juliaData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				juliaData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
 		}

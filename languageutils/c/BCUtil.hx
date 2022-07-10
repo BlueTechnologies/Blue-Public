@@ -23,7 +23,9 @@ class BCUtil {
 					+ ' = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*").replace("[", '{').replace("]", '}'));
 				variablesToFree.push("free(" + Std.string(parsedAST.name).replace("|", ":").replace("\n", "") + ");");
-			} else {
+			} else if (CData.join('\n').contains(parsedAST.name)
+				&& !CData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !CData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				CData.push(parsedAST.name.replace("public var", "")
 					+ '='
 					+ parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*").replace("[", '{').replace("]", '}'));

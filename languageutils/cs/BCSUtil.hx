@@ -28,7 +28,9 @@ class BCSUtil {
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
-			} else {
+			} else if (csData.join('\n').contains(parsedAST.name)
+				&& !csData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !csData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				csData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
 		}
