@@ -68,7 +68,7 @@ class BCoffeeScriptUtil {
 			if (parsedAST.args[0] == null) {
 				coffeeScriptData.push('main = ->');
 			} else {
-				coffeeScriptData.push(('main(${parsedAST.args.join(", ")}) = ->').replace("()", "()"));
+				coffeeScriptData.push(('main(${parsedAST.args[0].join(", ")}) = ->').replace("()", "()"));
 			}
 		}
 		if (parsedAST.label == "New") {
