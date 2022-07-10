@@ -4,7 +4,7 @@
 A compiled, dynamically typed, object oriented programming language. 
 Coming in at only 29 keywords, this is an easy to use language with unseen compiler speed.
 
-## Blue has no trailing semicolons, and is extremely powerful thanks to it's backwards compatibility with most haxe libraries.
+## Blue has no trailing semicolons, and is extremely powerful thanks to it's backwards compatibility with most target libraries.
 
 # Installing dependencies
 
