@@ -1,15 +1,15 @@
-package blue;
+package languageutils.haxe;
 
 #if sys
 import sys.io.File;
 import sys.FileSystem;
 #end
-import blue.BLexer.BToken;
+import lexing.BLexer.BToken;
 
 using StringTools;
 
 class BHaxeUtil {
-	public static var haxeData:Array<String> = ["package export.hxsrc;", "using StringTools;", "class", "{"];
+	public static var haxeData:Array<String> = ["package export.hxsrc;", "", "class", "{"];
 	static var specificValues:Array<Dynamic> = [];
 	static var oldValues:Array<Dynamic> = [];
 	static public var extension:Dynamic = null;
@@ -67,9 +67,6 @@ class BHaxeUtil {
 		}
 		if (parsedAST.label == "For") {
 			haxeData.push('for (${parsedAST.iterator} in ${parsedAST.numberOne}...${parsedAST.numberTwo}) {');
-		}
-		if (parsedAST.label == "Print") {
-			haxeData.push('trace(${parsedAST.value});');
 		}
 		if (parsedAST.label == "Return") {
 			haxeData.push('return ${parsedAST.value}');

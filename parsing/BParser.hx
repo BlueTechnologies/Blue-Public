@@ -1,6 +1,16 @@
-package blue;
+package parsing;
 
-import blue.BLexer.BToken;
+import languageutils.lua.BLuaUtil;
+import languageutils.julia.BJuliaUtil;
+import languageutils.js.BJSUtil;
+import languageutils.go.BGoUtil;
+import languageutils.cpp.BCPPUtil;
+import languageutils.coffeescript.BCoffeeScriptUtil;
+import languageutils.cs.BCSUtil;
+import languageutils.c.BCUtil;
+import languageutils.haxe.BHaxeUtil;
+import languageutils.groovy.BGroovyUtil;
+import lexing.BLexer.BToken;
 
 typedef ASTStruct = {
 	var token:BToken;
@@ -115,7 +125,8 @@ class BParser {
 				BParser.value = value;
 				BParser.label = "Return";
 
-			case BToken.MainMethod:
+			case BToken.MainMethod(args):
+				BParser.args = args;
 				BParser.label = "Main";
 
 			case BToken.Throw(value):
@@ -175,8 +186,39 @@ class BParser {
 		};
 
 		var serializedResult = haxe.Json.stringify(astStructure);
-		BHaxeUtil.toHaxe(serializedResult);
-		BHaxeUtil.buildHaxeFile();
+
+		switch (blue.Blue.target) {
+			case 'c':
+				BCUtil.toC(serializedResult);
+				BCUtil.buildCFile();
+			case "coffeescript":
+				BCoffeeScriptUtil.toCoffeeScript(serializedResult);
+				BCoffeeScriptUtil.buildCoffeeScriptFile();
+			case "cs":
+				BCSUtil.toCS(serializedResult);
+				BCSUtil.buildCSFile();
+			case "cpp":
+				BCPPUtil.toCPP(serializedResult);
+				BCPPUtil.buildCPPFile();
+			case "go":
+				BGoUtil.toGo(serializedResult);
+				BGoUtil.buildGoFile();
+			case "groovy":
+				BGroovyUtil.toGroovy(serializedResult);
+				BGroovyUtil.buildGroovyFile();
+			case "haxe":
+				BHaxeUtil.toHaxe(serializedResult);
+				BHaxeUtil.buildHaxeFile();
+			case "javascript":
+				BJSUtil.toJs(serializedResult);
+				BJSUtil.buildJsFile();
+			case "julia":
+				BJuliaUtil.toJulia(serializedResult);
+				BJuliaUtil.buildJuliaFile();
+			case "lua":
+				BLuaUtil.toLua(serializedResult);
+				BLuaUtil.buildLuaFile();
+		}
 
 		token = null;
 		iterator = null;

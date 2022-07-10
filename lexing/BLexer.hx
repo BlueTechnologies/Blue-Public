@@ -1,10 +1,12 @@
-package blue;
+package lexing;
+
+import blue.Blue;
 
 using StringTools;
 
 enum BToken {
 	Method(name:String, args:Array<Dynamic>);
-	MainMethod();
+	MainMethod(args:Array<Dynamic>);
 	Array(entries:Array<Dynamic>);
 	Variable(name:String, value:Dynamic);
 	ForStatement(iterator:Dynamic, numberOne:String, numberTwo:String);
@@ -60,6 +62,33 @@ class BLexer {
 		var currentToken:BToken = null;
 		for (j in 0...contentToEnum.split("\n").length) {
 			current = contentToEnum.split("\n")[j];
+			if (current.contains("<<haxe>>") && Blue.target != "haxe") {
+				contentToEnum = contentToEnum.replace(contentToEnum.split('<<haxe>>')[1].split('<<end>>')[0], "");
+			} else if (current.contains("<<c>>") && Blue.target != "c") {
+				contentToEnum = contentToEnum.replace(contentToEnum.split('<<c>>')[1].split('<<end>>')[0], "");
+			} else if (current.contains("<<coffeescript>>") && Blue.target != "coffeescript") {
+				contentToEnum = contentToEnum.replace(contentToEnum.split('<<coffeescript>>')[1].split('<<end>>')[0], "");
+			} else if (current.contains("<<cpp>>") && Blue.target != "cpp") {
+				contentToEnum = contentToEnum.replace(contentToEnum.split('<<cpp>>')[1].split('<<end>>')[0], "");
+			} else if (current.contains("<<cpp>>") && Blue.target != "cpp") {
+				contentToEnum = contentToEnum.replace(contentToEnum.split('<<cpp>>')[1].split('<<end>>')[0], "");
+			} else if (current.contains("<<cs>>") && Blue.target != "cs") {
+				contentToEnum = contentToEnum.replace(contentToEnum.split('<<cs>>')[1].split('<<end>>')[0], "");
+			} else if (current.contains("<<go>>") && Blue.target != "go") {
+				contentToEnum = contentToEnum.replace(contentToEnum.split('<<go>>')[1].split('<<end>>')[0], "");
+			} else if (current.contains("<<groovy>>") && Blue.target != "groovy") {
+				contentToEnum = contentToEnum.replace(contentToEnum.split('<<groovy>>')[1].split('<<end>>')[0], "");
+			} else if (current.contains("<<java>>") && Blue.target != "java") {
+				contentToEnum = contentToEnum.replace(contentToEnum.split('<<java>>')[1].split('<<end>>')[0], "");
+			} else if (current.contains("<<js>>") && Blue.target != "js") {
+				contentToEnum = contentToEnum.replace(contentToEnum.split('<<js>>')[1].split('<<end>>')[0], "");
+			} else if (current.contains("<<julia>>") && Blue.target != "julia") {
+				contentToEnum = contentToEnum.replace(contentToEnum.split('<<julia>>')[1].split('<<end>>')[0], "");
+			} else if (current.contains("<<lua>>") && Blue.target != "lua") {
+				contentToEnum = contentToEnum.replace(contentToEnum.split('<<lua>>')[1].split('<<end>>')[0], "");
+			} else if (current.contains("<<rust>>") && Blue.target != "rust") {
+				contentToEnum = contentToEnum.replace(contentToEnum.split('<<rust>>')[1].split('<<end>>')[0], "");
+			}
 			for (i in 0...completeSyntax.length) {
 				if (current.contains(completeSyntax[i])) {
 					switch (completeSyntax[i]) {
@@ -84,7 +113,21 @@ class BLexer {
 							}
 
 						case 'main method()':
-							currentToken = BToken.MainMethod;
+							var args = [];
+							for (i in 0...current.split('main method')[1].split('(')[1].split(')').length) {
+								if (current.split('main method')[1].split('(')[1].split(')')[i] != null
+									&& current.split('main method')[1].split('(')[1].split(')')[i].contains(',')) {
+									args.push(current.split('main method')[1].split('(')[1].split(')')[i].split(','));
+								} else if (current.split('main method')[1].split('(')[1].split(')')[i] != null
+									&& !current.split('main method')[1].split('(')[1].split(')')[i].contains(',')) {
+									args.push([current.split('main method')[1].split('(')[1].split(')\r')[0]]);
+								}
+							}
+							if (args != null) {
+								currentToken = BToken.MainMethod(args);
+							} else {
+								currentToken = BToken.MainMethod(null);
+							}
 							tokensToParse.push(currentToken);
 
 						case '=':
@@ -107,8 +150,10 @@ class BLexer {
 							}
 
 						case "end":
-							currentToken = BToken.End;
-							tokensToParse.push(currentToken);
+							if (!current.contains('<<')) {
+								currentToken = BToken.End;
+								tokensToParse.push(currentToken);
+							}
 
 						case "print":
 							if (current.contains("print(")) {
@@ -137,7 +182,7 @@ class BLexer {
 							tokensToParse.push(currentToken);
 
 						case "new":
-							if (!current.contains("=")) {
+							if (!current.contains("=") || !current.contains("throw")) {
 								var args = [];
 								for (i in 0...current.split('new ')[1].split('(')[1].split(')').length) {
 									if (current.split('new ')[1].split('(')[1].split(')')[i] != null
@@ -230,6 +275,6 @@ class BLexer {
 	}
 
 	public static function buildAST(input:BToken) {
-		BParser.parse(input);
+		parsing.BParser.parse(input);
 	}
 }
