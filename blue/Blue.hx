@@ -381,7 +381,7 @@ class Blue {
 			for (i in 0...input.split("\n").length) {
 				var line = input.split("\n")[i];
 				var letters = "abcdefghijklmnopqrstuvwusyz";
-				var chars = "#$%^&?|!`~.";
+				var chars = "#$%^&?|!`~";
 				if (line.contains("if") && !line.contains("then")) {
 					Sys.println(currentFile + " - " + "Error: Expected 'then' at the end of line " + (i + 1));
 					return true;
@@ -392,6 +392,18 @@ class Blue {
 						Sys.println(currentFile + " - " + "Error: Unknown character: " + chars.split("")[n] + " at line " + (i + 1));
 						return true;
 					}
+				}
+
+				if (line.contains(".") && !line.split(".")[0].contains("0") && !line.split(".")[1].contains("0") && !line.split(".")[0].contains("1")
+					&& !line.split(".")[1].contains("1") && !line.split(".")[0].contains("2") && !line.split(".")[1].contains("2")
+					&& !line.split(".")[0].contains("3") && !line.split(".")[1].contains("3") && !line.split(".")[0].contains("4")
+					&& !line.split(".")[1].contains("4") && !line.split(".")[0].contains("4") && !line.split(".")[1].contains("5")
+					&& !line.split(".")[0].contains("5") && !line.split(".")[1].contains("6") && !line.split(".")[0].contains("6")
+					&& !line.split(".")[1].contains("7") && !line.split(".")[0].contains("7") && !line.split(".")[1].contains("8")
+					&& !line.split(".")[0].contains("8") && !line.split(".")[1].contains("9") && !line.split(".")[0].contains("9")
+					&& !line.split(".")[1].contains('"') && !line.split(".")[0].contains('"')) {
+					Sys.println(currentFile + " - " + "Error: Unknown character: " + "." + " at line " + (i + 1));
+					return true;
 				}
 
 				if (line.contains("method") && line.contains(":")) {
@@ -465,7 +477,7 @@ class Blue {
 					return true;
 				}
 
-				if (line.contains("::")) {
+				if (line.contains("::") && !line.split("::")[1].contains('"') && !line.split("::")[0].contains('"')) {
 					Sys.println(currentFile + " - " + "Error: Unknown character: '::'" + " at line " + (i + 1));
 					return true;
 				}
