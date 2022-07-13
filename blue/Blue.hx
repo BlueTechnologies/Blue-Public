@@ -298,7 +298,7 @@ class Blue {
 								case "cpp":
 									if (FileSystem.exists("export/cppsrc")
 										&& FileSystem.readDirectory("export/cppsrc").length == files.length + 3) {
-										buildCommand = 'gcc -o export/bin/$mainFile export/cppsrc/$mainFile.cpp';
+										buildCommand = 'g++ -o export/bin/$mainFile export/cppsrc/$mainFile.cpp';
 										Sys.command(buildCommand);
 										Sys.exit(0);
 									}

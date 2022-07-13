@@ -2,40 +2,24 @@
 #include <stdio.h>
 
 static auto read(auto filen) {
-    auto num;
+    float n = 0;
     auto openedfile = fopen(filen, "r");
 
     if (openedfile != NULL) {
-        auto filecont = fscanf(openedfile, num);
+        auto filecont = fgetc(openedfile);
         return filecont;
         fclose(openedfile);
-        free(filen);
-        free(num);
-        free(openedfile);
-        free(filecont);
     }
-    fclose(openedfile);
-    free(filen);
-    free(num);
-    free(openedfile);
-    return NULL;
+    return 0;
 }
 
 static auto write(auto filen, auto newcont) {
-    auto num;
+    auto num = 0;
     auto openedfile = fopen(filen, "w");
 
     if (openedfile != NULL) {
-        fprintf(openedfile, newcont, num);
+        fputs(newcont, openedfile);
         fclose(openedfile);
-        free(filen);
-        free(num);
-        free(openedfile);
-        free(newcont);
     }
     fclose(openedfile);
-    free(filen);
-    free(num);
-    free(openedfile);
-    free(newcont);
 }

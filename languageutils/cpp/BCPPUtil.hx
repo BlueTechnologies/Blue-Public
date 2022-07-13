@@ -10,7 +10,7 @@ using StringTools;
 
 class BCPPUtil {
 	private static var variablesToFree:Array<String> = [""];
-	public static var cppData:Array<String> = ["#include <cstddef>", "#include <cstdio>", "#include <iostream>"];
+	public static var cppData:Array<String> = ["#include <cstddef>", "#include <cstdio>", "#include <iostream>", "using namespace std;"];
 	static var specificValues:Array<Dynamic> = [];
 	static var oldValues:Array<Dynamic> = [];
 	static public var extension:Dynamic = null;
