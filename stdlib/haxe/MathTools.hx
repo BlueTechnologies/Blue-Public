@@ -1,6 +1,6 @@
 package export.hxsrc;
 
-class Math {
+class MathTools {
 	public static function arcsine(x:Dynamic, y:Dynamic):Dynamic {
 		return Math.asin(x);
 	}

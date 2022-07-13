@@ -335,19 +335,19 @@ class Blue {
 				var letters = "abcdefghijklmnopqrstuvwusyz";
 				var chars = "#$%^&?|!`~.";
 				if (line.contains("if") && !line.contains("then")) {
-					Sys.println(currentFile + " - " + "Error: Expected 'then' at the end of line " + i);
+					Sys.println(currentFile + " - " + "Error: Expected 'then' at the end of line " + (i + 1));
 					return true;
-				} else {
-					for (n in 0...chars.split("").length) {
-						if (line.contains(chars.split("")[n]) && !completeSyntax[i].contains(chars.split("")[n])) {
-							Sys.println(currentFile + " - " + "Error: Unknown character: " + chars.split("")[n] + " at line " + i);
-							return true;
-						}
+				}
+
+				for (n in 0...chars.split("").length) {
+					if (line.contains(chars.split("")[n]) && !completeSyntax[i].contains(chars.split("")[n])) {
+						Sys.println(currentFile + " - " + "Error: Unknown character: " + chars.split("")[n] + " at line " + (i + 1));
+						return true;
 					}
 				}
 
 				if (line.contains("method") && line.contains(":")) {
-					Sys.println(currentFile + " - " + "Error: Unknown character: ':'" + " at line " + i);
+					Sys.println(currentFile + " - " + "Error: Unknown character: ':'" + " at line " + (i + 1));
 					return true;
 				}
 				if (line.contains("new ") && FileSystem.exists(line.split("new ")[1].split("(")[0])) {
@@ -355,31 +355,31 @@ class Blue {
 						Sys.println(currentFile
 							+ " - "
 							+ "Error: Source File: "
-							+ line.split("new ")[1].split("(")[0] + " has no constructor method at line " + i);
+							+ line.split("new ")[1].split("(")[0] + " has no constructor method at line " + (i + 1));
 						return true;
 					}
 				}
 
 				if (line.contains("constructor method()") && input.split("constructor method()")[1].split("end")[0].contains("return ")) {
-					Sys.println(currentFile + " - " + "Error: Constructor methods cannot have a return value at line " + i);
+					Sys.println(currentFile + " - " + "Error: Constructor methods cannot have a return value at line " + (i + 1));
 					return true;
 				}
 
 				if (line.contains("main method()") && input.split("main method()")[1].split("end")[0].contains("return ")) {
-					Sys.println(currentFile + " - " + "Error: The main method cannot have a return value at line " + i);
+					Sys.println(currentFile + " - " + "Error: The main method cannot have a return value at line " + (i + 1));
 					return true;
 				}
 
 				for (file in FileSystem.readDirectory(directory)) {
 					if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
 						if (file != mainFile + ".bl" && File.getContent(directory + "/" + file).contains("main method()")) {
-							Sys.println(currentFile + " - " + "Error: Only the main file can contain a main method at line " + i);
+							Sys.println(currentFile + " - " + "Error: Only the main file can contain a main method at line " + (i + 1));
 							return true;
 						}
 					}
 				}
 				if (line.contains("[0]")) {
-					Sys.println(currentFile + " - " + "Error: Array index's start at '1' at line " + i);
+					Sys.println(currentFile + " - " + "Error: Array index's start at '1' at line " + (i + 1));
 					return true;
 				}
 
@@ -387,7 +387,7 @@ class Blue {
 					Sys.println(currentFile
 						+ " - "
 						+ "Error: Method: "
-						+ line.split("method ")[1].split("(")[0].replace(' ', '') + "is missing it's parameter brackets at line " + i);
+						+ line.split("method ")[1].split("(")[0].replace(' ', '') + "is missing it's parameter brackets at line " + (i + 1));
 					return true;
 				}
 
@@ -395,7 +395,7 @@ class Blue {
 					Sys.println(currentFile
 						+ " - "
 						+ "Error: Method: "
-						+ line.split("method ")[1].split("(")[0].replace(' ', '') + "is missing it's enclosing 'end' block at line " + i);
+						+ line.split("method ")[1].split("(")[0].replace(' ', '') + "is missing it's enclosing 'end' block at line " + (i + 1));
 					return true;
 				}
 
@@ -403,54 +403,55 @@ class Blue {
 					Sys.println(currentFile
 						+ " - "
 						+ "Error: Loop: "
-						+ line.split("loop ")[1].split("(")[0].replace(' ', '') + "is missing it's enclosing 'end' block at line " + i);
+						+ line.split("loop ")[1].split("(")[0].replace(' ', '') + "is missing it's enclosing 'end' block at line " + (i + 1));
 					return true;
 				}
 
 				if (line.contains("if ") && !input.split("if ")[1].contains("end")) {
-					Sys.println(currentFile + " - " + "Error: An if statement is missing it's enclosing 'end' block at line " + i);
+					Sys.println(currentFile + " - " + "Error: An if statement is missing it's enclosing 'end' block at line " + (i + 1));
 					return true;
 				}
 
 				if (line.contains("otherwise") && !input.split("otherwise")[1].contains("end")) {
-					Sys.println(currentFile + " - " + "Error: An else statement is missing it's enclosing 'end' block at line " + i);
+					Sys.println(currentFile + " - " + "Error: An else statement is missing it's enclosing 'end' block at line " + (i + 1));
 					return true;
 				}
 
 				if (line.contains("::")) {
-					Sys.println(currentFile + " - " + "Error: Unknown character: '::'" + " at line " + i);
+					Sys.println(currentFile + " - " + "Error: Unknown character: '::'" + " at line " + (i + 1));
 					return true;
 				}
 
 				if (line.contains("<<")
 					&& !supportedTargets.contains(line.split("<<")[1].split(">>")[0])
 					&& line.split("<<")[1].split(">>")[0] != "end") {
-					Sys.println(currentFile + " - " + "Error: Unknown target: '" + line.split("<<")[1].split(">>")[0] + "'" + " at line " + i);
+					Sys.println(currentFile + " - " + "Error: Unknown target: '" + line.split("<<")[1].split(">>")[0] + "'" + " at line " + (i + 1));
 					return true;
 				}
 
 				if (line.contains(">>") && !line.contains("<<")) {
-					Sys.println(currentFile + " - " + "Error: Expected conditional compilation block at line " + i);
+					Sys.println(currentFile + " - " + "Error: Expected conditional compilation block at line " + (i + 1));
 					return true;
 				}
 
 				if (!line.contains(">>") && line.contains("<<")) {
-					Sys.println(currentFile + " - " + "Error: Expected conditional compilation block at line " + i);
+					Sys.println(currentFile + " - " + "Error: Expected conditional compilation block at line " + (i + 1));
 					return true;
 				}
-
+			var reg = ~/\b(_*[A-Z]\w*)\b/;
+			if (reg.match(line) && !line.contains("@") && !line.contains('"') && !line.contains("'")) {
 				for (file in FileSystem.readDirectory(directory)) {
 					if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
-						if (line.contains('${~/_*[A-Z]\\w*/}')
-							&& (!line.contains('MathTools') || line.contains('File') || line.contains('System') || !line.contains(file.replace(".bl", "")))) {
-							Sys.println(currentFile + " - " + "Error: Unknown class at line " + i);
+						if (!line.contains('MathTools') && !line.contains('File') && !line.contains('System') && !line.contains(file.replace(".bl", ""))) {
+							Sys.println(currentFile + " - " + "Error: Unknown class at line " + (i + 1));
 							return true;
 							break;
 						}
 					}
 				}
-				return false;
+			}
 
+			if (line.contains("/")) {
 				for (file in FileSystem.readDirectory(directory)) {
 					if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
 						if (line.contains(file.replace(".bl", "") + "/") || line.contains(file.replace(".bl", "") + " /")) {
@@ -463,7 +464,7 @@ class Blue {
 									+ file.replace(".bl", "")
 									+ " does not contain variable: "
 									+ (line.split(file.replace(".bl", ""))[1].split(" ")[0] + " =")
-									+ i);
+									+ (i + 1));
 								return true;
 								break;
 							}
@@ -471,6 +472,7 @@ class Blue {
 					}
 				}
 			}
+		}
 		} else {
 			Sys.println(currentFile + " - " + "No newline found on file at line 1");
 			return true;
