@@ -1,0 +1,5 @@
+--cmd robocopy stdlib bin/stdlib /e /NFL /NDL /NJH /NJS /nc /ns /np
+--cmd set/A errlev="%ERRORLEVEL% & 24"
+-cp src
+--main blue.Blue
+--cpp bin
