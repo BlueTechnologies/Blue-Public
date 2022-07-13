@@ -7,7 +7,7 @@ import sys.FileSystem;
 using StringTools;
 
 class BGoUtil {
-	public static var goData:Array<String> = ['import "fmt"', 'import "main"', "type dynamic = interface{}"];
+	public static var goData:Array<String> = ['import (\n"fmt"\n"main"\n)', "type dynamic = interface{}"];
 	static var specificValues:Array<Dynamic> = [];
 	static var oldValues:Array<Dynamic> = [];
 	static public var extension:Dynamic = null;

@@ -120,6 +120,13 @@ class Blue {
 									BCUtil.CData.insert(0, '#include ' + '"System.c"' + '');
 									BCUtil.CData.insert(0, '#include ' + '"File.c"' + '');
 									BCUtil.CData.insert(0, '#include ' + '"MathTools.c"' + '');
+									for (includeFile in FileSystem.readDirectory(directory)) {
+										if (includeFile.endsWith(".bl")) {
+											if (includeFile != file) {
+												BCUtil.CData.insert(0, '#include ' + '"${includeFile.replace(".bl", ".c")}"' + '');
+											}
+										}
+									}
 									lexSourceFile(rawContent);
 									if (FileSystem.exists(Sys.programPath().replace("Blue.exe", "") + "stdlib/c")) {
 										for (file in FileSystem.readDirectory(Sys.programPath().replace("Blue.exe", "") + "stdlib/c")) {
@@ -144,9 +151,16 @@ class Blue {
 									}
 								case "cpp":
 									BCPPUtil.fileName = file;
-									BCUtil.CData.insert(0, '#include ' + '"System.cpp"' + '');
-									BCUtil.CData.insert(0, '#include ' + '"File.cpp"' + '');
-									BCUtil.CData.insert(0, '#include ' + '"MathTools.cpp"' + '');
+									BCPPUtil.cppData.insert(0, '#include ' + '"System.cpp"' + '');
+									BCPPUtil.cppData.insert(0, '#include ' + '"File.cpp"' + '');
+									BCPPUtil.cppData.insert(0, '#include ' + '"MathTools.cpp"' + '');
+									for (includeFile in FileSystem.readDirectory(directory)) {
+										if (includeFile.endsWith(".bl")) {
+											if (includeFile != file) {
+												BCPPUtil.cppData.insert(0, '#include ' + '"${includeFile.replace(".bl", ".cpp")}"' + '');
+											}
+										}
+									}
 									lexSourceFile(rawContent);
 									if (FileSystem.exists(Sys.programPath().replace("Blue.exe", "") + "stdlib/cpp")) {
 										for (file in FileSystem.readDirectory(Sys.programPath().replace("Blue.exe", "") + "stdlib/cpp")) {
@@ -176,6 +190,13 @@ class Blue {
 									BHaxeUtil.haxeData.insert(1, 'import export.hxsrc.' + "File" + ';');
 									BHaxeUtil.haxeData.insert(1, 'import export.hxsrc.' + "System" + ';');
 									BHaxeUtil.haxeData.insert(1, 'import export.hxsrc.' + "MathTools" + ';');
+									for (includeFile in FileSystem.readDirectory(directory)) {
+										if (includeFile.endsWith(".bl")) {
+											if (includeFile != file) {
+												BHaxeUtil.haxeData.insert(1, 'import export.hxsrc.' + '${includeFile.replace(".bl", "")}' + ';');
+											}
+										}
+									}
 									lexSourceFile(rawContent);
 									if (FileSystem.exists(Sys.programPath().replace("Blue.exe", "") + "stdlib/haxe")) {
 										for (file in FileSystem.readDirectory(Sys.programPath().replace("Blue.exe", "") + "stdlib/haxe")) {
@@ -195,6 +216,13 @@ class Blue {
 									BJuliaUtil.juliaData.insert(0, 'import "' + "File" + '"');
 									BJuliaUtil.juliaData.insert(0, 'import "' + "System" + '"');
 									BJuliaUtil.juliaData.insert(0, 'import "' + "Math" + '"');
+									for (includeFile in FileSystem.readDirectory(directory)) {
+										if (includeFile.endsWith(".bl")) {
+											if (includeFile != file) {
+												BCPPUtil.cppData.insert(0, 'import ' + '"${includeFile.replace(".bl", "")}"' + '');
+											}
+										}
+									}
 									lexSourceFile(rawContent);
 									if (FileSystem.exists(Sys.programPath().replace("Blue.exe", "") + "stdlib/julia")) {
 										for (file in FileSystem.readDirectory(Sys.programPath().replace("Blue.exe", "") + "stdlib/julia")) {
@@ -203,9 +231,16 @@ class Blue {
 									}
 								case "lua":
 									BLuaUtil.fileName = file;
-									BLuaUtil.luaData.insert(0, 'require"' + "System.lua" + '"');
-									BLuaUtil.luaData.insert(0, 'require"' + "File.lua" + '"');
-									BLuaUtil.luaData.insert(0, 'require"' + "MathTools.lua" + '"');
+									BLuaUtil.luaData.insert(0, 'require "' + "System" + '"');
+									BLuaUtil.luaData.insert(0, 'require "' + "File" + '"');
+									BLuaUtil.luaData.insert(0, 'require "' + "MathTools" + '"');
+									for (includeFile in FileSystem.readDirectory(directory)) {
+										if (includeFile.endsWith(".bl")) {
+											if (includeFile != file) {
+												BCPPUtil.cppData.insert(0, 'require ' + '"${includeFile.replace(".bl", "")}"' + '');
+											}
+										}
+									}
 									lexSourceFile(rawContent);
 									if (FileSystem.exists(Sys.programPath().replace("Blue.exe", "") + "stdlib/lua")) {
 										for (file in FileSystem.readDirectory(Sys.programPath().replace("Blue.exe", "") + "stdlib/lua")) {
