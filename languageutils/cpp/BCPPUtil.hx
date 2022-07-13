@@ -10,7 +10,7 @@ using StringTools;
 
 class BCPPUtil {
 	private static var variablesToFree:Array<String> = [""];
-	public static var cppData:Array<String> = ["#include <cstddef>", "#include <cstdio>", "using namespace std;"];
+	public static var cppData:Array<String> = ["#include <cstddef>", "#include <cstdio>", "#include <iostream>"];
 	static var specificValues:Array<Dynamic> = [];
 	static var oldValues:Array<Dynamic> = [];
 	static public var extension:Dynamic = null;
@@ -19,7 +19,7 @@ class BCPPUtil {
 	public static function toCPP(AST:Dynamic) {
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!cppData.join('\n').contains(parsedAST.name)) {
+			if (!cppData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
 				cppData.push(('auto'
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
@@ -27,7 +27,7 @@ class BCPPUtil {
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*").replace("[", '{').replace("]", '}'));
 				variablesToFree.push("free(&" + Std.string(parsedAST.name).replace("|", ":").replace("\n", "") + ");");
 			} else if (cppData.join('\n').contains(parsedAST.name)
-				&& !cppData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !cppData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
 				&& !cppData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				cppData.push(parsedAST.name.replace("public var", "")
 					+ '='
@@ -73,7 +73,7 @@ class BCPPUtil {
 			cppData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
 		}
 		if (parsedAST.label == "For") {
-			cppData.push('for (${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {');
+			cppData.push('for (int ${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {');
 		}
 		if (parsedAST.label == "Return") {
 			cppData.push('return ${parsedAST.value}');
@@ -114,6 +114,10 @@ class BCPPUtil {
 					.replace("8", "7")
 					.replace("9", "8"));
 			}
+		}
+
+		if (parsedAST.label == "Print") {
+			cppData.push('cout << ${parsedAST.value};');
 		}
 	}
 

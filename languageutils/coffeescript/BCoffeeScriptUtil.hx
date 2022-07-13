@@ -16,15 +16,20 @@ class BCoffeeScriptUtil {
 	public static var fileName:String = null;
 
 	public static function toCoffeeScript(AST:Dynamic) {
-		coffeeScriptData[0] = 'class ${fileName.replace(".bl", '')}';
+		for (i in 0...coffeeScriptData.length) {
+			if (coffeeScriptData[i] == "class") {
+				coffeeScriptData[i] = 'class ${fileName.replace(".bl", '')}';
+				break;
+			}
+		}
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!coffeeScriptData.join('\n').contains(parsedAST.name)) {
+			if (!coffeeScriptData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
 				Std.string(parsedAST.name)
 					.replace("|", ":")
 					.replace("\n", "") + ' = ' + Std.string(parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*");
 			} else if (coffeeScriptData.join('\n').contains(parsedAST.name)
-				&& !coffeeScriptData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !coffeeScriptData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
 				&& !coffeeScriptData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				coffeeScriptData.push(parsedAST.name.replace("public var", "")
 					+ '='
@@ -68,9 +73,9 @@ class BCoffeeScriptUtil {
 		}
 		if (parsedAST.label == "Main") {
 			if (parsedAST.args[0] == null) {
-				coffeeScriptData.push('main = ->');
+				coffeeScriptData.push('main: () ->');
 			} else {
-				coffeeScriptData.push(('main(${parsedAST.args[0].join(", ")}) = ->').replace("()", "()"));
+				coffeeScriptData.push(('main: (${parsedAST.args[0].join(", ")}) ->').replace("()", "()"));
 			}
 		}
 		if (parsedAST.label == "New") {
@@ -115,6 +120,9 @@ class BCoffeeScriptUtil {
 					.replace("8", "7")
 					.replace("9", "8"));
 			}
+		}
+		if (parsedAST.label == "Print") {
+			coffeeScriptData.push('console.log ${parsedAST.value}');
 		}
 	}
 

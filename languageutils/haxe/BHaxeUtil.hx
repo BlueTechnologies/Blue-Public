@@ -9,27 +9,32 @@ import lexing.BLexer.BToken;
 using StringTools;
 
 class BHaxeUtil {
-	public static var haxeData:Array<String> = ["package export.hxsrc;", "", "class", "{"];
+	public static var haxeData:Array<String> = ["", "", "class", "{"];
 	static var specificValues:Array<Dynamic> = [];
 	static var oldValues:Array<Dynamic> = [];
 	static public var extension:Dynamic = null;
 	public static var fileName:String = null;
 
 	public static function toHaxe(AST:Dynamic) {
-		haxeData[2] = 'class ${fileName.replace(".bl", '')}';
-		if (extension != null) {
-			haxeData[2] = haxeData[2] + " extends " + extension;
+		for (i in 0...haxeData.length) {
+			if (haxeData[i] == "class") {
+				haxeData[i] = 'class ${fileName.replace(".bl", '')}';
+				if (extension != null) {
+					haxeData[i] = haxeData[i] + " : " + extension;
+				}
+				break;
+			}
 		}
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!haxeData.join('\n').contains(parsedAST.name)) {
+			if (!haxeData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
 				haxeData.push(('public var'
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ':Dynamic = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
 			} else if (haxeData.join('\n').contains(parsedAST.name)
-				&& !haxeData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !haxeData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
 				&& !haxeData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				haxeData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
@@ -149,6 +154,10 @@ class BHaxeUtil {
 					haxeData.remove(haxeData[i - 1]);
 				}
 			}
+		}
+
+		if (parsedAST.label == "Print") {
+			haxeData.push('Sys.println(${parsedAST.value});');
 		}
 	}
 

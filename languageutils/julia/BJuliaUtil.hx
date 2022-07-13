@@ -12,20 +12,26 @@ class BJuliaUtil {
 	static var oldValues:Array<Dynamic> = [];
 	static public var extension:Dynamic = null;
 	public static var fileName:String = null;
+	public static var firstUse:Bool = true;
 
 	public static function toJulia(AST:Dynamic) {
-		juliaData[2] = 'class ${fileName.replace(".bl", '')}';
-		if (extension != null) {
-			juliaData[2] = juliaData[2] + " extends " + extension;
+		for (i in 0...juliaData.length) {
+			if (juliaData[i] == "class") {
+				juliaData[i] = 'class ${fileName.replace(".bl", '')}';
+				if (extension != null) {
+					juliaData[i] = juliaData[i] + " : " + extension;
+				}
+				break;
+			}
 		}
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!juliaData.join('\n').contains(parsedAST.name)) {
+			if (!juliaData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
 				juliaData.push((Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
 			} else if (juliaData.join('\n').contains(parsedAST.name)
-				&& !juliaData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !juliaData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
 				&& !juliaData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				juliaData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
@@ -87,6 +93,10 @@ class BJuliaUtil {
 					.replace("8", "7")
 					.replace("9", "8"));
 			}
+		}
+
+		if (parsedAST.label == "Print") {
+			juliaData.push('println(${parsedAST.value})');
 		}
 	}
 

@@ -32,6 +32,8 @@ class Blue {
 	static var mainFile = "Main";
 	static var libs = [];
 
+	static var currentFile:String = "";
+
 	static var buildCommand:String = "haxe -cp src --main " + "export.hxsrc.Main" + " --cpp export/bin";
 
 	static var completeSyntax:Array<String> = [
@@ -55,7 +57,7 @@ class Blue {
 			} else if (FileSystem.exists(folder) && FileSystem.isDirectory(folder)) {
 				mapSource(folder);
 			} else {
-				Sys.println("Error: " + folder + "either does not exist or is not a directory");
+				Sys.println("Error: " + folder + " either does not exist or is not a directory");
 			}
 		} else {
 			Sys.println("Usage: blue 'source-folder-name' 'target'");
@@ -66,15 +68,16 @@ class Blue {
 		Blue.directory = directory;
 		var files = [];
 		if (FileSystem.exists(directory) && FileSystem.isDirectory(directory)) {
-			Sys.println('Compiling source folder: ' + directory);
 			for (file in FileSystem.readDirectory(directory)) {
 				if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
 					files.push(file);
+					currentFile = file;
 				}
 			}
 			for (file in FileSystem.readDirectory(directory)) {
 				if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
 					if (!checkForErrors(File.getContent(directory + "/" + file))) {
+						Sys.println('Compiling source folder: ' + directory);
 						switch (target) {
 							case 'c':
 								Sys.println("- " + file.replace(".bl", ".c"));
@@ -102,24 +105,101 @@ class Blue {
 						switch (target) {
 							case 'c':
 								BCUtil.fileName = file;
+								BCUtil.CData.insert(0, '#include ' + '"System.c"' + '');
+								BCUtil.CData.insert(0, '#include ' + '"File.c"' + '');
+								BCUtil.CData.insert(0, '#include ' + '"MathTools.c"' + '');
+								lexSourceFile(rawContent);
+								if (FileSystem.exists(Sys.programPath().replace("Blue.exe", "") + "stdlib/c")) {
+									for (file in FileSystem.readDirectory(Sys.programPath().replace("Blue.exe", "") + "stdlib/c")) {
+										File.copy(Sys.programPath().replace("Blue.exe", "") + "stdlib/c/" + file, 'export/csrc/$file');
+									}
+								}
 							case "coffeescript":
 								BCoffeeScriptUtil.fileName = file;
+								lexSourceFile(rawContent);
+								if (FileSystem.exists(Sys.programPath().replace("Blue.exe", "") + "stdlib/coffeescript")) {
+									for (file in FileSystem.readDirectory(Sys.programPath().replace("Blue.exe", "") + "stdlib/coffeescript")) {
+										File.copy(Sys.programPath().replace("Blue.exe", "") + "stdlib/julia/" + file, 'export/coffeescriptsrc/$file');
+									}
+								}
 							case "cs":
 								BCSUtil.fileName = file;
+								lexSourceFile(rawContent);
+								if (FileSystem.exists(Sys.programPath().replace("Blue.exe", "") + "stdlib/cs")) {
+									for (file in FileSystem.readDirectory(Sys.programPath().replace("Blue.exe", "") + "stdlib/cs")) {
+										File.copy(Sys.programPath().replace("Blue.exe", "") + "stdlib/cs/" + file, 'export/cssrc/$file');
+									}
+								}
 							case "cpp":
 								BCPPUtil.fileName = file;
+								BCUtil.CData.insert(0, '#include ' + '"System.cpp"' + '');
+								BCUtil.CData.insert(0, '#include ' + '"File.cpp"' + '');
+								BCUtil.CData.insert(0, '#include ' + '"MathTools.cpp"' + '');
+								lexSourceFile(rawContent);
+								if (FileSystem.exists(Sys.programPath().replace("Blue.exe", "") + "stdlib/cpp")) {
+									for (file in FileSystem.readDirectory(Sys.programPath().replace("Blue.exe", "") + "stdlib/cpp")) {
+										File.copy(Sys.programPath().replace("Blue.exe", "") + "stdlib/cpp/" + file, 'export/cppsrc/$file');
+									}
+								}
 							case "go":
 								BGoUtil.fileName = file;
+								BGoUtil.goData.insert(0, 'package main');
+								lexSourceFile(rawContent);
+								if (FileSystem.exists(Sys.programPath().replace("Blue.exe", "") + "stdlib/go")) {
+									for (file in FileSystem.readDirectory(Sys.programPath().replace("Blue.exe", "") + "stdlib/go")) {
+										File.copy(Sys.programPath().replace("Blue.exe", "") + "stdlib/go/" + file, 'export/gosrc/$file');
+									}
+								}
 							case "groovy":
 								BGroovyUtil.fileName = file;
+								lexSourceFile(rawContent);
+								if (FileSystem.exists(Sys.programPath().replace("Blue.exe", "") + "stdlib/groovy")) {
+									for (file in FileSystem.readDirectory(Sys.programPath().replace("Blue.exe", "") + "stdlib/groovy")) {
+										File.copy(Sys.programPath().replace("Blue.exe", "") + "stdlib/groovy/" + file, 'export/groovysrc/$file');
+									}
+								}
 							case "haxe":
 								BHaxeUtil.fileName = file;
+								BHaxeUtil.haxeData.insert(0, 'package export.hxsrc;');
+								BHaxeUtil.haxeData.insert(1, 'import export.hxsrc.' + "File" + ';');
+								BHaxeUtil.haxeData.insert(1, 'import export.hxsrc.' + "System" + ';');
+								BHaxeUtil.haxeData.insert(1, 'import export.hxsrc.' + "MathTools" + ';');
+								lexSourceFile(rawContent);
+								if (FileSystem.exists(Sys.programPath().replace("Blue.exe", "") + "stdlib/haxe")) {
+									for (file in FileSystem.readDirectory(Sys.programPath().replace("Blue.exe", "") + "stdlib/haxe")) {
+										File.copy(Sys.programPath().replace("Blue.exe", "") + "stdlib/haxe/" + file, 'export/hxsrc/$file');
+									}
+								}
 							case "javascript":
 								BJSUtil.fileName = file;
+								lexSourceFile(rawContent);
+								if (FileSystem.exists(Sys.programPath().replace("Blue.exe", "") + "stdlib/js")) {
+									for (file in FileSystem.readDirectory(Sys.programPath().replace("Blue.exe", "") + "stdlib/js")) {
+										File.copy(Sys.programPath().replace("Blue.exe", "") + "stdlib/js/" + file, 'export/jssrc/$file');
+									}
+								}
 							case "julia":
 								BJuliaUtil.fileName = file;
+								BJuliaUtil.juliaData.insert(0, 'import "' + "File" + '"');
+								BJuliaUtil.juliaData.insert(0, 'import "' + "System" + '"');
+								BJuliaUtil.juliaData.insert(0, 'import "' + "Math" + '"');
+								lexSourceFile(rawContent);
+								if (FileSystem.exists(Sys.programPath().replace("Blue.exe", "") + "stdlib/julia")) {
+									for (file in FileSystem.readDirectory(Sys.programPath().replace("Blue.exe", "") + "stdlib/julia")) {
+										File.copy(Sys.programPath().replace("Blue.exe", "") + "stdlib/julia/" + file, 'export/juliasrc/$file');
+									}
+								}
 							case "lua":
 								BLuaUtil.fileName = file;
+								BLuaUtil.luaData.insert(0, 'require"' + "System.lua" + '"');
+								BLuaUtil.luaData.insert(0, 'require"' + "File.lua" + '"');
+								BLuaUtil.luaData.insert(0, 'require"' + "MathTools.lua" + '"');
+								lexSourceFile(rawContent);
+								if (FileSystem.exists(Sys.programPath().replace("Blue.exe", "") + "stdlib/lua")) {
+									for (file in FileSystem.readDirectory(Sys.programPath().replace("Blue.exe", "") + "stdlib/lua")) {
+										File.copy(Sys.programPath().replace("Blue.exe", "") + "stdlib/lua/" + file, 'export/luasrc/$file');
+									}
+								}
 						}
 						for (i in 0...rawContent.split("\n").length) {
 							var line = rawContent.split("\n")[i];
@@ -145,11 +225,11 @@ class Blue {
 							}
 						}
 
-						lexSourceFile(rawContent);
 						FileSystem.createDirectory("export/bin");
 						switch (target) {
 							case 'c':
-								if (FileSystem.exists("export/csrc") && FileSystem.readDirectory("export/csrc").length == files.length) {
+								if (FileSystem.exists("export/csrc")
+									&& FileSystem.readDirectory("export/csrc").length == files.length + 3) {
 									buildCommand = 'gcc -o export/bin/$mainFile export/csrc/$mainFile.c';
 									Sys.command(buildCommand);
 									Sys.exit(0);
@@ -162,14 +242,15 @@ class Blue {
 									Sys.exit(0);
 								}
 							case "cs":
-								if (FileSystem.exists("export/cssrc") && FileSystem.readDirectory("export/cssrc").length == files.length) {
+								if (FileSystem.exists("export/cssrc")
+									&& FileSystem.readDirectory("export/cssrc").length == files.length + 3) {
 									buildCommand = 'csc "export/bin/$mainFile.cs"';
 									Sys.command(buildCommand);
 									Sys.exit(0);
 								}
 							case "cpp":
 								if (FileSystem.exists("export/cppsrc")
-									&& FileSystem.readDirectory("export/cppsrc").length == files.length) {
+									&& FileSystem.readDirectory("export/cppsrc").length == files.length + 3) {
 									buildCommand = 'gcc -o export/bin/$mainFile export/cppsrc/$mainFile.cpp';
 									Sys.command(buildCommand);
 									Sys.exit(0);
@@ -178,7 +259,7 @@ class Blue {
 								FileSystem.deleteDirectory("export/bin");
 								if (!FileSystem.exists("export/gosrc/go.mod")
 									&& FileSystem.exists("export/gosrc")
-									&& FileSystem.readDirectory("export/gosrc").length == files.length) {
+									&& FileSystem.readDirectory("export/gosrc").length == files.length + 3) {
 									Sys.setCwd(Sys.getCwd() + '/export/gosrc');
 									Sys.command('go mod init export/gosrc');
 									buildCommand = 'go build -o export/bin/$mainFile.exe';
@@ -187,7 +268,7 @@ class Blue {
 									Sys.exit(0);
 								} else if (FileSystem.exists("export/gosrc/go.mod")
 									&& FileSystem.exists("export/gosrc")
-									&& FileSystem.readDirectory("export/gosrc").length == files.length + 1) {
+									&& FileSystem.readDirectory("export/gosrc").length == files.length + 4) {
 									Sys.setCwd(Sys.getCwd() + '/export/gosrc');
 									Sys.command('go mod init export/gosrc');
 									buildCommand = 'go build -o export/bin/$mainFile.exe';
@@ -197,20 +278,21 @@ class Blue {
 								}
 							case "groovy":
 								if (FileSystem.exists("export/groovysrc")
-									&& FileSystem.readDirectory("export/groovysrc").length == files.length) {
+									&& FileSystem.readDirectory("export/groovysrc").length == files.length + 3) {
 									buildCommand = 'groovyc export/bin/$mainFile.groovy';
 									Sys.command(buildCommand);
 									Sys.exit(0);
 								}
 							case "haxe":
-								if (FileSystem.exists("export/hxsrc") && FileSystem.readDirectory("export/hxsrc").length == files.length) {
+								if (FileSystem.exists("export/hxsrc")
+									&& FileSystem.readDirectory("export/hxsrc").length == files.length + 3) {
 									buildCommand = 'haxe -cp src --main "export.hxsrc.Main" --cpp export/bin';
 									Sys.command(buildCommand);
 									Sys.exit(0);
 								}
 							case "julia":
 								if (FileSystem.exists("export/juliasrc")
-									&& FileSystem.readDirectory("export/juliasrc").length == files.length) {
+									&& FileSystem.readDirectory("export/juliasrc").length == files.length + 3) {
 									buildCommand = 'julia export/juliasrc/$mainFile.jl';
 									for (file in FileSystem.readDirectory(directory)) {
 										if (file.endsWith('.exe')) {
@@ -224,7 +306,7 @@ class Blue {
 							case "lua":
 								FileSystem.deleteDirectory("export/bin");
 								if (FileSystem.exists("export/luasrc")
-									&& FileSystem.readDirectory("export/luasrc").length == files.length) {
+									&& FileSystem.readDirectory("export/luasrc").length == files.length + 3) {
 									buildCommand = 'lua export/luasrc/$mainFile.lua';
 									Sys.command(buildCommand);
 									Sys.exit(0);
@@ -250,59 +332,148 @@ class Blue {
 		if (input.contains("\n")) {
 			for (i in 0...input.split("\n").length) {
 				var line = input.split("\n")[i];
+				var letters = "abcdefghijklmnopqrstuvwusyz";
+				var chars = "#$%^&?|!`~.";
 				if (line.contains("if") && !line.contains("then")) {
-					Sys.println("Error: Expected 'then' at the end of line " + i);
+					Sys.println(currentFile + " - " + "Error: Expected 'then' at the end of line " + i);
+					return true;
+				} else {
+					for (n in 0...chars.split("").length) {
+						if (line.contains(chars.split("")[n]) && !completeSyntax[i].contains(chars.split("")[n])) {
+							Sys.println(currentFile + " - " + "Error: Unknown character: " + chars.split("")[n] + " at line " + i);
+							return true;
+						}
+					}
+				}
+
+				if (line.contains("method") && line.contains(":")) {
+					Sys.println(currentFile + " - " + "Error: Unknown character: ':'" + " at line " + i);
 					return true;
 				}
-				if (line.contains("new ") && FileSystem.exists(line.split("new ")[1].split("(")[0] + ".bl")) {
-					if (!File.getContent(line.split("new ")[1].split("(")[0] + ".bl").contains("constructor method()")) {
-						Sys.println("Error: Source File: " + line.split("new ")[1].split("(")[0] + " has no constructor method at line " + i);
+				if (line.contains("new ") && FileSystem.exists(line.split("new ")[1].split("(")[0])) {
+					if (!File.getContent(line.split("new ")[1].split("(")[0]).contains("constructor method()")) {
+						Sys.println(currentFile
+							+ " - "
+							+ "Error: Source File: "
+							+ line.split("new ")[1].split("(")[0] + " has no constructor method at line " + i);
 						return true;
 					}
 				}
 
 				if (line.contains("constructor method()") && input.split("constructor method()")[1].split("end")[0].contains("return ")) {
-					Sys.println("Error: Constructor methods cannot have a return value at line " + i);
+					Sys.println(currentFile + " - " + "Error: Constructor methods cannot have a return value at line " + i);
 					return true;
 				}
+
+				if (line.contains("main method()") && input.split("main method()")[1].split("end")[0].contains("return ")) {
+					Sys.println(currentFile + " - " + "Error: The main method cannot have a return value at line " + i);
+					return true;
+				}
+
 				for (file in FileSystem.readDirectory(directory)) {
 					if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
-						if (file != "Main.bl" && File.getContent(directory + "/" + file).contains("main method()")) {
-							Sys.println("Error: Only the main file can contain a main method at line " + i);
+						if (file != mainFile + ".bl" && File.getContent(directory + "/" + file).contains("main method()")) {
+							Sys.println(currentFile + " - " + "Error: Only the main file can contain a main method at line " + i);
 							return true;
 						}
 					}
 				}
 				if (line.contains("[0]")) {
-					Sys.println("Error: Array index's start at '1' at line " + i);
+					Sys.println(currentFile + " - " + "Error: Array index's start at '1' at line " + i);
 					return true;
 				}
 
-				if (line.contains("method ") && !line.contains("(") && !line.contains(")")) {
-					Sys.println("Error: Method: "
+				if (!line.contains("=") && line.contains("method") && !line.contains("(") && !line.contains(")")) {
+					Sys.println(currentFile
+						+ " - "
+						+ "Error: Method: "
 						+ line.split("method ")[1].split("(")[0].replace(' ', '') + "is missing it's parameter brackets at line " + i);
 					return true;
 				}
 
-				if (line.contains(".") && !line.contains("1") || line.contains(".") && !line.contains("2") || line.contains(".") && !line.contains("3")
-					|| line.contains(".") && !line.contains("4") || line.contains(".") && !line.contains("5") || line.contains(".") && !line.contains("6")
-					|| line.contains(".") && !line.contains("7") || line.contains(".") && !line.contains("8") || line.contains(".") && !line.contains("9")) {
-					Sys.println("Error: Unknown character: . at line " + i);
+				if (line.contains("method ") && !input.split("method ")[1].contains("end")) {
+					Sys.println(currentFile
+						+ " - "
+						+ "Error: Method: "
+						+ line.split("method ")[1].split("(")[0].replace(' ', '') + "is missing it's enclosing 'end' block at line " + i);
 					return true;
 				}
-				if (line.contains("@Override") && input.split("@Override")[1].contains("\n")) {
-					if (!input.split("@Override")[1].split("\n")[1].split('\n')[0].contains("method")) {
-						Sys.println("Error: 'Override' compiler tag was not given a method below it to override at line" + i);
-						return true;
+
+				if (line.contains("loop ") && !input.split("loop ")[1].contains("end")) {
+					Sys.println(currentFile
+						+ " - "
+						+ "Error: Loop: "
+						+ line.split("loop ")[1].split("(")[0].replace(' ', '') + "is missing it's enclosing 'end' block at line " + i);
+					return true;
+				}
+
+				if (line.contains("if ") && !input.split("if ")[1].contains("end")) {
+					Sys.println(currentFile + " - " + "Error: An if statement is missing it's enclosing 'end' block at line " + i);
+					return true;
+				}
+
+				if (line.contains("otherwise") && !input.split("otherwise")[1].contains("end")) {
+					Sys.println(currentFile + " - " + "Error: An else statement is missing it's enclosing 'end' block at line " + i);
+					return true;
+				}
+
+				if (line.contains("::")) {
+					Sys.println(currentFile + " - " + "Error: Unknown character: '::'" + " at line " + i);
+					return true;
+				}
+
+				if (line.contains("<<")
+					&& !supportedTargets.contains(line.split("<<")[1].split(">>")[0])
+					&& line.split("<<")[1].split(">>")[0] != "end") {
+					Sys.println(currentFile + " - " + "Error: Unknown target: '" + line.split("<<")[1].split(">>")[0] + "'" + " at line " + i);
+					return true;
+				}
+
+				if (line.contains(">>") && !line.contains("<<")) {
+					Sys.println(currentFile + " - " + "Error: Expected conditional compilation block at line " + i);
+					return true;
+				}
+
+				if (!line.contains(">>") && line.contains("<<")) {
+					Sys.println(currentFile + " - " + "Error: Expected conditional compilation block at line " + i);
+					return true;
+				}
+
+				for (file in FileSystem.readDirectory(directory)) {
+					if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
+						if (line.contains('${~/_*[A-Z]\\w*/}')
+							&& (!line.contains('MathTools') || line.contains('File') || line.contains('System') || !line.contains(file.replace(".bl", "")))) {
+							Sys.println(currentFile + " - " + "Error: Unknown class at line " + i);
+							return true;
+							break;
+						}
 					}
 				}
-				if (line.contains("***") && !line.split("***")[1].contains("***")) {
-					Sys.println("Error: Expected '***' to end comment at line" + i);
-					return true;
+				return false;
+
+				for (file in FileSystem.readDirectory(directory)) {
+					if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
+						if (line.contains(file.replace(".bl", "") + "/") || line.contains(file.replace(".bl", "") + " /")) {
+							if ((!File.getContent(file).contains(line.split(file.replace(".bl", ""))[1].split(" ")[0] + " =")
+								|| (line.contains("(")
+									&& !File.getContent(file).contains(line.split("method " + file.replace(".bl", ""))[1].split("(")[0])))) {
+								Sys.println(currentFile
+									+ " - "
+									+ "Error: Class: "
+									+ file.replace(".bl", "")
+									+ " does not contain variable: "
+									+ (line.split(file.replace(".bl", ""))[1].split(" ")[0] + " =")
+									+ i);
+								return true;
+								break;
+							}
+						}
+					}
 				}
 			}
-
-			return false;
+		} else {
+			Sys.println(currentFile + " - " + "No newline found on file at line 1");
+			return true;
 		}
 		return false;
 	}

@@ -7,7 +7,7 @@ import sys.FileSystem;
 using StringTools;
 
 class BCUtil {
-	public static var CData:Array<String> = ["#include <stdio.h>", "#include <stdlib.h>"];
+	public static var CData:Array<String> = ["#include <stdlib.h>"];
 	private static var variablesToFree:Array<String> = [];
 	static var specificValues:Array<Dynamic> = [];
 	static var oldValues:Array<Dynamic> = [];
@@ -17,14 +17,14 @@ class BCUtil {
 	public static function toC(AST:Dynamic) {
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!CData.join('\n').contains(parsedAST.name)) {
+			if (!CData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
 				CData.push(("void* "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*").replace("[", '{').replace("]", '}'));
 				variablesToFree.push("free(" + Std.string(parsedAST.name).replace("|", ":").replace("\n", "") + ");");
 			} else if (CData.join('\n').contains(parsedAST.name)
-				&& !CData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !CData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
 				&& !CData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				CData.push(parsedAST.name.replace("public var", "")
 					+ '='
@@ -63,7 +63,7 @@ class BCUtil {
 			CData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
 		}
 		if (parsedAST.label == "For") {
-			CData.push('for (${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {');
+			CData.push('for (int ${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {');
 		}
 		if (parsedAST.label == "Return") {
 			if (!CData.join('\n').contains('*${parsedAST.value.replace(";", "")}')) {
@@ -93,6 +93,9 @@ class BCUtil {
 		}
 		if (parsedAST.label == "FunctionCall") {
 			CData.push('${parsedAST.value});');
+		}
+		if (parsedAST.label == "Print") {
+			CData.push('printf(${parsedAST.value});');
 		}
 	}
 

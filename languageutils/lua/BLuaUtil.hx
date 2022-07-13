@@ -16,12 +16,13 @@ class BLuaUtil {
 	public static function toLua(AST:Dynamic) {
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!luaData.join('\n').contains(parsedAST.name)) {
-				luaData.push((Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
-					+ ' = '
-					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
+			if (!luaData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
+				luaData.push("global "
+					+ (Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
+						+ ' = '
+						+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
 			} else if (luaData.join('\n').contains(parsedAST.name)
-				&& !luaData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !luaData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
 				&& !luaData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				luaData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
@@ -29,9 +30,9 @@ class BLuaUtil {
 
 		if (parsedAST.label == "Method") {
 			if (parsedAST.args[0] == null) {
-				luaData.push('function ${parsedAST.name}()');
+				luaData.push('global function ${parsedAST.name}()');
 			} else {
-				luaData.push(('function ${parsedAST.name}(${parsedAST.args[0].join(", ")})').replace("()", "()"));
+				luaData.push(('global function ${parsedAST.name}(${parsedAST.args[0].join(", ")})').replace("()", "()"));
 			}
 		}
 		if (parsedAST.label == "End") {
@@ -57,6 +58,10 @@ class BLuaUtil {
 		}
 		if (parsedAST.label == "FunctionCall") {
 			luaData.push('${parsedAST.value})');
+		}
+
+		if (parsedAST.label == "Print") {
+			luaData.push('print(${parsedAST.value})');
 		}
 	}
 

@@ -16,14 +16,14 @@ class BJSUtil {
 	public static function toJs(AST:Dynamic) {
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!jsData.join('\n').contains(parsedAST.name)) {
+			if (!jsData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
 				jsData.push(('var'
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
 			} else if (jsData.join('\n').contains(parsedAST.name)
-				&& !jsData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !jsData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
 				&& !jsData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				jsData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
@@ -100,6 +100,10 @@ class BJSUtil {
 					.replace("8", "7")
 					.replace("9", "8"));
 			}
+		}
+
+		if (parsedAST.label == "Print") {
+			jsData.push('console.log(${parsedAST.value});');
 		}
 	}
 

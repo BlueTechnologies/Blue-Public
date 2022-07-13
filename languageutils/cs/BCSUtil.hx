@@ -16,20 +16,25 @@ class BCSUtil {
 	public static var fileName:String = null;
 
 	public static function toCS(AST:Dynamic) {
-		csData[0] = 'public class ${fileName.replace(".bl", '')}';
-		if (extension != null) {
-			csData[0] = csData[0] + " : " + extension;
+		for (i in 0...csData.length) {
+			if (csData[i] == "class") {
+				csData[i] = 'public class ${fileName.replace(".bl", '')}';
+				if (extension != null) {
+					csData[i] = csData[i] + " : " + extension;
+				}
+				break;
+			}
 		}
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!csData.join('\n').contains(parsedAST.name)) {
+			if (!csData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
 				csData.push(('dynamic?'
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
 			} else if (csData.join('\n').contains(parsedAST.name)
-				&& !csData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !csData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
 				&& !csData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				csData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
@@ -75,7 +80,7 @@ class BCSUtil {
 			csData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
 		}
 		if (parsedAST.label == "For") {
-			csData.push('for (${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {');
+			csData.push('for (int ${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {');
 		}
 		if (parsedAST.label == "Return") {
 			csData.push('return ${parsedAST.value}');
@@ -172,6 +177,10 @@ class BCSUtil {
 				csData[i] = "override " + csData[i].replace("static ", "");
 				csData.remove(csData[i - 1]);
 			}
+		}
+
+		if (parsedAST.label == "Print") {
+			csData.push('Console.WriteLine(${parsedAST.value});');
 		}
 	}
 

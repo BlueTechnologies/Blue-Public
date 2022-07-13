@@ -14,20 +14,25 @@ class BGroovyUtil {
 	public static var fileName:String = null;
 
 	public static function toGroovy(AST:Dynamic) {
-		groovyData[2] = 'class ${fileName.replace(".bl", '')}';
-		if (extension != null) {
-			groovyData[2] = groovyData[2] + " extends " + extension;
+		for (i in 0...groovyData.length) {
+			if (groovyData[i] == "class") {
+				groovyData[i] = 'class ${fileName.replace(".bl", '')}';
+				if (extension != null) {
+					groovyData[i] = groovyData[i] + " : " + extension;
+				}
+				break;
+			}
 		}
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!groovyData.join('\n').contains(parsedAST.name)) {
+			if (!groovyData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
 				groovyData.push(('def'
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
 			} else if (groovyData.join('\n').contains(parsedAST.name)
-				&& !groovyData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !groovyData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
 				&& !groovyData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				groovyData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
@@ -139,6 +144,10 @@ class BGroovyUtil {
 					.replace("8", "7")
 					.replace("9", "8"));
 			}
+		}
+
+		if (parsedAST.label == "Print") {
+			groovyData.push('print ${parsedAST.value}');
 		}
 	}
 

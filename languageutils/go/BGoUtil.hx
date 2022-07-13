@@ -7,7 +7,7 @@ import sys.FileSystem;
 using StringTools;
 
 class BGoUtil {
-	public static var goData:Array<String> = ["package main", 'import "fmt"', "type dynamic = interface{}"];
+	public static var goData:Array<String> = ['import "fmt"', 'import "main"', "type dynamic = interface{}"];
 	static var specificValues:Array<Dynamic> = [];
 	static var oldValues:Array<Dynamic> = [];
 	static public var extension:Dynamic = null;
@@ -16,14 +16,14 @@ class BGoUtil {
 	public static function toGo(AST:Dynamic) {
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!goData.join('\n').contains(parsedAST.name)) {
+			if (!goData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
 				goData.push(('var'
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*").replace("[", "{").replace("]", "}"));
 			} else if (goData.join('\n').contains(parsedAST.name)
-				&& !goData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !goData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
 				&& !goData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
 				goData.push(parsedAST.name.replace("public var", "")
 					+ '='
@@ -101,6 +101,10 @@ class BGoUtil {
 					.replace("8", "7")
 					.replace("9", "8"));
 			}
+		}
+
+		if (parsedAST.label == "Print") {
+			goData.push('fmt.print(${parsedAST.value})');
 		}
 	}
 
