@@ -20,7 +20,7 @@ class MathTools {
         return Math.sin(x);
     }
     
-    static floorValues(x) {
+    static floorValue(x) {
         return Math.floor(x);
     }
     

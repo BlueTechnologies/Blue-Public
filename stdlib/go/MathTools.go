@@ -1,28 +1,28 @@
-import "math"
+package main
+import (
+	"math"
+)
+func arcsine(x2 dynamic) dynamic{
+	return math.Asin(x2.(float64));
+}
 
-type dynamic = interface{}
-
-func arcsine(dynamic x, dynamic y) {
-	return math.asin(x, y);
+func arccos(x2 dynamic) dynamic{
+	return math.Acos(x2.(float64));
 }
 	
-func arccos(dynamic x, dynamic y) {
-	return math.acos(x, y);
+func cosine(x3 dynamic) dynamic {
+	return math.Cos(x3.(float64));
 }
 	
-func cosine(dynamic x, dynamic y) {
-	return math.cos(x, y);
+func power(x4 dynamic, y dynamic) dynamic {
+	return math.Pow(x4.(float64), y.(float64));
 }
 	
-func power(dynamic x, dynamic y) {
-	return math.pow(x, y);
+func sine(x5 dynamic) dynamic {
+	return math.Sin(x5.(float64));
 }
 	
-func sine(dynamic x, dynamic y) {
-	return math.sin(x, y);
-}
-	
-func floorValues(dynamic x, dynamic y) {
-	return math.floor(x, y);
+func floorValue(x6 dynamic) dynamic {
+	return math.Floor(x6.(float64));
 }
 	

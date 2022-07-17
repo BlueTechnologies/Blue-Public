@@ -17,23 +17,23 @@ class BGroovyUtil {
 		for (i in 0...groovyData.length) {
 			if (groovyData[i] == "class") {
 				groovyData[i] = 'class ${fileName.replace(".bl", '')}';
-				if (extension != null) {
-					groovyData[i] = groovyData[i] + " : " + extension;
-				}
 				break;
 			}
 		}
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!groovyData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
+			if ((!groovyData.join('\n').contains(parsedAST.name + " = ") && !parsedAST.name.contains("/"))
+				|| (groovyData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+					|| groovyData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/))) {
 				groovyData.push(('def'
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
-			} else if (groovyData.join('\n').contains(parsedAST.name)
-				&& !groovyData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
-				&& !groovyData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
+			} else if (groovyData.join('\n').contains(parsedAST.name + " = ")
+				&& !groovyData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !groovyData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)
+				|| parsedAST.name.contains("/")) {
 				groovyData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
 		}
@@ -70,7 +70,9 @@ class BGroovyUtil {
 			groovyData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
 		}
 		if (parsedAST.label == "For") {
-			groovyData.push('for (${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {');
+			groovyData.push(('for (${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {')
+				.replace("\n", "")
+				.replace("\r", ""));
 		}
 		if (parsedAST.label == "Return") {
 			groovyData.push('return ${parsedAST.value}');

@@ -32,7 +32,7 @@ double sine(void* x) {
     return sin(x3);
 }
 
-double floorValues(void* x) {
+double floorValue(void* x) {
     double* x2 = (double*)x;
     double x3 = *x2;
     return floor(x3);

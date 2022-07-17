@@ -19,18 +19,24 @@ class BCoffeeScriptUtil {
 		for (i in 0...coffeeScriptData.length) {
 			if (coffeeScriptData[i] == "class") {
 				coffeeScriptData[i] = 'class ${fileName.replace(".bl", '')}';
+				if (extension != null) {
+					coffeeScriptData[i] = coffeeScriptData[i] + " extends " + extension;
+				}
 				break;
 			}
 		}
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!coffeeScriptData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
+			if ((!coffeeScriptData.join('\n').contains(parsedAST.name + " = ") && !parsedAST.name.contains("/"))
+				|| (coffeeScriptData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+					|| coffeeScriptData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/))) {
 				Std.string(parsedAST.name)
 					.replace("|", ":")
 					.replace("\n", "") + ' = ' + Std.string(parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*");
-			} else if (coffeeScriptData.join('\n').contains(parsedAST.name)
-				&& !coffeeScriptData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
-				&& !coffeeScriptData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
+			} else if (coffeeScriptData.join('\n').contains(parsedAST.name + " = ")
+				&& !coffeeScriptData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !coffeeScriptData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)
+				|| parsedAST.name.contains("/")) {
 				coffeeScriptData.push(parsedAST.name.replace("public var", "")
 					+ '='
 					+ Std.string(parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
@@ -39,9 +45,9 @@ class BCoffeeScriptUtil {
 
 		if (parsedAST.label == "Method") {
 			if (parsedAST.args[0] == null) {
-				coffeeScriptData.push('${parsedAST.name} = ->');
+				coffeeScriptData.push('${parsedAST.name}: () ->');
 			} else {
-				coffeeScriptData.push(('${parsedAST.name}(${parsedAST.args[0].join(", ")}) = ->').replace("()", "()"));
+				coffeeScriptData.push(('${parsedAST.name}: (${parsedAST.args[0].join(", ")}) ->').replace("()", "()"));
 			}
 		}
 		if (parsedAST.label == "Throw") {
@@ -63,7 +69,8 @@ class BCoffeeScriptUtil {
 			coffeeScriptData.push('else if ${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}');
 		}
 		if (parsedAST.label == "For") {
-			coffeeScriptData.push('${parsedAST.iterator} for (${parsedAST.iterator} in [${parsedAST.numberOne}...${parsedAST.numberTwo}])');
+			coffeeScriptData.push(('${parsedAST.iterator} for ${parsedAST.iterator} in [${parsedAST.numberOne}...${parsedAST.numberTwo}]').replace("\n", "")
+				.replace("\r", ""));
 		}
 		if (parsedAST.label == "Return") {
 			coffeeScriptData.push('return ${Std.string(parsedAST.value)}');
@@ -87,9 +94,9 @@ class BCoffeeScriptUtil {
 		}
 		if (parsedAST.label == "Constructor") {
 			if (parsedAST.args[0] == null) {
-				coffeeScriptData.push('constructor: args -> ');
+				coffeeScriptData.push('constructor () -> ');
 			} else {
-				coffeeScriptData.push(('constructor: args(${parsedAST.args[0].join(", ")}) ->').replace("()", "()"));
+				coffeeScriptData.push(('constructor (${parsedAST.args[0].join(", ")}) ->').replace("()", "()"));
 			}
 		}
 		if (parsedAST.label == "Else") {

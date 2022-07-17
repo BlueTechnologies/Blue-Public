@@ -16,15 +16,18 @@ class BJSUtil {
 	public static function toJs(AST:Dynamic) {
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!jsData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
+			if ((!jsData.join('\n').contains(parsedAST.name + " = ") && !parsedAST.name.contains("/"))
+				|| (jsData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+					|| jsData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/))) {
 				jsData.push(('var'
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
-			} else if (jsData.join('\n').contains(parsedAST.name)
-				&& !jsData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
-				&& !jsData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
+			} else if (jsData.join('\n').contains(parsedAST.name + " = ")
+				&& !jsData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !jsData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)
+				|| parsedAST.name.contains("/")) {
 				jsData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
 		}
@@ -61,24 +64,12 @@ class BJSUtil {
 			jsData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
 		}
 		if (parsedAST.label == "For") {
-			jsData.push('for (${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {');
+			jsData.push(('for (${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {')
+				.replace("\n", "")
+				.replace("\r", ""));
 		}
 		if (parsedAST.label == "Return") {
 			jsData.push('return ${parsedAST.value}');
-		}
-		if (parsedAST.label == "New") {
-			if (parsedAST.args[0] == null) {
-				jsData.push('new ${parsedAST.value}();');
-			} else {
-				jsData.push(('new ${parsedAST.value}(${parsedAST.args[0].join(", ")});').replace("()", "()"));
-			}
-		}
-		if (parsedAST.label == "Constructor") {
-			if (parsedAST.args[0] == null) {
-				jsData.push('constructor() {');
-			} else {
-				jsData.push(('constructor(${parsedAST.args[0].join(", ")}) {').replace("()", "()"));
-			}
 		}
 		if (parsedAST.label == "Else") {
 			jsData.push('else {');

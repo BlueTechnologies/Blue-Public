@@ -7,7 +7,7 @@ import sys.FileSystem;
 using StringTools;
 
 class BGoUtil {
-	public static var goData:Array<String> = ['import (\n"fmt"\n"main"\n)', "type dynamic = interface{}"];
+	public static var goData:Array<String> = ['import "fmt"'];
 	static var specificValues:Array<Dynamic> = [];
 	static var oldValues:Array<Dynamic> = [];
 	static public var extension:Dynamic = null;
@@ -16,15 +16,18 @@ class BGoUtil {
 	public static function toGo(AST:Dynamic) {
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!goData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
+			if ((!goData.join('\n').contains(parsedAST.name + " = ") && !parsedAST.name.contains("/"))
+				|| (goData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+					|| goData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/))) {
 				goData.push(('var'
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
-					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*").replace("[", "{").replace("]", "}"));
-			} else if (goData.join('\n').contains(parsedAST.name)
-				&& !goData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
-				&& !goData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
+					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*").replace("]", "}").replace("[", "[]dynamic{"));
+			} else if (goData.join('\n').contains(parsedAST.name + " = ")
+				&& !goData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !goData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)
+				|| parsedAST.name.contains("/")) {
 				goData.push(parsedAST.name.replace("public var", "")
 					+ '='
 					+ parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*").replace("[", "{").replace("]", "}"));
@@ -32,16 +35,30 @@ class BGoUtil {
 		}
 
 		if (parsedAST.label == "Method") {
-			if (parsedAST.args[0] == null) {
-				goData.push('func ${parsedAST.name}() dynamic {');
-			} else {
-				var args = [];
-				if (parsedAST.args[0] != null && parsedAST.args[0].length > 0) {
-					for (i in 0...parsedAST.args[0].length) {
-						args.push(parsedAST.args[0][i]);
+			if (!goData.join("\n").contains("func")) {
+				if (parsedAST.args[0] == null) {
+					goData.push('func ${parsedAST.name}() dynamic {\nfmt.Print("")');
+				} else {
+					var args = [];
+					if (parsedAST.args[0] != null && parsedAST.args[0].length > 0) {
+						for (i in 0...parsedAST.args[0].length) {
+							args.push(parsedAST.args[0][i]);
+						}
 					}
+					goData.push(('func ${parsedAST.name}(${args.join(" dynamic, ") + " dynamic"}) dynamic {\nfmt.Print("")').replace("( dynamic)", "()"));
 				}
-				goData.push(('func ${parsedAST.name}(${args.join(" dynamic, ") + " dynamic"}) dynamic {\n').replace("( dynamic)", "()"));
+			} else {
+				if (parsedAST.args[0] == null) {
+					goData.push('func ${parsedAST.name}() dynamic {\n');
+				} else {
+					var args = [];
+					if (parsedAST.args[0] != null && parsedAST.args[0].length > 0) {
+						for (i in 0...parsedAST.args[0].length) {
+							args.push(parsedAST.args[0][i]);
+						}
+					}
+					goData.push(('func ${parsedAST.name}(${args.join(" dynamic, ") + " dynamic"}) dynamic {\n').replace("( dynamic)", "()"));
+				}
 			}
 		}
 		if (parsedAST.label == "End") {
@@ -104,7 +121,7 @@ class BGoUtil {
 		}
 
 		if (parsedAST.label == "Print") {
-			goData.push('fmt.print(${parsedAST.value})');
+			goData.push('fmt.Print(${parsedAST.value})');
 		}
 	}
 
@@ -118,6 +135,7 @@ class BGoUtil {
 				.replace('mult', '*')
 				.replace('div', '/')
 				.replace("not ", "!")
-				.replace("outof", "%"));
+				.replace("outof", "%")
+				.replace("null", "nil"));
 	}
 }

@@ -17,17 +17,19 @@ class BCUtil {
 	public static function toC(AST:Dynamic) {
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!CData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
+			if ((!CData.join('\n').contains(parsedAST.name + " = ") && !parsedAST.name.contains("/"))
+				|| (CData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name) || CData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/))) {
 				CData.push(("void* "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*").replace("[", '{').replace("]", '}'));
 				variablesToFree.push("free(" + Std.string(parsedAST.name).replace("|", ":").replace("\n", "") + ");");
-			} else if (CData.join('\n').contains(parsedAST.name)
-				&& !CData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
-				&& !CData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
+			} else if (CData.join('\n').contains(parsedAST.name + " = ")
+				&& !CData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !CData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)
+				|| parsedAST.name.contains("/")) {
 				CData.push(parsedAST.name.replace("public var", "")
-					+ '='
+					+ ' = '
 					+ parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*").replace("[", '{').replace("]", '}'));
 			}
 		}
@@ -40,6 +42,7 @@ class BCUtil {
 				if (parsedAST.args[0] != null && parsedAST.args[0].length > 0) {
 					for (i in 0...parsedAST.args[0].length) {
 						args.push("void* " + parsedAST.args[0][i]);
+						variablesToFree.push("free(" + parsedAST.args[0][i] + ");");
 					}
 				}
 				if (args.length > 0) {
@@ -63,7 +66,9 @@ class BCUtil {
 			CData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
 		}
 		if (parsedAST.label == "For") {
-			CData.push('for (int ${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {');
+			CData.push(('for (int ${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {')
+				.replace("\n", "")
+				.replace("\r", ""));
 		}
 		if (parsedAST.label == "Return") {
 			if (!CData.join('\n').contains('*${parsedAST.value.replace(";", "")}')) {
@@ -83,6 +88,7 @@ class BCUtil {
 				if (parsedAST.args[0] != null && parsedAST.args[0].length > 0) {
 					for (i in 0...parsedAST.args[0].length) {
 						args.push("void* " + parsedAST.args[0][i]);
+						variablesToFree.push("free(" + parsedAST.args[0][i] + ");");
 					}
 				}
 				CData.push(('int main(${args.join(", ")}) {').replace("(void* )", "()"));
@@ -111,5 +117,18 @@ class BCUtil {
 				.replace("not ", "!")
 				.replace("outof", "%")
 				.replace("null", "NULL"));
+	}
+
+	static public function startGarbageCollection() {
+		for (j in 0...variablesToFree.length) {
+			for (i in 0...CData.length) {
+				if (CData[i].contains(variablesToFree[j].split("free(")[1].split(")")[0])
+					&& !CData[i].contains(variablesToFree[j].split("free(")[1].split(")")[0] + " =")
+					&& !CData.join("\n").split(CData[i])[1].contains(variablesToFree[j].split("free(")[1].split(")")[0])) {
+					CData.insert(i + 1, variablesToFree[j]);
+					break;
+				}
+			}
+		}
 	}
 }

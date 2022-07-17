@@ -1,19 +1,19 @@
 class MathTools
 
-arcsine: (x, y) -> 
-    return asin(x, y);
+arcsine: (x) -> 
+    return asin(x);
 
-arccos: (x, y) ->
-    return acos(x, y);
+arccos: (x) ->
+    return acos(x);
 
-cosine: (x, y) ->
-    return cos(x, y);
+cosine: (x) ->
+    return cos(x);
 
-power: (x, y) ->
+power: (x) ->
     return pow(x, y);
 
-sine: (x, y) ->
-    return sin(x, y);
+sine: (x) ->
+    return sin(x);
 
-floorValues: (x, y) ->
-    return floor(x, y);
+floorValue: (x) ->
+    return floor(x);

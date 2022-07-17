@@ -16,14 +16,17 @@ class BLuaUtil {
 	public static function toLua(AST:Dynamic) {
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!luaData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
+			if ((!luaData.join('\n').contains(parsedAST.name + " = ") && !parsedAST.name.contains("/"))
+				|| (luaData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+					|| luaData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/))) {
 				luaData.push("global "
 					+ (Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 						+ ' = '
 						+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
-			} else if (luaData.join('\n').contains(parsedAST.name)
-				&& !luaData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
-				&& !luaData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
+			} else if (luaData.join('\n').contains(parsedAST.name + " = ")
+				&& !luaData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !luaData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)
+				|| parsedAST.name.contains("/")) {
 				luaData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
 		}
@@ -48,7 +51,7 @@ class BLuaUtil {
 			luaData.push('elseif ${Std.string(parsedAST.condition).replace("not ", "~").replace("=", "=").replace("greater than", ">").replace("less than", "<").replace("or", "or").replace("and", "and").replace("~ =", "~=")}');
 		}
 		if (parsedAST.label == "For") {
-			luaData.push('for ${parsedAST.iterator} = ${parsedAST.numberOne}, ${parsedAST.numberTwo}, 1 do');
+			luaData.push(('for ${parsedAST.iterator} = ${parsedAST.numberOne}, ${parsedAST.numberTwo}, 1 do').replace("\n", "").replace("\r", ""));
 		}
 		if (parsedAST.label == "Return") {
 			luaData.push('return ${parsedAST.value}');

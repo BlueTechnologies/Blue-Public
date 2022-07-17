@@ -19,6 +19,6 @@ function sine(x)
     return math.sin(x)
 end
 
-function floorValues(x)
+function floorValue(x)
     return math.floor(x)
 end

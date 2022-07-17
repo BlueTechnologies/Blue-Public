@@ -20,6 +20,6 @@ static double sine(double x) {
     return sin(x);
 }
 
-static double floorValues(double x) {
+static double floorValue(double x) {
     return floor(x);
 }

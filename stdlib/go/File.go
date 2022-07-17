@@ -1,20 +1,14 @@
-type dynamic = interface{};
+package main
 import (
-    "iotuil"
-    "fmt"
-    "log"
 	"os"
-	"bufio"
 )
 
-func read(dynamic path) {
-	content, err := os.ReadFile(path);
-	return content;
-	defer content.Close();
+func read(path dynamic) (interface{}, dynamic) {
+	var content, err = os.ReadFile(path.(string));
+	return content, err;
 }
 
-func write(dynamic content, dynamic path) {
-d1 := []byte(content)
-err := os.WriteFile(path, d1, 0644)
-defer f.Close()
+func write(path2 dynamic, content dynamic) {
+var d1 = []byte(content.(string))
+os.WriteFile(path2.(string), d1, 0644)
 }

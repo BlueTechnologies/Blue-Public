@@ -20,22 +20,25 @@ class BHaxeUtil {
 			if (haxeData[i] == "class") {
 				haxeData[i] = 'class ${fileName.replace(".bl", '')}';
 				if (extension != null) {
-					haxeData[i] = haxeData[i] + " : " + extension;
+					haxeData[i] = haxeData[i] + " extends  " + extension;
 				}
 				break;
 			}
 		}
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!haxeData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
+			if ((!haxeData.join('\n').contains(parsedAST.name + " = ") && !parsedAST.name.contains("/"))
+				|| (haxeData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+					|| haxeData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/))) {
 				haxeData.push(('public var'
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ':Dynamic = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
-			} else if (haxeData.join('\n').contains(parsedAST.name)
-				&& !haxeData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
-				&& !haxeData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
+			} else if (haxeData.join('\n').contains(parsedAST.name + " = ")
+				&& !haxeData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !haxeData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)
+				|| parsedAST.name.contains("/")) {
 				haxeData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
 		}
@@ -73,7 +76,7 @@ class BHaxeUtil {
 			haxeData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
 		}
 		if (parsedAST.label == "For") {
-			haxeData.push('for (${parsedAST.iterator} in ${parsedAST.numberOne}...${parsedAST.numberTwo}) {');
+			haxeData.push(('for (${parsedAST.iterator} in ${parsedAST.numberOne}...${parsedAST.numberTwo}) {').replace("\n", "").replace("\r", ""));
 		}
 		if (parsedAST.label == "Return") {
 			haxeData.push('return ${parsedAST.value}');

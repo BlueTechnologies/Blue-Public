@@ -1,7 +1,6 @@
 package parsing;
 
 import languageutils.lua.BLuaUtil;
-import languageutils.julia.BJuliaUtil;
 import languageutils.js.BJSUtil;
 import languageutils.go.BGoUtil;
 import languageutils.cpp.BCPPUtil;
@@ -47,7 +46,7 @@ class BParser {
 	static var label:String;
 	static var stringValue:String;
 
-	public static function parse(input:Dynamic) {
+	public static function parse(input:Dynamic, startCollecting:Bool = false) {
 		token = null;
 		iterator = null;
 		numberTwo = null;
@@ -190,6 +189,9 @@ class BParser {
 		switch (blue.Blue.target) {
 			case 'c':
 				BCUtil.toC(serializedResult);
+				if (startCollecting) {
+					BCUtil.startGarbageCollection();
+				}
 				BCUtil.buildCFile();
 			case "coffeescript":
 				BCoffeeScriptUtil.toCoffeeScript(serializedResult);
@@ -212,9 +214,6 @@ class BParser {
 			case "javascript":
 				BJSUtil.toJs(serializedResult);
 				BJSUtil.buildJsFile();
-			case "julia":
-				BJuliaUtil.toJulia(serializedResult);
-				BJuliaUtil.buildJuliaFile();
 			case "lua":
 				BLuaUtil.toLua(serializedResult);
 				BLuaUtil.buildLuaFile();

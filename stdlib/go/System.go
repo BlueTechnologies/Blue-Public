@@ -1,18 +1,17 @@
-type dynamic = interface{};
-
+package main
 import (
 	"os/exec"
 	"os"
 )
 
-func runcmd(dynamic command) {
+func runcmd(command dynamic) {
 
-    cmd := exec.Command(command)
+    cmd := exec.Command(command.(string))
 
-    err := cmd.Run()
+    cmd.Run()
 }
 
-func exit(dynamic exitcode) {
+func exit(exitcode dynamic) {
 	
-    os.Exit(exitcode)
+    os.Exit(exitcode.(int))
 }

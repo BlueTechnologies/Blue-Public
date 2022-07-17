@@ -1,25 +1,25 @@
 import java.lang.Math;
 
-def arcsine(x, y) {
-	return Math.asin(x, y);
+def arcsine(x) {
+	return Math.asin(x);
 }
 	
-def arccos(x, y) {
-	return Math.acos(x, y);
+def arccos(x) {
+	return Math.acos(x);
 }
 	
-def cosine(x, y) {
-	return Math.cos(x, y);
+def cosine(x) {
+	return Math.cos(x);
 }
 	
 def power(x, y) {
 	return Math.pow(x, y);
 }
 	
-def sine(x, y) {
-	return Math.sin(x, y);
+def sine(x) {
+	return Math.sin(x);
 }
 	
-def floorValues(x, y) {
-	return Math.floor(x, y);
+def floorValue(x) {
+	return Math.floor(x);
 }

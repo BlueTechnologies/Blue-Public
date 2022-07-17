@@ -27,15 +27,18 @@ class BCSUtil {
 		}
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if (!csData.join('\n').contains(parsedAST.name) && !parsedAST.name.contains("/")) {
+			if ((!csData.join('\n').contains(parsedAST.name + " = ") && !parsedAST.name.contains("/"))
+				|| (csData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+					|| csData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/))) {
 				csData.push(('dynamic?'
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
 					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
-			} else if (csData.join('\n').contains(parsedAST.name)
-				&& !csData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name + "=")
-				&& !csData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)) {
+			} else if (csData.join('\n').contains(parsedAST.name + " = ")
+				&& !csData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
+				&& !csData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)
+				|| parsedAST.name.contains("/")) {
 				csData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
 			}
 		}
@@ -80,7 +83,9 @@ class BCSUtil {
 			csData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
 		}
 		if (parsedAST.label == "For") {
-			csData.push('for (int ${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {');
+			csData.push(('for (int ${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {')
+				.replace("\n", "")
+				.replace("\r", ""));
 		}
 		if (parsedAST.label == "Return") {
 			csData.push('return ${parsedAST.value}');
