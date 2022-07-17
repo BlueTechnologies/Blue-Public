@@ -332,7 +332,6 @@ class Blue {
 										Sys.command(buildCommand);
 									}
 								case "lua":
-									FileSystem.deleteDirectory("export/bin");
 									if (FileSystem.exists("export/luasrc")
 										&& FileSystem.readDirectory("export/luasrc").length == files.length + 3) {
 										buildCommand = parsedConf.build_commands.lua.command;
