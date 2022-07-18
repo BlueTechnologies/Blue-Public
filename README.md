@@ -30,18 +30,18 @@ Compiling the blue compiler is pretty simple; Read "Installing dependencies" ste
 a = 1
 b = [2, 3]
 
-*** Main function, where the code starts executing ***
-main method()
-getNumber(1)
-end
-
-@Static
+```
 method getNumber(num)
 *** Print the number that was passed in ***
 print(num)
 *** Return the number, and stop the function" ***
 return num
 *** Exit the program after the number has been printed ***
-Sys/exit(0)
+exit(0)
+end
+
+*** Main function, where the code starts executing ***
+main method()
+getNumber(1)
 end
 ```
