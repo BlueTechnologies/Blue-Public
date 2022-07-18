@@ -1,6 +1,5 @@
 package parsing;
 
-import languageutils.lua.BLuaUtil;
 import languageutils.js.BJSUtil;
 import languageutils.go.BGoUtil;
 import languageutils.cpp.BCPPUtil;
@@ -214,9 +213,6 @@ class BParser {
 			case "javascript":
 				BJSUtil.toJs(serializedResult);
 				BJSUtil.buildJsFile();
-			case "lua":
-				BLuaUtil.toLua(serializedResult);
-				BLuaUtil.buildLuaFile();
 		}
 
 		token = null;

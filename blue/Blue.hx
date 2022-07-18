@@ -1,6 +1,5 @@
 package blue;
 
-import languageutils.lua.BLuaUtil;
 import languageutils.js.BJSUtil;
 import languageutils.go.BGoUtil;
 import languageutils.cpp.BCPPUtil;
@@ -18,7 +17,7 @@ using StringTools;
 
 class Blue {
 	public static var target:String = "Haxe";
-	public static var supportedTargets:Array<String> = ["c", "cpp", "cs", "coffeescript", "go", "groovy", "haxe", "javascript", "lua"];
+	public static var supportedTargets:Array<String> = ["c", "cpp", "cs", "coffeescript", "go", "groovy", "haxe", "javascript"];
 
 	public static var targetUtilityClass:Dynamic = BHaxeUtil;
 
@@ -90,9 +89,6 @@ class Blue {
 			  "command":"haxe -cp src --main'
 		+ "'export.hxsrc.Main'"
 		+ '--cpp export/bin"
-		   },
-		   "lua":{
-			  "command":"lua export/luasrc/Main.lua"
 		   }
 		}
 	 }';
@@ -144,8 +140,6 @@ class Blue {
 									Sys.println("- " + currentFile_Noerr.replace(".bl", ".hx"));
 								case "javascript":
 									Sys.println("- " + currentFile_Noerr.replace(".bl", ".js"));
-								case "lua":
-									Sys.println("- " + currentFile_Noerr.replace(".bl", ".lua"));
 							}
 							var rawContent = File.getContent(directory + "/" + file);
 							mapFile(directory + "/" + file);
@@ -247,24 +241,6 @@ class Blue {
 											File.copy(Sys.programPath().replace("Blue.exe", "") + "stdlib/js/" + file, 'export/jssrc/$file');
 										}
 									}
-								case "lua":
-									BLuaUtil.fileName = file;
-									BLuaUtil.luaData.insert(0, 'require "' + "System" + '"');
-									BLuaUtil.luaData.insert(0, 'require "' + "File" + '"');
-									BLuaUtil.luaData.insert(0, 'require "' + "MathTools" + '"');
-									for (includeFile in FileSystem.readDirectory(directory)) {
-										if (includeFile.endsWith(".bl")) {
-											if (includeFile != file) {
-												BLuaUtil.luaData.insert(0, 'require ' + '"${includeFile.replace(".bl", "")}"' + '');
-											}
-										}
-									}
-									lexSourceFile(rawContent);
-									if (FileSystem.exists(Sys.programPath().replace("Blue.exe", "") + "stdlib/lua")) {
-										for (file in FileSystem.readDirectory(Sys.programPath().replace("Blue.exe", "") + "stdlib/lua")) {
-											File.copy(Sys.programPath().replace("Blue.exe", "") + "stdlib/lua/" + file, 'export/luasrc/$file');
-										}
-									}
 							}
 							if (target == "c" || target == "cpp" || target == "haxe") {
 								for (i in 0...rawContent.split("\n").length) {
@@ -329,12 +305,6 @@ class Blue {
 									if (FileSystem.exists("export/hxsrc")
 										&& FileSystem.readDirectory("export/hxsrc").length == files.length + 3) {
 										buildCommand = parsedConf.build_commands.haxe.command;
-										Sys.command(buildCommand);
-									}
-								case "lua":
-									if (FileSystem.exists("export/luasrc")
-										&& FileSystem.readDirectory("export/luasrc").length == files.length + 3) {
-										buildCommand = parsedConf.build_commands.lua.command;
 										Sys.command(buildCommand);
 									}
 							}
@@ -590,6 +560,14 @@ class Blue {
 							+ (i + 1));
 						return true;
 					}
+					if (line.contains(" and ") && target == "lua") {
+						Sys.println(currentFile_Noerr + " - " + "Error: You cannot use the 'and' keyword while targetting " + target + " at line " + (i + 1));
+						return true;
+					}
+					if (line.contains(" or ") && target == "lua") {
+						Sys.println(currentFile_Noerr + " - " + "Error: You cannot use the 'or' keyword while targetting " + target + " at line " + (i + 1));
+						return true;
+					}
 					if (line.contains("@Static") && target != "haxe" && target != "cs" && target != "groovy") {
 						Sys.println(currentFile
 							+ " - "
@@ -609,7 +587,8 @@ class Blue {
 							+ (i + 1));
 						return true;
 					}
-					if (line.contains("main method()") && (target == "coffeescript" || target == "js" || target == "julia")) {
+					if (line.contains("main method()")
+						&& (target == "coffeescript" || target == "js" || target == "julia" || target == "lua")) {
 						Sys.println(currentFile_Noerr + " - " + "Error: You cannot use main methods while targetting " + target + " at line " + (i + 1));
 						return true;
 					}
@@ -644,12 +623,8 @@ class Blue {
 						Sys.println(currentFile_Noerr + " - " + "Error: You cannot use the 'end' keyword while targetting " + target + " at line " + (i + 1));
 						return true;
 					}
-					if (reg.match(line)
-						&& !line.contains("@")
-						&& !line.contains('"')
-						&& !line.contains("'")
-						&& line.contains("/")
-						&& (target == "c" || target == "cpp" || target == "julia")) {
+					if (reg.match(line) && !line.contains("@") && !line.contains('"') && !line.contains("'") && line.contains("/")
+						&& (target == "c" || target == "cpp")) {
 						if ((line.contains('MathTools')
 							&& !new EReg("[A-Z0-9]" + "MathTools", "").match(line)
 							&& !new EReg("MathTools" + "[A-Z0-9]", "").match(line))

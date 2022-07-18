@@ -5,7 +5,6 @@ import blue.Blue;
 import sys.FileSystem;
 import sys.io.File;
 #end
-import languageutils.lua.BLuaUtil;
 import languageutils.js.BJSUtil;
 import languageutils.go.BGoUtil;
 import languageutils.cpp.BCPPUtil;
@@ -735,7 +734,6 @@ class BLexer {
 		BGroovyUtil.groovyData = ["", "", "class", "{"];
 		BHaxeUtil.haxeData = ["", "", "class", "{"];
 		BJSUtil.jsData = ["", ""];
-		BLuaUtil.luaData = [];
 		return gotErrors;
 	}
 
