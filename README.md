@@ -25,12 +25,12 @@ That's it! When absolutely all of these steps are complete, go into the folder c
 Compiling the blue compiler is pretty simple; Read "Installing dependencies" steps 2 - 3, and then, open a command line terminal inside the source code's folder, then, type "haxe build.hxml", and execute the command. This should build the blue compiler if all the required dependencies are installed.
 
 # A taste of Blue's syntax
+
 ```
 *** Dynamically Typed Variables ***
 a = 1
 b = [2, 3]
 
-```
 method getNumber(num)
 *** Print the number that was passed in ***
 print(num)
