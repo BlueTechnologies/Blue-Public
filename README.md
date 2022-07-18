@@ -1,10 +1,10 @@
 ![BLogo](https://user-images.githubusercontent.com/90519370/172873820-f01d13f3-6bd1-4d24-b79b-1c548f024ae9.png)
 
-# The Blue Programming Language, A powerful, V E R Y Easy to use language, that can compile to ten of your favourite languages.
+# The Blue Programming Language, A powerful, V E R Y Easy to use language, that can compile to eight of your favourite languages.
 A compiled, dynamically typed, object oriented programming language. 
 Coming in at only 30 keywords, this is an easy to use language with unseen compiler speed.
 
-## Blue has no trailing semicolons, and is extremely powerful thanks to it's small, compact, file size. It was written in only 2500 lines of Haxe code.
+## Blue has no trailing semicolons, and is extremely powerful thanks to it's small, compact, file size. It was written in only 3000 lines of Haxe code.
 
 # Installing dependencies
 
