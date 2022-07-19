@@ -443,11 +443,55 @@ class Blue {
 					Sys.println(currentFile_Noerr + " - " + "Error: Unknown character: '::'" + " at line " + (i + 1));
 					return true;
 				}
+				if (line.contains("<<")
+					&& !line.contains("<<!")
+					&& !supportedTargets.contains(line.split("<<")[1].split(">>")[0])
+					&& line.split("<<")[1].split(">>")[0] != "end"
+					&& line.contains(",")) {
+					for (i in 0...line.split(",").length) {
+						if (line.split(",")[i].replace("<<", "").replace(">>", "").contains("!")) {
+							if (!supportedTargets.contains(line.split(",")[i].split("!")[1].replace("<<", "")
+							.replace(">>", "")
+							.replace(" ", "")
+							.replace("\r", ""))) {
+								Sys.println(currentFile_Noerr
+									+ " - "
+									+ "Error: Unknown target: '"
+									+ line.split(",")[i].split("!")[1].replace("<<", "")
+									.replace(">>", "")
+									.replace(" ", "")
+									.replace("\r", "")
+										+ "'"
+										+ " at line "
+										+ (i + 1));
+								return true;
+								break;
+							}
+						}
+						if (!line.split(",")[i].replace("<<", "").replace(">>", "").replace(" ", "").contains("!")) {
+							if (!supportedTargets.contains(line.split(",")[i].replace("<<", "").replace(">>", "").replace(" ", "").replace("\r", ""))) {
+								Sys.println(currentFile_Noerr
+									+ " - "
+									+ "Error: Unknown target: '"
+									+ line.split(",")[i].replace("<<", "")
+									.replace(">>", "")
+									.replace(" ", "")
+									.replace("\r", "")
+										+ "'"
+										+ " at line "
+										+ (i + 1));
+								return true;
+								break;
+							}
+						}
+					}
+				}
 
 				if (line.contains("<<")
 					&& !line.contains("<<!")
 					&& !supportedTargets.contains(line.split("<<")[1].split(">>")[0])
-					&& line.split("<<")[1].split(">>")[0] != "end") {
+					&& line.split("<<")[1].split(">>")[0] != "end"
+					&& !line.contains(",")) {
 					Sys.println(currentFile_Noerr
 						+ " - "
 						+ "Error: Unknown target: '"
@@ -459,7 +503,8 @@ class Blue {
 				}
 				if (line.contains("<<!")
 					&& !supportedTargets.contains(line.split("<<!")[1].split(">>")[0])
-					&& line.split("<<!")[1].split(">>")[0] != "end") {
+					&& line.split("<<!")[1].split(">>")[0] != "end"
+					&& !line.contains(",")) {
 					Sys.println(currentFile_Noerr
 						+ " - "
 						+ "Error: Unknown target: '"
