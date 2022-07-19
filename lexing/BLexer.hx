@@ -81,7 +81,7 @@ class BLexer {
 			var linenum = j + 1;
 			current = contentToEnum.split("\n")[j];
 			contentToEnum = contentToEnum + "\n";
-			current = current.replace("<<end>>", "<<end>>\n\n\n\n\n");
+			current = current.replace("<<end>>", "\n\n\n");
 			if (current.contains("<<haxe>>") && Blue.target != "haxe") {
 				contentToEnum = contentToEnum.replace(contentToEnum.split('<<haxe>>')[1].split('<<end>>')[0], "");
 			} else if (current.contains("<<c>>") && Blue.target != "c") {
@@ -128,20 +128,25 @@ class BLexer {
 				contentToEnum = contentToEnum.replace(contentToEnum.split('<<!lua>>')[1].split('<<end>>')[0], "");
 			} else if (current.contains("<<") && current.contains(",") && current.contains(">>")) {
 				for (i in 0...current.split(",").length) {
-					if (current.split(",")[i].replace("<<", "").replace(">>", "").contains("!")) {
-						if (Blue.target == current.split(",")[i].split("!")[1].replace("<<", "").replace(">>", "").replace(" ", "").replace("\r", "")) {
+					if (current.split(",")[i].split(",")[0].replace("<<", "").replace(">>", "").contains("!")) {
+						if (Blue.target == current.split(",")[i].split(",")[0].split("!")[1].replace("<<", "")
+						.replace(">>", "")
+						.replace(" ", "")
+						.replace("\r", "")) {
 							contentToEnum = contentToEnum.replace(contentToEnum.split(current)[1].split("<<end>>")[0], "");
 							break;
-						} else if (Blue.target != current.split(",")[i].split("!")[1].replace("<<", "").replace(">>", "").replace(" ", "").replace("\r", "")) {
-							break;
+						} else {
+							continue;
 						}
-					}
-					if (!current.split(",")[i].replace("<<", "").replace(">>", "").replace(" ", "").contains("!")) {
-						if (Blue.target != current.split(",")[i].replace("<<", "").replace(">>", "").replace(" ", "").replace("\r", "")) {
+					} else if (current.split(",")[i].split(",")[0].replace("<<", "").replace(">>", "").contains("!")) {
+						if (Blue.target != current.split(",")[i].split(",")[0].split("!")[1].replace("<<", "")
+						.replace(">>", "")
+						.replace(" ", "")
+						.replace("\r", "")) {
 							contentToEnum = contentToEnum.replace(contentToEnum.split(current)[1].split("<<end>>")[0], "");
 							break;
-						} else if (Blue.target == current.split(",")[i].replace("<<", "").replace(">>", "").replace(" ", "").replace("\r", "")) {
-							break;
+						} else {
+							continue;
 						}
 					}
 				}
