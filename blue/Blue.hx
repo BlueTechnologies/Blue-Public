@@ -593,18 +593,6 @@ class Blue {
 						Sys.println(currentFile_Noerr + " - " + "Error: Expected conditional compilation block at line " + (i + 1));
 						return true;
 					}
-					var letreg = ~/[A-Z]/;
-					var numreg = ~/[0-9]/;
-					if (line.contains("loop ")
-						&& line.contains(" in ")
-						&& line.contains(" until ")
-						&& !letreg.match(line.split("loop ")[1].split(" in")[0])
-						&& !numreg.match(line.split("in ")[1].split(" until")[0])
-						&& !numreg.match(line.split("until ")[1])
-						&& (!line.split("loop ")[0].contains('"') && !line.split("loop ")[1].contains('"'))) {
-						Sys.println(currentFile_Noerr + " - " + "Error: Invalid loop definition at line " + (i + 1));
-						return true;
-					}
 
 					if (line.contains("loop ")
 						&& !line.contains(" in ")
@@ -864,10 +852,6 @@ class Blue {
 					if (line.contains("=")
 						&& !line.split("=")[1].contains(" ")
 						&& (!line.split("=")[0].contains('"') && !line.split("=")[1].contains('"'))) {
-						Sys.println(currentFile_Noerr + " - " + "Error: The '=' operator must be seperated with a space" + " at line " + (i + 1));
-						return true;
-					}
-					if (line.contains("=") && (!line.split("=")[0].contains('"') && !line.split("=")[1].contains('"'))) {
 						Sys.println(currentFile_Noerr + " - " + "Error: The '=' operator must be seperated with a space" + " at line " + (i + 1));
 						return true;
 					}
