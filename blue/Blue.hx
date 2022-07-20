@@ -334,390 +334,543 @@ class Blue {
 				var letters = "abcdefghijklmnopqrstuvwusyz";
 				var chars = "#$%^&?|`~:';";
 
-				if (line.contains("<<") && !line.contains("<<end>>")) {
-					hasCondition = true;
-				}
-				if (line.contains("<<end>>")) {
-					hasCondition = false;
-				}
-				if (line.contains("if") && !line.contains("then")) {
-					Sys.println(currentFile_Noerr + " - " + "Error: Expected 'then' at the end of line " + (i + 1));
-					return true;
-				}
-
-				for (n in 0...chars.split("").length) {
-					if (line.contains(chars.split("")[n])
-						&& !completeSyntax[i].contains(chars.split("")[n])
-						&& !(line.split(chars.split("")[n])[1].contains('"'))
-						&& !line.split(chars.split("")[n])[0].contains('"')) {
-						Sys.println(currentFile_Noerr + " - " + "Error: Unknown character: " + chars.split("")[n] + " at line " + (i + 1));
+				if (!line.contains("***") && (!line.split("***")[0].contains('"') && !line.split("***")[1].contains('"'))) {
+					if (line.contains("<<")
+						&& !line.contains("<<end>>")
+						&& (!line.split("<<")[0].contains('"') && !line.split("<<")[1].contains('"'))) {
+						hasCondition = true;
+					}
+					if (line.contains("<<end>>") && (!line.split("<<end>>")[0].contains('"') && !line.split("<<end>>")[1].contains('"'))) {
+						hasCondition = false;
+					}
+					if (line.contains("if")
+						&& !line.contains("then")
+						&& (!line.split("if")[0].contains('"') && !line.split("if")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Expected 'then' at the end of line " + (i + 1));
 						return true;
 					}
-				}
 
-				if (line.contains(".") && !line.split(".")[0].contains("0") && !line.split(".")[1].contains("0") && !line.split(".")[0].contains("1")
-					&& !line.split(".")[1].contains("1") && !line.split(".")[0].contains("2") && !line.split(".")[1].contains("2")
-					&& !line.split(".")[0].contains("3") && !line.split(".")[1].contains("3") && !line.split(".")[0].contains("4")
-					&& !line.split(".")[1].contains("4") && !line.split(".")[0].contains("4") && !line.split(".")[1].contains("5")
-					&& !line.split(".")[0].contains("5") && !line.split(".")[1].contains("6") && !line.split(".")[0].contains("6")
-					&& !line.split(".")[1].contains("7") && !line.split(".")[0].contains("7") && !line.split(".")[1].contains("8")
-					&& !line.split(".")[0].contains("8") && !line.split(".")[1].contains("9") && !line.split(".")[0].contains("9")
-					&& !line.split(".")[1].contains('"') && !line.split(".")[0].contains('"')) {
-					Sys.println(currentFile_Noerr + " - " + "Error: Unknown character: " + "." + " at line " + (i + 1));
-					return true;
-				}
-
-				if (line.contains("method") && line.contains(":")) {
-					Sys.println(currentFile_Noerr + " - " + "Error: Unknown character: ':'" + " at line " + (i + 1));
-					return true;
-				}
-				if (line.contains("new ") && FileSystem.exists(line.split("new ")[1].split("(")[0])) {
-					if (!File.getContent(line.split("new ")[1].split("(")[0]).contains("constructor method()")) {
-						Sys.println(currentFile
-							+ " - "
-							+ "Error: Source File: "
-							+ line.split("new ")[1].split("(")[0] + " has no constructor method at line " + (i + 1));
-						return true;
-					}
-				}
-
-				if (line.contains("constructor method()") && input.split("constructor method()")[1].split("end")[0].contains("return ")) {
-					Sys.println(currentFile_Noerr + " - " + "Error: Constructor methods cannot have a return value at line " + (i + 1));
-					return true;
-				}
-
-				if (line.contains("main method()") && input.split("main method()")[1].split("end")[0].contains("return ")) {
-					Sys.println(currentFile_Noerr + " - " + "Error: The main method cannot have a return value at line " + (i + 1));
-					return true;
-				}
-
-				for (file in FileSystem.readDirectory(directory)) {
-					if (!FileSystem.isDirectory(file) && file.endsWith(".bl")) {
-						if (file != mainFile + ".bl" && File.getContent(directory + "/" + file).contains("main method()")) {
-							Sys.println(currentFile_Noerr + " - " + "Error: Only the main file can contain a main method at line " + (i + 1));
+					for (n in 0...chars.split("").length) {
+						if (line.contains(chars.split("")[n])
+							&& !completeSyntax[i].contains(chars.split("")[n])
+							&& !(line.split(chars.split("")[n])[1].contains('"'))
+							&& !line.split(chars.split("")[n])[0].contains('"')
+							&& (!line.split(chars.split("")[n])[0].contains('"') && !line.split(chars.split("")[n])[1].contains('"'))) {
+							Sys.println(currentFile_Noerr + " - " + "Error: Unknown character: " + chars.split("")[n] + " at line " + (i + 1));
 							return true;
 						}
 					}
-				}
-				if (line.contains("[0]")) {
-					Sys.println(currentFile_Noerr + " - " + "Error: Array index's start at '1' at line " + (i + 1));
-					return true;
-				}
 
-				if (!line.contains("=") && line.contains("method ") && !line.contains("(") && !line.contains(")")) {
-					Sys.println(currentFile
-						+ " - "
-						+ "Error: Method: "
-						+ line.split("method ")[1].split(" ")[0].replace(' ', '') + "is missing it's parameter brackets at line " + (i + 1));
-					return true;
-				}
-
-				if (target != "coffeescript") {
-					if (line.contains("method ") && !input.split(line)[1].contains("end")) {
-						Sys.println(currentFile
-							+ " - "
-							+ "Error: Method: "
-							+ line.split("method ")[1].split(" ")[0].replace(' ', '') + "is missing it's enclosing 'end' block at line " + (i + 1));
-						return true;
-					}
-
-					if (line.contains("loop ") && !input.split(line)[1].contains("end")) {
-						Sys.println(currentFile
-							+ " - "
-							+ "Error: Loop: "
-							+ line.split("loop ")[1].split(" ")[0].replace(' ', '') + "is missing it's enclosing 'end' block at line " + (i + 1));
-						return true;
-					}
-
-					if (line.contains("if ") && !input.split(line)[1].contains("end")) {
-						Sys.println(currentFile_Noerr + " - " + "Error: An if statement is missing it's enclosing 'end' block at line " + (i + 1));
+					if (line.contains(".")
+						&& !line.split(".")[0].contains("0")
+						&& !line.split(".")[1].contains("0")
+						&& !line.split(".")[0].contains("1")
+						&& !line.split(".")[1].contains("1")
+						&& !line.split(".")[0].contains("2")
+						&& !line.split(".")[1].contains("2")
+						&& !line.split(".")[0].contains("3")
+						&& !line.split(".")[1].contains("3")
+						&& !line.split(".")[0].contains("4")
+						&& !line.split(".")[1].contains("4")
+						&& !line.split(".")[0].contains("4")
+						&& !line.split(".")[1].contains("5")
+						&& !line.split(".")[0].contains("5")
+						&& !line.split(".")[1].contains("6")
+						&& !line.split(".")[0].contains("6")
+						&& !line.split(".")[1].contains("7")
+						&& !line.split(".")[0].contains("7")
+						&& !line.split(".")[1].contains("8")
+						&& !line.split(".")[0].contains("8")
+						&& !line.split(".")[1].contains("9")
+						&& !line.split(".")[0].contains("9")
+						&& !line.split(".")[1].contains('"')
+						&& !line.split(".")[0].contains('"')
+						&& (!line.split(".")[0].contains('"') && !line.split(".")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Unknown character: " + "." + " at line " + (i + 1));
 						return true;
 					}
 
-					if (line.contains("otherwise") && !input.split(line)[1].contains("end")) {
-						Sys.println(currentFile_Noerr + " - " + "Error: An else statement is missing it's enclosing 'end' block at line " + (i + 1));
-						return true;
-					}
-				}
-				if (line.contains("::") && !line.split("::")[1].contains('"') && !line.split("::")[0].contains('"')) {
-					Sys.println(currentFile_Noerr + " - " + "Error: Unknown character: '::'" + " at line " + (i + 1));
-					return true;
-				}
-				if (line.contains("<<")
-					&& !line.contains("<<!")
-					&& !supportedTargets.contains(line.split("<<")[1].split(">>")[0])
-					&& line.split("<<")[1].split(">>")[0] != "end"
-					&& line.contains(",")) {
-					for (i in 0...line.split(",").length) {
-						if (line.split(",")[i].replace("<<", "").replace(">>", "").contains("!")) {
-							if (!supportedTargets.contains(line.split(",")[i].split("!")[1].replace("<<", "")
-							.replace(">>", "")
-							.replace(" ", "")
-							.replace("\r", ""))) {
-								Sys.println(currentFile_Noerr
-									+ " - "
-									+ "Error: Unknown target: '"
-									+ line.split(",")[i].split("!")[1].replace("<<", "")
-									.replace(">>", "")
-									.replace(" ", "")
-									.replace("\r", "")
-										+ "'"
-										+ " at line "
-										+ (i + 1));
-								return true;
-								break;
-							}
-						}
-						if (!line.split(",")[i].replace("<<", "").replace(">>", "").replace(" ", "").contains("!")) {
-							if (!supportedTargets.contains(line.split(",")[i].replace("<<", "").replace(">>", "").replace(" ", "").replace("\r", ""))) {
-								Sys.println(currentFile_Noerr
-									+ " - "
-									+ "Error: Unknown target: '"
-									+ line.split(",")[i].replace("<<", "")
-									.replace(">>", "")
-									.replace(" ", "")
-									.replace("\r", "")
-										+ "'"
-										+ " at line "
-										+ (i + 1));
-								return true;
-								break;
-							}
-						}
-					}
-				}
-
-				if (line.contains("<<")
-					&& !line.contains("<<!")
-					&& !supportedTargets.contains(line.split("<<")[1].split(">>")[0])
-					&& line.split("<<")[1].split(">>")[0] != "end"
-					&& !line.contains(",")) {
-					Sys.println(currentFile_Noerr
-						+ " - "
-						+ "Error: Unknown target: '"
-						+ line.split("<<")[1].split(">>")[0]
-							+ "'"
-							+ " at line "
-							+ (i + 1));
-					return true;
-				}
-				if (line.contains("<<!")
-					&& !supportedTargets.contains(line.split("<<!")[1].split(">>")[0])
-					&& line.split("<<!")[1].split(">>")[0] != "end"
-					&& !line.contains(",")) {
-					Sys.println(currentFile_Noerr
-						+ " - "
-						+ "Error: Unknown target: '"
-						+ line.split("<<!")[1].split(">>")[0]
-							+ "'"
-							+ " at line "
-							+ (i + 1));
-					return true;
-				}
-
-				if (line.contains(">>") && !line.contains("<<")) {
-					Sys.println(currentFile_Noerr + " - " + "Error: Expected conditional compilation block at line " + (i + 1));
-					return true;
-				}
-
-				if (!line.contains(">>") && line.contains("<<")) {
-					Sys.println(currentFile_Noerr + " - " + "Error: Expected conditional compilation block at line " + (i + 1));
-					return true;
-				}
-				var letreg = ~/[A-Z]/;
-				var numreg = ~/[0-9]/;
-				if (line.contains("loop ")
-					&& line.contains(" in ")
-					&& line.contains(" until ")
-					&& !letreg.match(line.split("loop ")[1].split(" in")[0])
-					&& !numreg.match(line.split("in ")[1].split(" until")[0])
-					&& !numreg.match(line.split("until ")[1])) {
-					Sys.println(currentFile_Noerr + " - " + "Error: Invalid loop definition at line " + (i + 1));
-					return true;
-				}
-
-				if (line.contains("loop ") && !line.contains(" in ") && !line.contains(" until ")) {
-					Sys.println(currentFile_Noerr + " - " + "Error: Invalid loop definition at line " + (i + 1));
-					return true;
-				}
-				var reg = ~/\b(_*[A-Z]\w*)\b/;
-				if (reg.match(line) && !line.contains("@") && !line.contains('"') && !line.contains("'") && line.contains("/")) {
-					if (!line.contains('MathTools')
-						&& !new EReg("[A-Z0-9]" + "MathTools", "").match(line)
-						&& !new EReg("MathTools" + "[A-Z0-9]", "").match(line)
-						&& !line.contains('File')
-						&& !new EReg("[A-Z0-9]" + "File", "").match(line)
-						&& !new EReg("File" + "[A-Z0-9]", "").match(line)
-						&& !line.contains('System')
-						&& !new EReg("[A-Z0-9]" + "System", "").match(line)
-						&& !new EReg("System" + "[A-Z0-9]", "").match(line)
-						&& !FileSystem.exists(directory + "/" + line.split("/")[0].replace(" ", "") + ".bl")
-						&& !FileSystem.exists(directory + "/" + line.split("/")[0].split("(")[1] + ".bl")
-						&& !FileSystem.exists(directory + "/" + line.split("/")[0].split("if ")[1] + ".bl")
-						&& !FileSystem.exists(directory + "/" + line.split("/")[0].split("in ")[1] + ".bl")
-						&& !FileSystem.exists(directory + "/" + line.split("/")[0].split("and ")[1] + ".bl")
-						&& !FileSystem.exists(directory + "/" + line.split("/")[0].split("or ")[1] + ".bl")
-						&& !FileSystem.exists(directory + "/" + line.split("/")[0].split("until ")[1] + ".bl")
-						&& !FileSystem.exists(directory + "/" + line.split("/")[0].split("= ")[1] + ".bl")
-						&& !FileSystem.exists(directory + "/" + line.split("/")[0].split("not ")[1] + ".bl")
-						&& !FileSystem.exists(directory + "/" + line.split("/")[0].split(" ")[1] + ".bl")) {
-						Sys.println(currentFile_Noerr + " - " + "Error: Unknown class at line " + (i + 1));
-						return true;
-					}
-				}
-				if (line.contains("***") && !line.split("***")[1].contains("***")) {
-					Sys.println(currentFile_Noerr + " - " + "Error: Expected '***' to end comment at line " + (i + 1));
-					return true;
-				}
-				if (line.contains("[") && line.contains("]") && line.contains(~/[A-Z0-9]/ + " = " + "[")) {
-					if (!line.split("[")[1].split("]")[0].replace(" ", "").contains(~/[A-Z0-9]/ + ",")
-						&& !line.split("[")[1].split("]")[0].replace(" ", "").contains(~/[A-Z0-9]/ + "")
-						&& line.split("[")[1].split("]")[0].replace(" ", "") != "") {
-						Sys.println(currentFile_Noerr + " - " + "Error: Invalid array definition at line " + (i + 1));
-						return true;
-					}
-				}
-				if (!hasCondition) {
-					if (line.contains("@Extends") && target != "haxe" && target != "cs" && target != "coffeescript") {
-						Sys.println(currentFile
-							+ " - "
-							+ "Error: You cannot use the '@Extends' compiler tag while targetting "
-							+ target
-							+ " at line "
-							+ (i + 1));
-						return true;
-					}
-					if (line.contains("@Override") && target != "haxe" && target != "cs") {
-						Sys.println(currentFile
-							+ " - "
-							+ "Error: You cannot use the '@Override' compiler tag while targetting "
-							+ target
-							+ " at line "
-							+ (i + 1));
-						return true;
-					}
-					if (line.contains("@Package") && target != "haxe" && target != "go") {
-						Sys.println(currentFile
-							+ " - "
-							+ "Error: You cannot use the '@Override' compiler tag while targetting "
-							+ target
-							+ " at line "
-							+ (i + 1));
-						return true;
-					}
-					if (line.contains(" and ") && target == "lua") {
-						Sys.println(currentFile_Noerr + " - " + "Error: You cannot use the 'and' keyword while targetting " + target + " at line " + (i + 1));
-						return true;
-					}
-					if (line.contains(" or ") && target == "lua") {
-						Sys.println(currentFile_Noerr + " - " + "Error: You cannot use the 'or' keyword while targetting " + target + " at line " + (i + 1));
-						return true;
-					}
-					if (line.contains("@Static") && target != "haxe" && target != "cs" && target != "groovy") {
-						Sys.println(currentFile
-							+ " - "
-							+ "Error: You cannot use the '@Static' compiler tag while targetting "
-							+ target
-							+ " at line "
-							+ (i + 1));
-						return true;
-					}
-					if (line.contains("constructor method()")
-						&& (target == "c" || target == "cpp" || target == "go" || target == "js" || target == "julia" || target == "lua")) {
-						Sys.println(currentFile_Noerr
-							+ " - "
-							+ "Error: You cannot use constructor methods while targetting "
-							+ target
-							+ " at line "
-							+ (i + 1));
-						return true;
-					}
-					if (line.contains("main method()")
-						&& (target == "coffeescript" || target == "js" || target == "julia" || target == "lua")) {
-						Sys.println(currentFile_Noerr + " - " + "Error: You cannot use main methods while targetting " + target + " at line " + (i + 1));
+					if (line.contains("method")
+						&& line.contains(":")
+						&& (!line.split("method")[0].contains('"') && !line.split("method")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Unknown character: ':'" + " at line " + (i + 1));
 						return true;
 					}
 					if (line.contains("new ")
-						&& (target == "c" || target == "cpp" || target == "go" || target == "js" || target == "julia" || target == "lua")) {
-						Sys.println(currentFile_Noerr + " - " + "Error: You cannot use the 'new' keyword while targetting " + target + " at line " + (i + 1));
-						return true;
-					}
-					if (line.contains("throw(") && (target == "c" || target == "cpp" || target == "go" || target == "lua")) {
-						Sys.println(currentFile_Noerr
-							+ " - "
-							+ "Error: You cannot use the 'throw' method while targetting "
-							+ target
-							+ " at line "
-							+ (i + 1));
-						return true;
-					}
-					if (line.contains("try") && (target == "c" || target == "cpp" || target == "go" || target == "lua")) {
-						Sys.println(currentFile_Noerr + " - " + "Error: You cannot use the 'try' keyword while targetting " + target + " at line " + (i + 1));
-						return true;
-					}
-					if (line.contains("catch") && (target == "c" || target == "cpp" || target == "go" || target == "lua")) {
-						Sys.println(currentFile_Noerr
-							+ " - "
-							+ "Error: You cannot use the 'catch' keyword while targetting "
-							+ target
-							+ " at line "
-							+ (i + 1));
-						return true;
-					}
-					if (line.contains("end") && !line.contains("<<end>>") && target == "coffeescript") {
-						Sys.println(currentFile_Noerr + " - " + "Error: You cannot use the 'end' keyword while targetting " + target + " at line " + (i + 1));
-						return true;
-					}
-					if (reg.match(line) && !line.contains("@") && !line.contains('"') && !line.contains("'") && line.contains("/")
-						&& (target == "c" || target == "cpp")) {
-						if ((line.contains('MathTools')
-							&& !new EReg("[A-Z0-9]" + "MathTools", "").match(line)
-							&& !new EReg("MathTools" + "[A-Z0-9]", "").match(line))
-							|| (line.contains('File')
-								&& !new EReg("[A-Z0-9]" + "File", "").match(line)
-								&& !new EReg("File" + "[A-Z0-9]", "").match(line))
-							|| (line.contains('System')
-								&& !new EReg("[A-Z0-9]" + "System", "").match(line)
-								&& !new EReg("System" + "[A-Z0-9]", "").match(line))
-							|| FileSystem.exists(directory + "/" + line.split("/")[0] + ".bl")
-							|| FileSystem.exists(directory + "/" + line.split("/")[0].split("(")[1] + ".bl")
-							|| FileSystem.exists(directory + "/" + line.split("/")[0].split("if ")[1] + ".bl")
-							|| FileSystem.exists(directory + "/" + line.split("/")[0].split("in ")[1] + ".bl")
-							|| FileSystem.exists(directory + "/" + line.split("/")[0].split("and ")[1] + ".bl")
-							|| FileSystem.exists(directory + "/" + line.split("/")[0].split("or ")[1] + ".bl")
-							|| FileSystem.exists(directory + "/" + line.split("/")[0].split("until ")[1] + ".bl")
-							|| FileSystem.exists(directory + "/" + line.split("/")[0].split("= ")[1] + ".bl")
-							|| FileSystem.exists(directory + "/" + line.split("/")[0].split("not ")[1] + ".bl")
-							|| FileSystem.exists(directory + "/" + line.split("/")[0].split(" ")[1] + ".bl")) {
-							Sys.println(currentFile_Noerr
+						&& FileSystem.exists(line.split("new ")[1].split("(")[0])
+						&& (!line.split("new ")[0].contains('"') && !line.split("new ")[1].contains('"'))) {
+						if (!File.getContent(line.split("new ")[1].split("(")[0]).contains("constructor method()")) {
+							Sys.println(currentFile
 								+ " - "
-								+ "Error: You cannot reference other classes while targetting "
+								+ "Error: Source File: "
+								+ line.split("new ")[1].split("(")[0] + " has no constructor method at line " + (i + 1));
+							return true;
+						}
+					}
+
+					if (line.contains("superClass(")
+						&& (!line.split("superClass(")[0].contains('"') && !line.split("superClass(")[1].contains('"'))) {
+						if (!input.contains('@Extends("')) {
+							Sys.println(currentFile_Noerr + " - " + "Error: Class: " + currentFile_Noerr.replace(".bl", "") + " has no superclass at line "
+								+ (i + 1));
+							return true;
+						}
+					}
+
+					if (line.contains("constructor method(")
+						&& input.split("constructor method(")[1].split("end")[0].contains("return ")
+						&& (!line.split("constructor method(")[0].contains('"') && !line.split("constructor method(")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Constructor methods cannot have a return value at line " + (i + 1));
+						return true;
+					}
+
+					if (line.contains("main method(")
+						&& input.split("main method(")[1].split("end")[0].contains("return ")
+						&& (!line.split("main method(")[0].contains('"') && !line.split("main method(")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: The main method cannot have a return value at line " + (i + 1));
+						return true;
+					}
+					if (currentFile_Noerr != "Main.bl"
+						&& line.contains("main method(")
+						&& (!line.split("main method(")[0].contains('"') && !line.split("main method(")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Only the main file can contain a main method at line " + (i + 1));
+						return true;
+					}
+					if (line.contains("[0]") && (!line.split("[0]")[0].contains('"') && !line.split("[0]")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Array indexes start at '1' at line " + (i + 1));
+						return true;
+					}
+
+					if (!line.contains("=")
+						&& line.contains("method ")
+						&& !line.contains("(")
+						&& !line.contains(")")
+						&& (!line.split("=")[0].contains('"') && !line.split("<<!")[1].contains('"'))) {
+						Sys.println(currentFile
+							+ " - "
+							+ "Error: Method: "
+							+ line.split("method ")[1].split(" ")[0].replace(' ', '') + " is missing it's parameter brackets at line " + (i + 1));
+						return true;
+					}
+
+					if (target != "coffeescript") {
+						if (line.contains("method ")
+							&& !input.split(line)[1].contains("end")
+							&& (!line.split("method ")[0].contains('"') && !line.split("method ")[1].contains('"'))) {
+							Sys.println(currentFile
+								+ " - "
+								+ "Error: Method: "
+								+ line.split("method ")[1].split(" ")[0].replace(' ', '') + " is missing it's enclosing 'end' block at line " + (i + 1));
+							return true;
+						}
+
+						if (line.contains("method ")
+							&& !input.split(line)[1].contains("return")
+							&& (!line.split("method ")[0].contains('"') && !line.split("method ")[1].contains('"'))) {
+							Sys.println(currentFile
+								+ " - "
+								+ "Error: Method: "
+								+ line.split("method ")[1].split(" ")[0].replace(' ', '') + " has no return value at line " + (i + 1));
+							return true;
+						}
+
+						if (line.contains("loop ")
+							&& !input.split(line)[1].contains("end")
+							&& (!line.split("loop ")[0].contains('"') && !line.split("loop ")[1].contains('"'))) {
+							Sys.println(currentFile
+								+ " - "
+								+ "Error: Loop: "
+								+ line.split("loop ")[1].split(" ")[0].replace(' ', '') + " is missing it's enclosing 'end' block at line " + (i + 1));
+							return true;
+						}
+
+						if (line.contains("if ")
+							&& !input.split(line)[1].contains("end")
+							&& (!line.split("if ")[0].contains('"') && !line.split("if ")[1].contains('"'))) {
+							Sys.println(currentFile_Noerr + " - " + "Error: An if statement is missing it's enclosing 'end' block at line " + (i + 1));
+							return true;
+						}
+
+						if (line.contains("otherwise")
+							&& !input.split(line)[1].contains("end")
+							&& (!line.split("otherwise")[0].contains('"') && !line.split("otherwise")[1].contains('"'))) {
+							Sys.println(currentFile_Noerr + " - " + "Error: An else statement is missing it's enclosing 'end' block at line " + (i + 1));
+							return true;
+						}
+					}
+					if (line.contains("::")
+						&& !line.split("::")[1].contains('"')
+						&& !line.split("::")[0].contains('"')
+						&& (!line.split("::")[0].contains('"') && !line.split("::")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Unknown character: '::'" + " at line " + (i + 1));
+						return true;
+					}
+					if (line.contains("<<")
+						&& !line.contains("<<!")
+						&& !supportedTargets.contains(line.split("<<")[1].split(">>")[0])
+						&& line.split("<<")[1].split(">>")[0] != "end"
+						&& line.contains(",")
+						&& (!line.split("<<")[0].contains('"') && !line.split("<<")[1].contains('"'))) {
+						for (i in 0...line.split(",").length) {
+							if (line.split(",")[i].replace("<<", "").replace(">>", "").contains("!")) {
+								if (!supportedTargets.contains(line.split(",")[i].split("!")[1].replace("<<", "")
+								.replace(">>", "")
+								.replace(" ", "")
+								.replace("\r", ""))) {
+									Sys.println(currentFile_Noerr
+										+ " - "
+										+ "Error: Unknown target: '"
+										+ line.split(",")[i].split("!")[1].replace("<<", "")
+										.replace(">>", "")
+										.replace(" ", "")
+										.replace("\r", "")
+											+ "'"
+											+ " at line "
+											+ (i + 1));
+									return true;
+									break;
+								}
+							}
+							if (!line.split(",")[i].replace("<<", "").replace(">>", "").replace(" ", "").contains("!")) {
+								if (!supportedTargets.contains(line.split(",")[i].replace("<<", "").replace(">>", "").replace(" ", "").replace("\r", ""))) {
+									Sys.println(currentFile_Noerr
+										+ " - "
+										+ "Error: Unknown target: '"
+										+ line.split(",")[i].replace("<<", "")
+										.replace(">>", "")
+										.replace(" ", "")
+										.replace("\r", "")
+											+ "'"
+											+ " at line "
+											+ (i + 1));
+									return true;
+									break;
+								}
+							}
+						}
+					}
+
+					if (line.contains("<<")
+						&& !line.contains("<<!")
+						&& !supportedTargets.contains(line.split("<<")[1].split(">>")[0])
+						&& line.split("<<")[1].split(">>")[0] != "end"
+						&& !line.contains(",")
+						&& (!line.split("<<")[0].contains('"') && !line.split("<<")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr
+							+ " - "
+							+ "Error: Unknown target: '"
+							+ line.split("<<")[1].split(">>")[0]
+								+ "'"
+								+ " at line "
+								+ (i + 1));
+						return true;
+					}
+					if (line.contains("<<!")
+						&& !supportedTargets.contains(line.split("<<!")[1].split(">>")[0])
+						&& line.split("<<!")[1].split(">>")[0] != "end"
+						&& !line.contains(",")
+						&& (!line.split("<<")[0].contains('"') && !line.split("<<")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr
+							+ " - "
+							+ "Error: Unknown target: '"
+							+ line.split("<<!")[1].split(">>")[0]
+								+ "'"
+								+ " at line "
+								+ (i + 1));
+						return true;
+					}
+
+					if (line.contains(">>")
+						&& !line.contains("<<")
+						&& (!line.split(">>")[0].contains('"') && !line.split(">>")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Expected conditional compilation block at line " + (i + 1));
+						return true;
+					}
+
+					if (!line.contains(">>")
+						&& line.contains("<<")
+						&& (!line.split("<<")[0].contains('"') && !line.split("<<")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Expected conditional compilation block at line " + (i + 1));
+						return true;
+					}
+					var letreg = ~/[A-Z]/;
+					var numreg = ~/[0-9]/;
+					if (line.contains("loop ")
+						&& line.contains(" in ")
+						&& line.contains(" until ")
+						&& !letreg.match(line.split("loop ")[1].split(" in")[0])
+						&& !numreg.match(line.split("in ")[1].split(" until")[0])
+						&& !numreg.match(line.split("until ")[1])
+						&& (!line.split("loop ")[0].contains('"') && !line.split("loop ")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Invalid loop definition at line " + (i + 1));
+						return true;
+					}
+
+					if (line.contains("loop ")
+						&& !line.contains(" in ")
+						&& !line.contains(" until ")
+						&& (!line.split("loop ")[0].contains('"') && !line.split("loop ")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Invalid loop definition at line " + (i + 1));
+						return true;
+					}
+					var reg = ~/\b(_*[A-Z]\w*)\b/;
+					if (reg.match(line) && !line.contains("@") && !line.contains('"') && !line.contains("'") && line.contains("/")) {
+						if (!line.contains('MathTools')
+							&& !new EReg("[A-Z0-9]" + "MathTools", "").match(line)
+							&& !new EReg("MathTools" + "[A-Z0-9]", "").match(line)
+							&& !line.contains('File')
+							&& !new EReg("[A-Z0-9]" + "File", "").match(line)
+							&& !new EReg("File" + "[A-Z0-9]", "").match(line)
+							&& !line.contains('System')
+							&& !new EReg("[A-Z0-9]" + "System", "").match(line)
+							&& !new EReg("System" + "[A-Z0-9]", "").match(line)
+							&& !FileSystem.exists(directory + "/" + line.split("/")[0].replace(" ", "") + ".bl")
+							&& !FileSystem.exists(directory + "/" + line.split("/")[0].split("(")[1] + ".bl")
+							&& !FileSystem.exists(directory + "/" + line.split("/")[0].split("if ")[1] + ".bl")
+							&& !FileSystem.exists(directory + "/" + line.split("/")[0].split("in ")[1] + ".bl")
+							&& !FileSystem.exists(directory + "/" + line.split("/")[0].split("and ")[1] + ".bl")
+							&& !FileSystem.exists(directory + "/" + line.split("/")[0].split("or ")[1] + ".bl")
+							&& !FileSystem.exists(directory + "/" + line.split("/")[0].split("until ")[1] + ".bl")
+							&& !FileSystem.exists(directory + "/" + line.split("/")[0].split("= ")[1] + ".bl")
+							&& !FileSystem.exists(directory + "/" + line.split("/")[0].split("not ")[1] + ".bl")
+							&& !FileSystem.exists(directory + "/" + line.split("/")[0].split(" ")[1] + ".bl")) {
+							Sys.println(currentFile_Noerr + " - " + "Error: Unknown class at line " + (i + 1));
+							return true;
+						}
+					}
+					if (line.contains("***")
+						&& !line.split("***")[1].contains("***")
+						&& (!line.split("***")[0].contains('"') && !line.split("***")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Expected '***' to end comment at line " + (i + 1));
+						return true;
+					}
+					if (line.contains("[")
+						&& line.contains("]")
+						&& line.contains(~/[A-Z0-9]/ + " = " + "[")
+						&& (!line.split("[")[0].contains('"') && !line.split("[")[1].contains('"'))) {
+						if (!line.split("[")[1].split("]")[0].replace(" ", "").contains(~/[A-Z0-9]/ + ",")
+							&& !line.split("[")[1].split("]")[0].replace(" ", "").contains(~/[A-Z0-9]/ + "")
+							&& line.split("[")[1].split("]")[0].replace(" ", "") != "") {
+							Sys.println(currentFile_Noerr + " - " + "Error: Invalid array definition at line " + (i + 1));
+							return true;
+						}
+					}
+					if (!hasCondition) {
+						if (line.contains("@Extends")
+							&& target != "haxe"
+							&& target != "cs"
+							&& target != "coffeescript"
+							&& (!line.split("@Extends")[0].contains('"') && !line.split("@Extends")[1].contains('"'))) {
+							Sys.println(currentFile
+								+ " - "
+								+ "Error: You cannot use the '@Extends' compiler tag while targetting "
 								+ target
 								+ " at line "
 								+ (i + 1));
 							return true;
 						}
+						if (line.contains("@Override")
+							&& target != "haxe"
+							&& target != "cs"
+							&& (!line.split("@Override")[0].contains('"') && !line.split("@Override")[1].contains('"'))) {
+							Sys.println(currentFile
+								+ " - "
+								+ "Error: You cannot use the '@Override' compiler tag while targetting "
+								+ target
+								+ " at line "
+								+ (i + 1));
+							return true;
+						}
+						if (line.contains("@Package")
+							&& target != "haxe"
+							&& target != "go"
+							&& (!line.split("@Package")[0].contains('"') && !line.split("@Package")[1].contains('"'))) {
+							Sys.println(currentFile
+								+ " - "
+								+ "Error: You cannot use the '@Override' compiler tag while targetting "
+								+ target
+								+ " at line "
+								+ (i + 1));
+							return true;
+						}
+						if (line.contains("@Static")
+							&& target != "haxe"
+							&& target != "cs"
+							&& target != "groovy"
+							&& (!line.split("@Static")[0].contains('"') && !line.split("@Static")[1].contains('"'))) {
+							Sys.println(currentFile
+								+ " - "
+								+ "Error: You cannot use the '@Static' compiler tag while targetting "
+								+ target
+								+ " at line "
+								+ (i + 1));
+							return true;
+						}
+						if (line.contains("constructor method("))
+							if (line.contains("constructor method(")
+								&& (target == "c" || target == "cpp" || target == "go" || target == "js" || target == "julia" || target == "lua")
+								&& (!line.split("constructor method(")[0].contains('"')
+									&& !line.split("constructor method(")[1].contains('"'))) {
+								Sys.println(currentFile_Noerr
+									+ " - "
+									+ "Error: You cannot use constructor methods while targetting "
+									+ target
+									+ " at line "
+									+ (i + 1));
+								return true;
+							}
+						if (line.contains("superClass")
+							&& (target == "c" || target == "cpp" || target == "go" || target == "js" || target == "julia" || target == "lua")
+							&& (!line.split("superClass")[0].contains('"') && !line.split("superClass")[1].contains('"'))) {
+							Sys.println(currentFile_Noerr
+								+ " - "
+								+ "Error: You cannot use the 'superClass' keyword while targetting "
+								+ target
+								+ " at line "
+								+ (i + 1));
+							return true;
+						}
+						if (line.contains("main method(")
+							&& (target == "coffeescript" || target == "js" || target == "julia" || target == "lua")
+							&& (!line.split("main method()")[0].contains('"') && !line.split("main method()")[1].contains('"'))) {
+							Sys.println(currentFile_Noerr + " - " + "Error: You cannot use main methods while targetting " + target + " at line " + (i + 1));
+							return true;
+						}
+						if (line.contains("new ")
+							&& (target == "c" || target == "cpp" || target == "go" || target == "js" || target == "julia" || target == "lua")
+							&& (!line.split("new ")[0].contains('"') && !line.split("new ")[1].contains('"'))) {
+							Sys.println(currentFile_Noerr
+								+ " - "
+								+ "Error: You cannot use the 'new' keyword while targetting "
+								+ target
+								+ " at line "
+								+ (i + 1));
+							return true;
+						}
+						if (line.contains("throw(")
+							&& (target == "c" || target == "cpp" || target == "go" || target == "lua")
+							&& (!line.split("throw(")[0].contains('"') && !line.split("throw(")[1].contains('"'))) {
+							Sys.println(currentFile_Noerr
+								+ " - "
+								+ "Error: You cannot use the 'throw' method while targetting "
+								+ target
+								+ " at line "
+								+ (i + 1));
+							return true;
+						}
+						if (line.contains("try")
+							&& (target == "c" || target == "cpp" || target == "go" || target == "lua")
+							&& (!line.split("try")[0].contains('"') && !line.split("try")[1].contains('"'))) {
+							Sys.println(currentFile_Noerr
+								+ " - "
+								+ "Error: You cannot use the 'try' keyword while targetting "
+								+ target
+								+ " at line "
+								+ (i + 1));
+							return true;
+						}
+						if (line.contains("catch")
+							&& (target == "c" || target == "cpp" || target == "go" || target == "lua")
+							&& (!line.split("catch")[0].contains('"') && !line.split("catch")[1].contains('"'))) {
+							Sys.println(currentFile_Noerr
+								+ " - "
+								+ "Error: You cannot use the 'catch' keyword while targetting "
+								+ target
+								+ " at line "
+								+ (i + 1));
+							return true;
+						}
+						if (line.contains("end")
+							&& !line.contains("<<end>>")
+							&& target == "coffeescript"
+							&& (!line.split("end")[0].contains('"') && !line.split("end")[1].contains('"'))) {
+							Sys.println(currentFile_Noerr
+								+ " - "
+								+ "Error: You cannot use the 'end' keyword while targetting "
+								+ target
+								+ " at line "
+								+ (i + 1));
+							return true;
+						}
+						if (reg.match(line)
+							&& !line.contains("@")
+							&& !line.contains('"')
+							&& !line.contains("'")
+							&& line.contains("/")
+							&& (target == "c" || target == "cpp" || target == "go")) {
+							if ((line.contains('MathTools')
+								&& !new EReg("[A-Z0-9]" + "MathTools", "").match(line)
+								&& !new EReg("MathTools" + "[A-Z0-9]", "").match(line))
+								|| (line.contains('File')
+									&& !new EReg("[A-Z0-9]" + "File", "").match(line)
+									&& !new EReg("File" + "[A-Z0-9]", "").match(line))
+								|| (line.contains('System')
+									&& !new EReg("[A-Z0-9]" + "System", "").match(line)
+									&& !new EReg("System" + "[A-Z0-9]", "").match(line))
+								|| FileSystem.exists(directory + "/" + line.split("/")[0] + ".bl")
+								|| FileSystem.exists(directory + "/" + line.split("/")[0].split("(")[1] + ".bl")
+								|| FileSystem.exists(directory + "/" + line.split("/")[0].split("if ")[1] + ".bl")
+								|| FileSystem.exists(directory + "/" + line.split("/")[0].split("in ")[1] + ".bl")
+								|| FileSystem.exists(directory + "/" + line.split("/")[0].split("and ")[1] + ".bl")
+								|| FileSystem.exists(directory + "/" + line.split("/")[0].split("or ")[1] + ".bl")
+								|| FileSystem.exists(directory + "/" + line.split("/")[0].split("until ")[1] + ".bl")
+								|| FileSystem.exists(directory + "/" + line.split("/")[0].split("= ")[1] + ".bl")
+								|| FileSystem.exists(directory + "/" + line.split("/")[0].split("not ")[1] + ".bl")
+								|| FileSystem.exists(directory + "/" + line.split("/")[0].split(" ")[1] + ".bl")) {
+								Sys.println(currentFile_Noerr
+									+ " - "
+									+ "Error: You cannot reference other classes while targetting "
+									+ target
+									+ " at line "
+									+ (i + 1));
+								return true;
+							}
+						}
 					}
-				}
-				if (line.contains("<") && !line.contains("<<")) {
-					Sys.println(currentFile_Noerr + " - " + "Error: Unknown character: '<'" + " at line " + (i + 1));
-					return true;
-				}
-				if (line.contains("!") && !line.contains("<<")) {
-					Sys.println(currentFile_Noerr + " - " + "Error: Unknown character: '!'" + " at line " + (i + 1));
-					return true;
-				}
-				if (line.contains(">") && !line.contains(">>")) {
-					Sys.println(currentFile_Noerr + " - " + "Error: Unknown character: '>'" + " at line " + (i + 1));
-					return true;
-				}
-				if (line.contains("=") && !line.split("=")[1].contains(" ")) {
-					Sys.println(currentFile_Noerr + " - " + "Error: The '=' operator must be seperated with a space" + " at line " + (i + 1));
-					return true;
-				}
-				if (line.contains("=") && !line.split("=")[0].contains(" ")) {
-					Sys.println(currentFile_Noerr + " - " + "Error: The '=' operator must be seperated with a space" + " at line " + (i + 1));
-					return true;
+					if (line.contains("<")
+						&& !line.contains("<<")
+						&& ((!line.split("<")[0].contains('"') && !line.split("<")[1].contains('"')))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Unknown character: '<'" + " at line " + (i + 1));
+						return true;
+					}
+					if (line.contains('"') && !line.split('"')[1].contains('"')) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Unclosed string at line" + (i + 1));
+						return true;
+					}
+					if (line.contains('[')
+						&& !line.split('[')[1].contains(']')
+						&& (!line.split("[")[0].contains('"') && !line.split("[")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Unclosed array at line" + (i + 1));
+						return true;
+					}
+					if (line.contains('(')
+						&& !line.split('(')[1].contains(')')
+						&& (!line.split("(")[0].contains('"') && !line.split("(")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Unclosed bracket expression at line" + (i + 1));
+						return true;
+					}
+					if (line.contains("!")
+						&& !line.contains("<<")
+						&& (!line.split("!")[0].contains('"') && !line.split("!")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Unknown character: '!'" + " at line " + (i + 1));
+						return true;
+					}
+					if (line.contains(">")
+						&& !line.contains(">>")
+						&& (!line.split("<")[0].contains('"') && !line.split("<")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: Unknown character: '>'" + " at line " + (i + 1));
+						return true;
+					}
+					if (line.contains("=")
+						&& !line.split("=")[1].contains(" ")
+						&& (!line.split("=")[0].contains('"') && !line.split("=")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: The '=' operator must be seperated with a space" + " at line " + (i + 1));
+						return true;
+					}
+					if (line.contains("=") && (!line.split("=")[0].contains('"') && !line.split("=")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: The '=' operator must be seperated with a space" + " at line " + (i + 1));
+						return true;
+					}
 				}
 			}
 		} else if (input.contains("\n") && reportErrors) {

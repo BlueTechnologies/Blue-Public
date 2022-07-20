@@ -72,7 +72,7 @@ class BLexer {
 	static var tokensToParse:Array<Dynamic> = [];
 	static var completeSyntax:Array<String> = [
 		"method", "loop ", "if", "+", "-", "mult", "div", "end", "otherwise", "stop", "continue", "then", "not", "=", "use", "try", "catch", "print",
-		"return", "***", "main method()", "throw", "new", "constructor method", "or", "[", "/", "(", "superClass(", "@Override", "@Static", "otherwise if"
+		"return", "***", "main method(", "throw", "new", "constructor method", "or", "[", "/", "(", "superClass(", "@Override", "@Static", "otherwise if"
 	];
 
 	public static function enumContent(contentToEnum:String, testLex:Bool = false):Bool {
@@ -155,7 +155,9 @@ class BLexer {
 				if (current.contains(completeSyntax[i])) {
 					switch (completeSyntax[i]) {
 						case 'method':
-							if (!current.contains('main method()') && !current.contains('constructor method()')) {
+							if (!current.contains('main method()')
+								&& !current.contains('constructor method(')
+								&& (!current.split("method")[0].contains('"'))) {
 								var args = [];
 								if (current.contains(")\r")) {
 									for (i in 0...current.split('method ')[1].split('(')[1].split(')').length) {
@@ -206,37 +208,38 @@ class BLexer {
 								}
 							}
 
-						case 'main method()':
-							var args = [];
-							if (current.contains(")\r")) {
-								for (i in 0...current.split('main method')[1].split('(')[1].split(')').length) {
-									if (current.split('main method')[1].split('(')[1].split(')')[i] != null
-										&& current.split('main method')[1].split('(')[1].split(')')[i].contains(',')) {
-										args.push(current.split('main method')[1].split('(')[1].split(')')[i].split(','));
-									} else if (current.split('main method')[1].split('(')[1].split(')')[i] != null
-										&& !current.split('main method')[1].split('(')[1].split(')')[i].contains(',')) {
-										args.push([current.split('main method')[1].split('(')[1].split(')\r')[0]]);
+						case 'main method(':
+							if ((!current.split("main method(")[0].contains('"'))) {
+								var args = [];
+								if (current.contains(")\r")) {
+									for (i in 0...current.split('main method')[1].split('(')[1].split(')').length) {
+										if (current.split('main method')[1].split('(')[1].split(')')[i] != null
+											&& current.split('main method')[1].split('(')[1].split(')')[i].contains(',')) {
+											args.push(current.split('main method')[1].split('(')[1].split(')')[i].split(','));
+										} else if (current.split('main method')[1].split('(')[1].split(')')[i] != null
+											&& !current.split('main method')[1].split('(')[1].split(')')[i].contains(',')) {
+											args.push([current.split('main method')[1].split('(')[1].split(')\r')[0]]);
+										}
 									}
+								} else {
+									Sys.println(Blue.currentFile + " - " + "Error: Main methods must be ended with a ')' and a newline at line " + (linenum));
+									gotErrors = true;
+									Sys.exit(0);
 								}
-							} else {
-								Sys.println(Blue.currentFile + " - " + "Error: Main methods must be ended with a ')' and a newline at line " + (linenum));
-								gotErrors = true;
-								Sys.exit(0);
-							}
-							if (args != null) {
-								for (i in 0...args[0].length) {
-									if (args[0][i].replace(" ", "") != "") {
-										localVars.push(args[0][i]);
+								if (args != null) {
+									for (i in 0...args[0].length) {
+										if (args[0][i].replace(" ", "") != "") {
+											localVars.push(args[0][i]);
+										}
 									}
+									currentToken = BToken.MainMethod(args);
+								} else {
+									currentToken = BToken.MainMethod(null);
 								}
-								currentToken = BToken.MainMethod(args);
-							} else {
-								currentToken = BToken.MainMethod(null);
+								if (!testLex) {
+									tokensToParse.push(currentToken);
+								}
 							}
-							if (!testLex) {
-								tokensToParse.push(currentToken);
-							}
-
 						case '=':
 							if (!current.contains('if ')) {
 								currentToken = BToken.Variable(current.split('=')[0].replace(' ', ''),
@@ -268,15 +271,16 @@ class BLexer {
 									tokensToParse.push(currentToken);
 								}
 							}
-
 						case 'loop ':
-							currentToken = BToken.ForStatement(current.split('loop ')[1].split('in')[0].replace(' ', ''),
-								current.split('loop ')[1].split('in')[1].replace(' ', '').split('until')[0].replace(' ', ''),
-								current.split('until')[1].replace(' ', ''));
-							if (!testLex) {
-								tokensToParse.push(currentToken);
+							if (!current.split("loop ")[0].contains('"')) {
+								currentToken = BToken.ForStatement(current.split('loop ')[1].split('in')[0].replace(' ', ''),
+									current.split('loop ')[1].split('in')[1].replace(' ', '').split('until')[0].replace(' ', ''),
+									current.split('until')[1].replace(' ', ''));
+								if (!testLex) {
+									tokensToParse.push(currentToken);
+								}
+								localVars.push(current.split('loop ')[1].split(' in')[0]);
 							}
-							localVars.push(current.split('loop ')[1].split(' in')[0]);
 
 						case "if":
 							var linenum = j + 1;
@@ -313,7 +317,7 @@ class BLexer {
 							}
 
 						case "end":
-							if (!current.contains("<<")) {
+							if (!current.contains("<<") && (!current.split("end")[0].contains('"'))) {
 								currentToken = BToken.End;
 								if (!testLex) {
 									tokensToParse.push(currentToken);
@@ -322,7 +326,7 @@ class BLexer {
 
 						case "print":
 							var symbols:String = "|~#$%()*+-:;<=>@[]^_.,'!?";
-							if (current.contains("print(")) {
+							if (current.contains("print(") && (!current.split("print(")[0].contains('"'))) {
 								currentToken = BToken.Print(current.split('print(')[1].split(")")[0]);
 
 								for (k in 0...symbols.split('').length) {
@@ -352,138 +356,159 @@ class BLexer {
 							}
 
 						case "try":
-							currentToken = BToken.Try;
-							if (!testLex) {
-								tokensToParse.push(currentToken);
+							if ((!current.split("try")[0].contains('"'))) {
+								currentToken = BToken.Try;
+								if (!testLex) {
+									tokensToParse.push(currentToken);
+								}
 							}
 
 						case "catch":
-							if (current.contains(")\r")) {
-								currentToken = BToken.Catch(current.split('catch(')[1].split(')\r')[0]);
-							} else {
-								Sys.println(Blue.currentFile + " - " + "Error: Catch statements must be ended with a ')' and a newline at line " + (linenum));
-								gotErrors = true;
-								Sys.exit(0);
-							}
-							if (!testLex) {
-								tokensToParse.push(currentToken);
-							}
-
-						case "return":
-							currentToken = BToken.Return(current.split('return ')[1].split('\n')[0].replace(' ', '').replace('\r', ";"));
-							if (!testLex) {
-								tokensToParse.push(currentToken);
-							}
-
-						case "***":
-							currentToken = BToken.Comment(current.split('*** ')[1].split('***')[0]);
-							if (!testLex) {
-								tokensToParse.push(currentToken);
-							}
-
-						case "throw":
-							if (current.contains(")\r")) {
-								currentToken = BToken.Throw(current.split('throw(')[1].split(')\r')[0]);
-							} else {
-								Sys.println(Blue.currentFile + " - " + "Error: Throw statements must be ended with a ')' and a newline at line " + (linenum));
-								gotErrors = true;
-								Sys.exit(0);
-							}
-							if (!testLex) {
-								tokensToParse.push(currentToken);
-							}
-
-						case "new":
-							if (!current.contains("=") || !current.contains("throw")) {
-								var args = [];
+							if ((!current.split("catch")[0].contains('"'))) {
 								if (current.contains(")\r")) {
-									for (i in 0...current.split('new ')[1].split('(')[1].split(')').length) {
-										if (current.split('new ')[1].split('(')[1].split(')')[i] != null
-											&& current.split('new ')[1].split('(')[1].split(')')[i].contains(',')) {
-											args.push(current.split('new ')[1].split('(')[1].split(')')[i].split(','));
-										} else if (current.split('new ')[1].split('(')[1].split(')')[i] != null
-											&& !current.split('new ')[1].split('(')[1].split(')')[i].contains(',')) {
-											args.push([current.split('new ')[1].split('(')[1].split(')\r')[0]]);
-										}
-									}
+									currentToken = BToken.Catch(current.split('catch(')[1].split(')\r')[0]);
 								} else {
 									Sys.println(Blue.currentFile
 										+ " - "
-										+ "Error: New statements must be ended with a ')' and a newline at line "
+										+ "Error: Catch statements must be ended with a ')' and a newline at line "
 										+ (linenum));
 									gotErrors = true;
 									Sys.exit(0);
 								}
-								if (args != null) {
-									currentToken = BToken.New(current.split('new ')[1].split('(')[0], args);
+								if (!testLex) {
+									tokensToParse.push(currentToken);
+								}
+							}
+
+						case "return":
+							if ((!current.split("return")[0].contains('"'))) {
+								currentToken = BToken.Return(current.split('return ')[1].split('\n')[0].replace(' ', '').replace('\r', ";"));
+								if (!testLex) {
+									tokensToParse.push(currentToken);
+								}
+							}
+
+						case "***":
+							if (!current.split("***")[0].contains('"')) {
+								currentToken = BToken.Comment(current.split('*** ')[1].split('***')[0]);
+								if (!testLex) {
+									tokensToParse.push(currentToken);
+								}
+							}
+
+						case "throw":
+							if (!current.split("throw")[0].contains('"')) {
+								if (current.contains(")\r")) {
+									currentToken = BToken.Throw(current.split('throw(')[1].split(')\r')[0]);
 								} else {
-									currentToken = BToken.New(current.split('new ')[1].split('(')[0], null);
+									Sys.println(Blue.currentFile
+										+ " - "
+										+ "Error: Throw statements must be ended with a ')' and a newline at line "
+										+ (linenum));
+									gotErrors = true;
+									Sys.exit(0);
 								}
 								if (!testLex) {
 									tokensToParse.push(currentToken);
 								}
 							}
 
-						case "constructor method":
-							var args = [];
-							if (current.contains(")\r")) {
-								for (i in 0...current.split('constructor method')[1].split('(')[1].split(')').length) {
-									if (current.split('constructor method')[1].split('(')[1].split(')')[i] != null
-										&& current.split('constructor method')[1].split('(')[1].split(')')[i].contains(',')) {
-										args.push(current.split('constructor method')[1].split('(')[1].split(')')[i].split(','));
-									} else if (current.split('constructor method')[1].split('(')[1].split(')')[i] != null
-										&& !current.split('constructor method')[1].split('(')[1].split(')')[i].contains(',')) {
-										args.push([current.split('constructor method')[1].split('(')[1].split(')\r')[0]]);
+						case "new":
+							if (!current.split("new ")[0].contains('"')) {
+								if (!current.contains("=") || !current.contains("throw")) {
+									var args = [];
+									if (current.contains(")\r")) {
+										for (i in 0...current.split('new ')[1].split('(')[1].split(')').length) {
+											if (current.split('new ')[1].split('(')[1].split(')')[i] != null
+												&& current.split('new ')[1].split('(')[1].split(')')[i].contains(',')) {
+												args.push(current.split('new ')[1].split('(')[1].split(')')[i].split(','));
+											} else if (current.split('new ')[1].split('(')[1].split(')')[i] != null
+												&& !current.split('new ')[1].split('(')[1].split(')')[i].contains(',')) {
+												args.push([current.split('new ')[1].split('(')[1].split(')\r')[0]]);
+											}
+										}
+									} else {
+										Sys.println(Blue.currentFile
+											+ " - "
+											+ "Error: New statements must be ended with a ')' and a newline at line "
+											+ (linenum));
+										gotErrors = true;
+										Sys.exit(0);
+									}
+									if (args != null) {
+										currentToken = BToken.New(current.split('new ')[1].split('(')[0], args);
+									} else {
+										currentToken = BToken.New(current.split('new ')[1].split('(')[0], null);
+									}
+									if (!testLex) {
+										tokensToParse.push(currentToken);
 									}
 								}
-								if (args != null) {
-									for (i in 0...args[0].length) {
-										if (args[0][i].replace(" ", "") != "") {
-											localVars.push(args[0][i]);
+							}
+						case "constructor method":
+							if (!current.split("constructor method")[0].contains('"')) {
+								var args = [];
+								if (current.contains(")\r")) {
+									for (i in 0...current.split('constructor method')[1].split('(')[1].split(')').length) {
+										if (current.split('constructor method')[1].split('(')[1].split(')')[i] != null
+											&& current.split('constructor method')[1].split('(')[1].split(')')[i].contains(',')) {
+											args.push(current.split('constructor method')[1].split('(')[1].split(')')[i].split(','));
+										} else if (current.split('constructor method')[1].split('(')[1].split(')')[i] != null
+											&& !current.split('constructor method')[1].split('(')[1].split(')')[i].contains(',')) {
+											args.push([current.split('constructor method')[1].split('(')[1].split(')\r')[0]]);
 										}
 									}
-									currentToken = BToken.Constructor(args);
-								} else {
-									currentToken = BToken.Constructor(null);
-								}
-								if (!testLex) {
-									tokensToParse.push(currentToken);
+									if (args != null) {
+										for (i in 0...args[0].length) {
+											if (args[0][i].replace(" ", "") != "") {
+												localVars.push(args[0][i]);
+											}
+										}
+										currentToken = BToken.Constructor(args);
+									} else {
+										currentToken = BToken.Constructor(null);
+									}
+									if (!testLex) {
+										tokensToParse.push(currentToken);
+									}
 								}
 							}
 
 						case 'otherwise if':
-							var symbols:String = "|~#$%()*+-:;<=>@[]^_.,'!?";
-							currentToken = BToken.OtherwiseIf(current.split('if ')[1].split('then')[0]);
+							if (!current.split("otherwise if")[0].contains('"')) {
+								var symbols:String = "|~#$%()*+-:;<=>@[]^_.,'!?";
+								currentToken = BToken.OtherwiseIf(current.split('if ')[1].split('then')[0]);
 
-							for (n in 0...current.split('if ')[1].split('then')[0].split(' ').length) {
-								for (k in 0...symbols.split('').length) {
-									var whitespacesplit = current.split('otherwise if ')[1].split('then')[0].split(' ')[n].replace("(", "").replace(")", "");
-									if (!completeSyntax.contains(whitespacesplit)
-										&& Math.isNaN(Std.parseFloat(whitespacesplit))
-										&& whitespacesplit != symbols.split('')[k]
-										&& whitespacesplit != ''
-										&& whitespacesplit != ' '
-										&& whitespacesplit != 'and'
-										&& whitespacesplit != 'outof'
-										&& whitespacesplit != 'or'
-										&& whitespacesplit != 'greater'
-										&& whitespacesplit != 'less'
-										&& whitespacesplit != 'than'
-										&& !whitespacesplit.contains('"'))
-										if (!localVars.contains(whitespacesplit)) {
-											Sys.println(Blue.currentFile + " - " + "Error: Unknown variable at line " + (j + 1));
-											gotErrors = true;
-											Sys.exit(0);
-										}
-									break;
-								}
-								if (!testLex) {
-									tokensToParse.push(currentToken);
+								for (n in 0...current.split('if ')[1].split('then')[0].split(' ').length) {
+									for (k in 0...symbols.split('').length) {
+										var whitespacesplit = current.split('otherwise if ')[1].split('then')[0].split(' ')[n].replace("(", "")
+										.replace(")", "");
+										if (!completeSyntax.contains(whitespacesplit)
+											&& Math.isNaN(Std.parseFloat(whitespacesplit))
+											&& whitespacesplit != symbols.split('')[k]
+											&& whitespacesplit != ''
+											&& whitespacesplit != ' '
+											&& whitespacesplit != 'and'
+											&& whitespacesplit != 'outof'
+											&& whitespacesplit != 'or'
+											&& whitespacesplit != 'greater'
+											&& whitespacesplit != 'less'
+											&& whitespacesplit != 'than'
+											&& !whitespacesplit.contains('"'))
+											if (!localVars.contains(whitespacesplit)) {
+												Sys.println(Blue.currentFile + " - " + "Error: Unknown variable at line " + (j + 1));
+												gotErrors = true;
+												Sys.exit(0);
+											}
+										break;
+									}
+									if (!testLex) {
+										tokensToParse.push(currentToken);
+									}
 								}
 							}
-
 						case 'otherwise':
-							if (!current.contains('otherwise if')) {
+							if (!current.contains('otherwise if') && (!current.split("otherwise")[0].contains('"'))) {
 								currentToken = BToken.Else;
 								if (!testLex) {
 									tokensToParse.push(currentToken);
@@ -495,8 +520,14 @@ class BLexer {
 							var currentSymbol = null;
 							var whitespacesplit = current.split(")\r")[0];
 							var symbols:String = "|~#$%()*+-:;<=>@[]^_.,'!?";
-							if (!current.contains('method') && !current.contains('loop ') && !current.contains('if') && !current.contains('otherwise if')
-								&& !current.contains('print(') && !current.contains('@') && !current.contains('=') && !current.contains('superClass(')) {
+							if ((!current.contains('method') || current.split("method")[0].contains('"'))
+								&& (!current.contains('loop ') || current.split("loop ")[0].contains('"'))
+								&& (!current.contains('if') || current.split("if")[0].contains('"'))
+								&& (!current.contains('otherwise if') || current.split("otherwise if")[0].contains('"'))
+								&& (!current.contains('print(') || current.split("print(")[0].contains('"'))
+								&& (!current.contains('@') || current.split("@")[0].contains('"'))
+								&& (!current.contains('=') || current.split("=")[0].contains('"'))
+								&& (!current.contains('superClass(') || !current.split("superClass(")[0].contains('"'))) {
 								if (current.contains(')\r')) {
 									currentToken = BToken.FunctionC(current.split(')\r')[0]);
 									for (k in 0...symbols.split('').length) {
@@ -635,97 +666,107 @@ class BLexer {
 									tokensToParse.push(currentToken);
 								}
 							}
+
 						case 'superClass(':
-							var linenum = j + 1;
-							var whitespacesplit = current.split(")\r")[0];
-							var args = [];
-							if (current.contains(")\r")) {
-								for (i in 0...current.split('superClass')[1].split('(')[1].split(')').length) {
-									if (current.split('superClass')[1].split('(')[1].split(')')[i] != null
-										&& current.split('superClass')[1].split('(')[1].split(')')[i].contains(',')) {
-										args.push(current.split('superClass')[1].split('(')[1].split(')')[i].split(','));
-									} else if (current.split('superClass')[1].split('(')[1].split(')')[i] != null
-										&& !current.split('superClass')[1].split('(')[1].split(')')[i].contains(',')) {
-										args.push([current.split('superClass')[1].split('(')[1].split(')\r')[0]]);
+							if (!current.split("superClass(")[0].contains('"')) {
+								var linenum = j + 1;
+								var whitespacesplit = current.split(")\r")[0];
+								var args = [];
+								if (current.contains(")\r")) {
+									for (i in 0...current.split('superClass')[1].split('(')[1].split(')').length) {
+										if (current.split('superClass')[1].split('(')[1].split(')')[i] != null
+											&& current.split('superClass')[1].split('(')[1].split(')')[i].contains(',')) {
+											args.push(current.split('superClass')[1].split('(')[1].split(')')[i].split(','));
+										} else if (current.split('superClass')[1].split('(')[1].split(')')[i] != null
+											&& !current.split('superClass')[1].split('(')[1].split(')')[i].contains(',')) {
+											args.push([current.split('superClass')[1].split('(')[1].split(')\r')[0]]);
+										}
 									}
-								}
-								var symbols:String = "|~#$%()*+-:;<=>@[]^_.,'!?";
-								var currentSymbol = null;
-								for (k in 0...symbols.split('').length) {
-									currentSymbol = symbols.split('')[k];
-								}
-								if (!completeSyntax.contains(whitespacesplit)
-									&& Math.isNaN(Std.parseFloat(whitespacesplit))
-									&& whitespacesplit != currentSymbol
-									&& whitespacesplit != ""
-									&& whitespacesplit != " "
-									&& whitespacesplit != 'and'
-									&& whitespacesplit != 'outof'
-									&& whitespacesplit != 'or'
-									&& whitespacesplit != 'greater'
-									&& whitespacesplit != 'less'
-									&& whitespacesplit != 'than'
-									&& !whitespacesplit.contains('"')) {
-									if (!current.contains(',')
-										&& !localVars.contains(whitespacesplit.split("(")[1].split(")")[0].replace(" ", ""))) {
-										Sys.println(Blue.currentFile + " - " + "Error: Unknown variable at line " + (linenum));
-										gotErrors = true;
-										Sys.exit(0);
-									} else if (current.contains(',')) {
-										for (i in 0...current.split("(")[1].split(")")[0].split(',').length) {
-											if (!localVars.contains(whitespacesplit.split("(")[1].split(")")[0].split(',')[i].replace(" ", ""))) {
-												Sys.println(Blue.currentFile + " - " + "Error: Unknown variable at line " + (linenum));
-												gotErrors = true;
-												Sys.exit(0);
+									var symbols:String = "|~#$%()*+-:;<=>@[]^_.,'!?";
+									var currentSymbol = null;
+									for (k in 0...symbols.split('').length) {
+										currentSymbol = symbols.split('')[k];
+									}
+									if (!completeSyntax.contains(whitespacesplit)
+										&& Math.isNaN(Std.parseFloat(whitespacesplit))
+										&& whitespacesplit != currentSymbol
+										&& whitespacesplit != ""
+										&& whitespacesplit != " "
+										&& whitespacesplit != 'and'
+										&& whitespacesplit != 'outof'
+										&& whitespacesplit != 'or'
+										&& whitespacesplit != 'greater'
+										&& whitespacesplit != 'less'
+										&& whitespacesplit != 'than'
+										&& !whitespacesplit.contains('"')) {
+										if (!current.contains(',')
+											&& !localVars.contains(whitespacesplit.split("(")[1].split(")")[0].replace(" ", ""))) {
+											Sys.println(Blue.currentFile + " - " + "Error: Unknown variable at line " + (linenum));
+											gotErrors = true;
+											Sys.exit(0);
+										} else if (current.contains(',')) {
+											for (i in 0...current.split("(")[1].split(")")[0].split(',').length) {
+												if (!localVars.contains(whitespacesplit.split("(")[1].split(")")[0].split(',')[i].replace(" ", ""))) {
+													Sys.println(Blue.currentFile + " - " + "Error: Unknown variable at line " + (linenum));
+													gotErrors = true;
+													Sys.exit(0);
+												}
 											}
 										}
 									}
+								} else {
+									Sys.println(Blue.currentFile
+										+ " - "
+										+ "Error: Superclass calls must be ended with a ')' and a newline at line "
+										+ (linenum));
+									gotErrors = true;
+									Sys.exit(0);
 								}
-							} else {
-								Sys.println(Blue.currentFile + " - " + "Error: Superclass calls must be ended with a ')' and a newline at line " + (linenum));
-								gotErrors = true;
-								Sys.exit(0);
-							}
-							if (reg.match(current)
-								&& !current.contains("File")
-								&& !current.contains("MathTools")
-								&& !current.contains("System")
-								&& current.contains("/")
-								&& current.split('/')[0].contains(whitespacesplit)) {
-								if (FileSystem.exists(Blue.directory + "/" + current.split('/')[0].replace(' ', '') + ".bl")) {
-									if (!File.getContent(Blue.directory + "/" + current.split('/')[0].replace(' ', '') + ".bl")
-										.contains("method " + whitespacesplit.split("/")[1].split("(")[0].replace(" ", '') + "(")) {
-										Sys.println(Blue.currentFile
-											+ " - "
-											+ "Error: Class: "
-											+ current.split('/')[0].replace(' ',
-												'') + " does not contain method: " + whitespacesplit.split("/")[1].split("(")[0].replace(" ",
-												'') + " at line " + (linenum));
-										gotErrors = true;
-										Sys.exit(0);
+								if (reg.match(current)
+									&& !current.contains("File")
+									&& !current.contains("MathTools")
+									&& !current.contains("System")
+									&& current.contains("/")
+									&& current.split('/')[0].contains(whitespacesplit)) {
+									if (FileSystem.exists(Blue.directory + "/" + current.split('/')[0].replace(' ', '') + ".bl")) {
+										if (!File.getContent(Blue.directory + "/" + current.split('/')[0].replace(' ', '') + ".bl")
+											.contains("method " + whitespacesplit.split("/")[1].split("(")[0].replace(" ", '') + "(")) {
+											Sys.println(Blue.currentFile
+												+ " - "
+												+ "Error: Class: "
+												+ current.split('/')[0].replace(' ',
+													'') + " does not contain method: " + whitespacesplit.split("/")[1].split("(")[0].replace(" ",
+													'') + " at line " + (linenum));
+											gotErrors = true;
+											Sys.exit(0);
+										}
 									}
 								}
-							}
 
-							if (args != null) {
-								currentToken = BToken.Super(args);
-							} else {
-								currentToken = BToken.Super(null);
-							}
-							if (!testLex) {
-								tokensToParse.push(currentToken);
+								if (args != null) {
+									currentToken = BToken.Super(args);
+								} else {
+									currentToken = BToken.Super(null);
+								}
+								if (!testLex) {
+									tokensToParse.push(currentToken);
+								}
 							}
 
 						case '@Override':
-							currentToken = BToken.OverrideTag;
-							if (!testLex) {
-								tokensToParse.push(currentToken);
+							if (!current.split("@Override")[0].contains('"')) {
+								currentToken = BToken.OverrideTag;
+								if (!testLex) {
+									tokensToParse.push(currentToken);
+								}
 							}
 
 						case '@Static':
-							currentToken = BToken.StaticTag;
-							if (!testLex) {
-								tokensToParse.push(currentToken);
+							if (!current.split("@Static")[0].contains('"')) {
+								currentToken = BToken.StaticTag;
+								if (!testLex) {
+									tokensToParse.push(currentToken);
+								}
 							}
 					}
 				}
