@@ -91,7 +91,7 @@ class Blue {
 		+ '--cpp export/bin"
 		   }
 		}
-	 }';
+	}';
 
 	public static function mapSource(directory:String) {
 		if (!FileSystem.exists("project_config.json")) {
@@ -421,6 +421,13 @@ class Blue {
 						&& input.split("constructor method(")[1].split("end")[0].contains("return ")
 						&& (!line.split("constructor method(")[0].contains('"') && !line.split("constructor method(")[1].contains('"'))) {
 						Sys.println(currentFile_Noerr + " - " + "Error: Constructor methods cannot have a return value at line " + (i + 1));
+						return true;
+					}
+
+					if (line.contains("main method(")
+						&& input.split("main method(")[1].split(")")[0].replace(" ", "") != ""
+						&& (!line.split("main method(")[0].contains('"') && !line.split("main method(")[1].contains('"'))) {
+						Sys.println(currentFile_Noerr + " - " + "Error: The main method cannot take arguments at line " + (i + 1));
 						return true;
 					}
 
