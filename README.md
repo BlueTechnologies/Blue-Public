@@ -9,11 +9,7 @@ Coming in at only 30 keywords, this is an easy to use language with unseen compi
 # Installing dependencies
 
 ## Installing the Blue compiler
-Extract the .zip binary you downloaded in the "release" section of the repository, drop the new extracted folder into your computer's C: drive.
-Now, press WIN + S on your keyboard, and search up "Edit the system environment variables", click on the result named what you just searched up,
-and go to the "Advanced" section in the menu that pops up. Under "Startup and recovery", click on "Evironment Variables". First, edit the user variables,
-under the "User variables for (user)" find the "Path" variable, click on it, and click 'New' on the array of buttons on the left hand side of the menu.
-After clicking 'new', type in 'C:\Blue1', click 'OK'. And see if blue works by opening a command terminal and typing 'blue', You know the installation was successful if Blue attempts to compile the current directory you are in.
+You can use the windows installer provided in the "releases" section of the repository to fully automatically install the Blue compiler on your system.
 
 ## Installing a target compiler
 To use Blue, you need a compiler for the language you are targetting, these are almost always found on the language's vendor's website.
