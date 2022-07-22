@@ -23,12 +23,14 @@ class BJSUtil {
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
-					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
+					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*").replace("not ", "!").replace("outof", "%"));
 			} else if (jsData.join('\n').contains(parsedAST.name + " = ")
 				&& !jsData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
 				&& !jsData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)
 				|| parsedAST.name.contains("/")) {
-				jsData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
+				jsData.push(parsedAST.name.replace("public var", "")
+					+ '='
+					+ parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*").replace("not ", "!").replace("outof", "%"));
 			}
 		}
 
@@ -58,10 +60,10 @@ class BJSUtil {
 			jsData.push('break;');
 		}
 		if (parsedAST.label == "If") {
-			jsData.push('if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
+			jsData.push('if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&").replace("/", ".").replace('mult', '*').replace('div', '/').replace("not ", "!").replace("outof", "%")}) {');
 		}
 		if (parsedAST.label == "Otherwise If") {
-			jsData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
+			jsData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&").replace("/", ".").replace('mult', '*').replace('div', '/').replace("not ", "!").replace("outof", "%")}) {');
 		}
 		if (parsedAST.label == "For") {
 			jsData.push(('for (${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {')
@@ -96,18 +98,14 @@ class BJSUtil {
 		if (parsedAST.label == "Print") {
 			jsData.push('console.log(${parsedAST.value});');
 		}
+		if (parsedAST.label == "CodeInjection") {
+			jsData.push('${parsedAST.value}');
+		}
 	}
 
 	static public function buildJsFile() {
 		FileSystem.createDirectory("export/jssrc");
 		sys.io.File.write('export/jssrc/${fileName.replace(".bl", ".js")}', false);
-		sys.io.File.saveContent('export/jssrc/${fileName.replace(".bl", ".js")}',
-			jsData.join('\n')
-				.replace("/", ".")
-				.replace('\n{\n}', "\n{")
-				.replace('mult', '*')
-				.replace('div', '/')
-				.replace("not ", "!")
-				.replace("outof", "%"));
+		sys.io.File.saveContent('export/jssrc/${fileName.replace(".bl", ".js")}', jsData.join('\n').replace('\n{\n}', "\n{"));
 	}
 }

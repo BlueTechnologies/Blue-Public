@@ -23,14 +23,26 @@ class BGoUtil {
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
-					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*").replace("]", "}").replace("[", "[]dynamic{"));
+					+ parsedAST.value).replace("/", ".")
+					.replace("div", "/")
+					.replace("mult", "*")
+					.replace("]", "}")
+					.replace("[", "[]dynamic{")
+					.replace("not ", "!")
+					.replace("outof", "%"));
 			} else if (goData.join('\n').contains(parsedAST.name + " = ")
 				&& !goData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
 				&& !goData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)
 				|| parsedAST.name.contains("/")) {
 				goData.push(parsedAST.name.replace("public var", "")
 					+ '='
-					+ parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*").replace("[", "{").replace("]", "}"));
+					+ parsedAST.value.replace("/", ".")
+						.replace("div", "/")
+						.replace("mult", "*")
+						.replace("[", "{")
+						.replace("]", "}")
+						.replace("not ", "!")
+						.replace("outof", "%"));
 			}
 		}
 
@@ -71,10 +83,10 @@ class BGoUtil {
 			goData.push('break');
 		}
 		if (parsedAST.label == "If") {
-			goData.push('if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
+			goData.push('if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&").replace("/", ".").replace('mult', '*').replace('div', '/').replace("not ", "!").replace("outof", "%")}) {');
 		}
 		if (parsedAST.label == "Otherwise If") {
-			goData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
+			goData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&").replace("/", ".").replace('mult', '*').replace('div', '/').replace("not ", "!").replace("outof", "%")}) {');
 		}
 		if (parsedAST.label == "For") {
 			goData.push(('for ${parsedAST.iterator} := ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++ {')
@@ -123,19 +135,14 @@ class BGoUtil {
 		if (parsedAST.label == "Print") {
 			goData.push('fmt.Print(${parsedAST.value})');
 		}
+		if (parsedAST.label == "CodeInjection") {
+			goData.push('${parsedAST.value}');
+		}
 	}
 
 	static public function buildGoFile() {
 		FileSystem.createDirectory("export/gosrc");
 		sys.io.File.write('export/gosrc/${fileName.replace(".bl", ".go")}', false);
-		sys.io.File.saveContent('export/gosrc/${fileName.replace(".bl", ".go")}',
-			goData.join('\n')
-				.replace("/", ".")
-				.replace('\n{\n}', "\n{")
-				.replace('mult', '*')
-				.replace('div', '/')
-				.replace("not ", "!")
-				.replace("outof", "%")
-				.replace("null", "nil"));
+		sys.io.File.saveContent('export/gosrc/${fileName.replace(".bl", ".go")}', goData.join('\n').replace('\n{\n}', "\n{"));
 	}
 }

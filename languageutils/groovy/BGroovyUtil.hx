@@ -29,12 +29,14 @@ class BGroovyUtil {
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
-					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
+					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*").replace("not ", "!").replace("outof", "%"));
 			} else if (groovyData.join('\n').contains(parsedAST.name + " = ")
 				&& !groovyData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
 				&& !groovyData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)
 				|| parsedAST.name.contains("/")) {
-				groovyData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
+				groovyData.push(parsedAST.name.replace("public var", "")
+					+ '='
+					+ parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*").replace("not ", "!").replace("outof", "%"));
 			}
 		}
 
@@ -64,10 +66,10 @@ class BGroovyUtil {
 			groovyData.push('break');
 		}
 		if (parsedAST.label == "If") {
-			groovyData.push('if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
+			groovyData.push('if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&").replace("/", ".").replace('method', 'function').replace('mult', '*').replace('div', '/').replace("not ", "!").replace("outof", "%")}) {');
 		}
 		if (parsedAST.label == "Otherwise If") {
-			groovyData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
+			groovyData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&").replace("/", ".").replace('method', 'function').replace('mult', '*').replace('div', '/').replace("not ", "!").replace("outof", "%")} {');
 		}
 		if (parsedAST.label == "For") {
 			groovyData.push(('for (${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {')
@@ -151,17 +153,14 @@ class BGroovyUtil {
 		if (parsedAST.label == "Print") {
 			groovyData.push('print ${parsedAST.value}');
 		}
+		if (parsedAST.label == "CodeInjection") {
+			groovyData.push('${parsedAST.value}');
+		}
 	}
 
 	static public function buildGroovyFile() {
 		FileSystem.createDirectory("export/groovysrc");
 		sys.io.File.write('export/groovysrc/${fileName.replace(".bl", ".groovy")}', false);
-		sys.io.File.saveContent('export/groovysrc/${fileName.replace(".bl", ".groovy")}',
-			groovyData.join('\n')
-				.replace("/", ".")
-				.replace('\n{\n}', "\n{")
-				.replace('mult', '*')
-				.replace('div', '/')
-				.replace("not ", "!") + "\n}".replace("outof", "%"));
+		sys.io.File.saveContent('export/groovysrc/${fileName.replace(".bl", ".groovy")}', groovyData.join('\n').replace('\n{\n}', "\n{") + "\n}");
 	}
 }

@@ -34,12 +34,14 @@ class BHaxeUtil {
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ':Dynamic = '
-					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
+					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*").replace("not ", "!").replace("outof", "%"));
 			} else if (haxeData.join('\n').contains(parsedAST.name + " = ")
 				&& !haxeData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
 				&& !haxeData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)
 				|| parsedAST.name.contains("/")) {
-				haxeData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
+				haxeData.push(parsedAST.name.replace("public var", "")
+					+ '='
+					+ parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*").replace("not ", "!").replace("outof", "%"));
 			}
 		}
 
@@ -70,10 +72,10 @@ class BHaxeUtil {
 			haxeData.push('break;');
 		}
 		if (parsedAST.label == "If") {
-			haxeData.push('if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
+			haxeData.push('if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&").replace("/", ".").replace('method', 'function').replace('mult', '*').replace('div', '/').replace("not ", "!").replace("outof", "%")}) {');
 		}
 		if (parsedAST.label == "Otherwise If") {
-			haxeData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
+			haxeData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&").replace("/", ".").replace('method', 'function').replace('mult', '*').replace('div', '/').replace("not ", "!").replace("outof", "%")}) {');
 		}
 		if (parsedAST.label == "For") {
 			haxeData.push(('for (${parsedAST.iterator} in ${parsedAST.numberOne}...${parsedAST.numberTwo}) {').replace("\n", "").replace("\r", ""));
@@ -162,18 +164,14 @@ class BHaxeUtil {
 		if (parsedAST.label == "Print") {
 			haxeData.push('Sys.println(${parsedAST.value});');
 		}
+		if (parsedAST.label == "CodeInjection") {
+			haxeData.push('${parsedAST.value}');
+		}
 	}
 
 	static public function buildHaxeFile() {
 		FileSystem.createDirectory("export/hxsrc");
 		sys.io.File.write('export/hxsrc/${fileName.replace(".bl", ".hx")}', false);
-		sys.io.File.saveContent('export/hxsrc/${fileName.replace(".bl", ".hx")}',
-			haxeData.join('\n')
-				.replace("/", ".")
-				.replace('\n{\n}', "\n{")
-				.replace('method', 'function')
-				.replace('mult', '*')
-				.replace('div', '/')
-				.replace("not ", "!") + "\n}".replace("outof", "%"));
+		sys.io.File.saveContent('export/hxsrc/${fileName.replace(".bl", ".hx")}', haxeData.join('\n').replace('\n{\n}', "\n{"));
 	}
 }

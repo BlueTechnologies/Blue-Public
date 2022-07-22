@@ -32,14 +32,20 @@ class BCoffeeScriptUtil {
 					|| coffeeScriptData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/))) {
 				Std.string(parsedAST.name)
 					.replace("|", ":")
-					.replace("\n", "") + ' = ' + Std.string(parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*");
+					.replace("\n",
+						"") + ' = ' + Std.string(parsedAST.value)
+					.replace("/", ".")
+					.replace("div", "/")
+					.replace("not ", "!")
+					.replace("outof", "%")
+					.replace("mult", "*");
 			} else if (coffeeScriptData.join('\n').contains(parsedAST.name + " = ")
 				&& !coffeeScriptData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
 				&& !coffeeScriptData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)
 				|| parsedAST.name.contains("/")) {
 				coffeeScriptData.push(parsedAST.name.replace("public var", "")
 					+ '='
-					+ Std.string(parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
+					+ Std.string(parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*").replace("not ", "!").replace("outof", "%"));
 			}
 		}
 
@@ -63,10 +69,10 @@ class BCoffeeScriptUtil {
 			coffeeScriptData.push('catch(${Std.string(parsedAST.value)})');
 		}
 		if (parsedAST.label == "If") {
-			coffeeScriptData.push('if ${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}');
+			coffeeScriptData.push('if ${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&").replace("/", ".").replace('mult', '*').replace('div', '/').replace("not ", "!").replace("outof", "%")}');
 		}
 		if (parsedAST.label == "Otherwise If") {
-			coffeeScriptData.push('else if ${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}');
+			coffeeScriptData.push('else if ${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&").replace("/", ".").replace('mult', '*').replace('div', '/').replace("not ", "!").replace("outof", "%")}');
 		}
 		if (parsedAST.label == "For") {
 			coffeeScriptData.push(('${parsedAST.iterator} for ${parsedAST.iterator} in [${parsedAST.numberOne}...${parsedAST.numberTwo}]').replace("\n", "")
@@ -131,18 +137,14 @@ class BCoffeeScriptUtil {
 		if (parsedAST.label == "Print") {
 			coffeeScriptData.push('console.log ${parsedAST.value}');
 		}
+		if (parsedAST.label == "CodeInjection") {
+			coffeeScriptData.push('${parsedAST.value}');
+		}
 	}
 
 	static public function buildCoffeeScriptFile() {
 		FileSystem.createDirectory("export/coffeescriptsrc");
 		sys.io.File.write('export/coffeescriptsrc/${fileName.replace(".bl", ".coffee")}', false);
-		sys.io.File.saveContent('export/coffeescriptsrc/${fileName.replace(".bl", ".coffee")}',
-			coffeeScriptData.join('\n')
-				.replace("/", ".")
-				.replace('\n{\n}', "\n{")
-				.replace('mult', '*')
-				.replace('div', '/')
-				.replace("not ", "!")
-				.replace("outof", "%"));
+		sys.io.File.saveContent('export/coffeescriptsrc/${fileName.replace(".bl", ".coffee")}', coffeeScriptData.join('\n').replace('\n{\n}', "\n{"));
 	}
 }

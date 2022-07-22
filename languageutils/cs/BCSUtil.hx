@@ -34,12 +34,14 @@ class BCSUtil {
 					+ " "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
-					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*"));
+					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*").replace("not ", "!").replace("outof", "%"));
 			} else if (csData.join('\n').contains(parsedAST.name + " = ")
 				&& !csData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
 				&& !csData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)
 				|| parsedAST.name.contains("/")) {
-				csData.push(parsedAST.name.replace("public var", "") + '=' + parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*"));
+				csData.push(parsedAST.name.replace("public var", "")
+					+ '='
+					+ parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*").replace("not ", "!").replace("outof", "%"));
 			}
 		}
 
@@ -77,10 +79,10 @@ class BCSUtil {
 			csData.push('break;');
 		}
 		if (parsedAST.label == "If") {
-			csData.push('if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
+			csData.push('if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&").replace("/", ".").replace('method', 'function').replace('mult', '*').replace('div', '/').replace("not ", "!").replace("outof", "%")}) {');
 		}
 		if (parsedAST.label == "Otherwise If") {
-			csData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
+			csData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&").replace("/", ".").replace('method', 'function').replace('mult', '*').replace('div', '/').replace("not ", "!").replace("outof", "%")}) {');
 		}
 		if (parsedAST.label == "For") {
 			csData.push(('for (int ${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {')
@@ -187,18 +189,14 @@ class BCSUtil {
 		if (parsedAST.label == "Print") {
 			csData.push('Console.WriteLine(${parsedAST.value});');
 		}
+		if (parsedAST.label == "CodeInjection") {
+			csData.push('${parsedAST.value}');
+		}
 	}
 
 	static public function buildCSFile() {
 		FileSystem.createDirectory("export/cssrc");
 		sys.io.File.write('export/cssrc/${fileName.replace(".bl", ".cs")}', false);
-		sys.io.File.saveContent('export/cssrc/${fileName.replace(".bl", ".cs")}',
-			csData.join('\n')
-				.replace("/", ".")
-				.replace('\n{\n}', "\n{")
-				.replace('method', 'function')
-				.replace('mult', '*')
-				.replace('div', '/')
-				.replace("not ", "!") + "\n}".replace("outof", "%"));
+		sys.io.File.saveContent('export/cssrc/${fileName.replace(".bl", ".cs")}', csData.join('\n').replace('\n{\n}', "\n{") + "\n}");
 	}
 }

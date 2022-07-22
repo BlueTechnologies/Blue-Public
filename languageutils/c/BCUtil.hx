@@ -17,12 +17,54 @@ class BCUtil {
 	public static function toC(AST:Dynamic) {
 		var parsedAST = haxe.Json.parse(AST);
 		if (parsedAST.label == "Variable") {
-			if ((!CData.join('\n').contains(parsedAST.name + " = ") && !parsedAST.name.contains("/"))
+			if (((!CData.join('\n').contains(parsedAST.name + " = ") && !parsedAST.name.contains("/"))
+				|| (CData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name) || CData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/)))
+				&& (Std.string(parsedAST.value).split(".")[1].contains("0")
+					|| Std.string(parsedAST.value).split(".")[0].contains("0")
+					|| Std.string(parsedAST.value).split(".")[0].contains("1")
+					|| Std.string(parsedAST.value).split(".")[1].contains("1")
+					|| Std.string(parsedAST.value).split(".")[0].contains("2")
+					|| Std.string(parsedAST.value).split(".")[1].contains("2")
+					|| Std.string(parsedAST.value).split(".")[0].contains("3")
+					|| Std.string(parsedAST.value).split(".")[1].contains("3")
+					|| Std.string(parsedAST.value).split(".")[0].contains("4")
+					|| Std.string(parsedAST.value).split(".")[1].contains("4")
+					|| Std.string(parsedAST.value).split(".")[0].contains("4")
+					|| Std.string(parsedAST.value).split(".")[1].contains("5")
+					|| Std.string(parsedAST.value).split(".")[0].contains("5")
+					|| Std.string(parsedAST.value).split(".")[1].contains("6")
+					|| Std.string(parsedAST.value).split(".")[0].contains("6")
+					|| Std.string(parsedAST.value).split(".")[1].contains("7")
+					|| Std.string(parsedAST.value).split(".")[0].contains("7")
+					|| Std.string(parsedAST.value).split(".")[1].contains("8")
+					|| Std.string(parsedAST.value).split(".")[0].contains("8")
+					|| Std.string(parsedAST.value).split(".")[1].contains("9")
+					|| Std.string(parsedAST.value).split(".")[0].contains("9")
+					|| Std.string(parsedAST.value).split(".")[1].contains('"')
+					|| Std.string(parsedAST.value).split(".")[0].contains('"'))
+				&& !Std.string(parsedAST.value).split(".")[0].contains('"')) {
+				CData.push(("double "
+					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
+					+ ' = '
+					+ parsedAST.value).replace("/", ".")
+					.replace("div", "/")
+					.replace("mult", "*")
+					.replace("[", '{')
+					.replace("]", '}')
+					.replace("not ", "!")
+					.replace("outof", "%"));
+			} else if ((!CData.join('\n').contains(parsedAST.name + " = ") && !parsedAST.name.contains("/"))
 				|| (CData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name) || CData.join('\n').contains(parsedAST.name + ~/[A-Z0-9]/))) {
 				CData.push(("void* "
 					+ Std.string(parsedAST.name).replace("|", ":").replace("\n", "")
 					+ ' = '
-					+ parsedAST.value).replace("/", ".").replace("div", "/").replace("mult", "*").replace("[", '{').replace("]", '}'));
+					+ parsedAST.value).replace("/", ".")
+					.replace("div", "/")
+					.replace("mult", "*")
+					.replace("[", '{')
+					.replace("]", '}')
+					.replace("not ", "!")
+					.replace("outof", "%"));
 				variablesToFree.push("free(" + Std.string(parsedAST.name).replace("|", ":").replace("\n", "") + ");");
 			} else if (CData.join('\n').contains(parsedAST.name + " = ")
 				&& !CData.join('\n').contains(~/[A-Z0-9]/ + parsedAST.name)
@@ -30,7 +72,13 @@ class BCUtil {
 				|| parsedAST.name.contains("/")) {
 				CData.push(parsedAST.name.replace("public var", "")
 					+ ' = '
-					+ parsedAST.value.replace("/", ".").replace("div", "/").replace("mult", "*").replace("[", '{').replace("]", '}'));
+					+ parsedAST.value.replace("/", ".")
+						.replace("div", "/")
+						.replace("mult", "*")
+						.replace("[", '{')
+						.replace("]", '}')
+						.replace("not ", "!")
+						.replace("outof", "%"));
 			}
 		}
 
@@ -60,10 +108,10 @@ class BCUtil {
 			CData.push('break;');
 		}
 		if (parsedAST.label == "If") {
-			CData.push('if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
+			CData.push('if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&").replace("/", ".").replace('mult', '*').replace('div', '/').replace("not ", "!").replace("outof", "%").replace("null", "NULL")}) {');
 		}
 		if (parsedAST.label == "Otherwise If") {
-			CData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
+			CData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&").replace("/", ".").replace('mult', '*').replace('div', '/').replace("not ", "!").replace("outof", "%").replace("null", "NULL")}) {');
 		}
 		if (parsedAST.label == "For") {
 			CData.push(('for (int ${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {')
@@ -103,20 +151,15 @@ class BCUtil {
 		if (parsedAST.label == "Print") {
 			CData.push('printf(${parsedAST.value});');
 		}
+		if (parsedAST.label == "CodeInjection") {
+			CData.push('${parsedAST.value}');
+		}
 	}
 
 	static public function buildCFile() {
 		FileSystem.createDirectory("export/csrc");
 		sys.io.File.write('export/csrc/${fileName.replace(".bl", ".c")}', false);
-		sys.io.File.saveContent('export/csrc/${fileName.replace(".bl", ".c")}',
-			CData.join('\n')
-				.replace("/", ".")
-				.replace('\n{\n}', "\n{")
-				.replace('mult', '*')
-				.replace('div', '/')
-				.replace("not ", "!")
-				.replace("outof", "%")
-				.replace("null", "NULL"));
+		sys.io.File.saveContent('export/csrc/${fileName.replace(".bl", ".c")}', CData.join('\n').replace('\n{\n}', "\n{"));
 	}
 
 	static public function startGarbageCollection() {

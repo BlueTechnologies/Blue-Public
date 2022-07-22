@@ -31,6 +31,7 @@ enum BToken {
 	End;
 	Try;
 	Catch(value:Dynamic);
+	CodeInjection(value:Dynamic);
 	Continue;
 	Stop;
 	Property(a:Dynamic, b:Dynamic);
@@ -72,7 +73,8 @@ class BLexer {
 	static var tokensToParse:Array<Dynamic> = [];
 	static var completeSyntax:Array<String> = [
 		"method", "loop ", "if", "+", "-", "mult", "div", "end", "otherwise", "stop", "continue", "then", "not", "=", "use", "try", "catch", "print",
-		"return", "***", "main method(", "throw", "new", "constructor method", "or", "[", "/", "(", "superClass(", "@Override", "@Static", "otherwise if"
+		"return", "***", "main method(", "throw", "new", "constructor method", "or", "[", "/", "(", "superClass(", "@Override", "@Static", "otherwise if",
+		'@Target("'
 	];
 
 	public static function enumContent(contentToEnum:String, testLex:Bool = false):Bool {
@@ -241,7 +243,7 @@ class BLexer {
 								}
 							}
 						case '=':
-							if (!current.contains('if ')) {
+							if (!current.contains('if ') && !current.contains('@Target')) {
 								currentToken = BToken.Variable(current.split('=')[0].replace(' ', ''),
 									current.split('=')[1].split('\n')[0].replace(' ', '').replace('\r', ';').replace("new", "new "));
 								for (j in 0...contentToEnum.split("\n").length) {
@@ -764,6 +766,14 @@ class BLexer {
 						case '@Static':
 							if (!current.split("@Static")[0].contains('"')) {
 								currentToken = BToken.StaticTag;
+								if (!testLex) {
+									tokensToParse.push(currentToken);
+								}
+							}
+
+						case '@Target("':
+							if (!current.split("@Target(")[0].contains('"')) {
+								currentToken = BToken.CodeInjection(current.split('@Target("')[1].split('")')[0]);
 								if (!testLex) {
 									tokensToParse.push(currentToken);
 								}

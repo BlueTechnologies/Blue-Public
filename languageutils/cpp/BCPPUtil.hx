@@ -75,10 +75,10 @@ class BCPPUtil {
 			cppData.push('break;');
 		}
 		if (parsedAST.label == "If") {
-			cppData.push('if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
+			cppData.push('if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&").replace("/", ".").replace('mult', '*').replace('div', '/').replace("not ", "!").replace("outof", "%").replace("null", "NULL")}) {');
 		}
 		if (parsedAST.label == "Otherwise If") {
-			cppData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&")}) {');
+			cppData.push('else if (${Std.string(parsedAST.condition).replace("not ", "!").replace("=", "==").replace("!==", "!=").replace("greater than", ">").replace("less than", "<").replace("or", "||").replace("and", "&&").replace("/", ".").replace('mult', '*').replace('div', '/').replace("not ", "!").replace("outof", "%").replace("null", "NULL")}) {');
 		}
 		if (parsedAST.label == "For") {
 			cppData.push(('for (int ${parsedAST.iterator} = ${parsedAST.numberOne}; ${parsedAST.iterator} < ${parsedAST.numberTwo}; ${parsedAST.iterator}++) {')
@@ -129,19 +129,14 @@ class BCPPUtil {
 		if (parsedAST.label == "Print") {
 			cppData.push('cout << ${parsedAST.value};');
 		}
+		if (parsedAST.label == "CodeInjection") {
+			cppData.push('${parsedAST.value}');
+		}
 	}
 
 	static public function buildCPPFile() {
 		FileSystem.createDirectory("export/cppsrc");
 		sys.io.File.write('export/cppsrc/${fileName.replace(".bl", ".cpp")}', false);
-		sys.io.File.saveContent('export/cppsrc/${fileName.replace(".bl", ".cpp")}',
-			cppData.join('\n')
-				.replace("/", ".")
-				.replace('\n{\n}', "\n{")
-				.replace('mult', '*')
-				.replace('div', '/')
-				.replace("not ", "!")
-				.replace("outof", "%")
-				.replace("null", "NULL"));
+		sys.io.File.saveContent('export/cppsrc/${fileName.replace(".bl", ".cpp")}', cppData.join('\n').replace('\n{\n}', "\n{"));
 	}
 }

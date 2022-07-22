@@ -162,6 +162,10 @@ class BParser {
 			case BToken.StaticTag:
 				BParser.label = "Static";
 
+			case BToken.CodeInjection(value):
+				BParser.value = value;
+				BParser.label = "CodeInjection";
+
 			default:
 				return;
 		}
